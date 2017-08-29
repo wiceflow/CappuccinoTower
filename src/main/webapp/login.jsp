@@ -19,18 +19,23 @@
                 '${pageContext.request.contextPath}/User/login',
                 {
                     uName: count,
-                    uPicture: pwd,
+                    uPassword: pwd,
                     aaa: a
                 },
                 function (text, status) {
-                    if (text==true)
+                    if (text==2)
                     {
                         alert("登录成功");
                     }
-                    if (text==false)
+                    else if (text==1)
                     {
-                        alert("登录失败");
+                        alert("密码错误");
                     }
+                    else if (text==0)
+                    {
+                        alert("账号不存在");
+                    }
+
                 }
             )
         }

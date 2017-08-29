@@ -35,23 +35,30 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
+    /**
+     * 查找与选择 [User]
+     * @param user 用户实体类
+     * @param i 根据什么来查找（0代表ID，1代表用户名，2代表邮箱）
+     * @return 若查询为空则判断返回空，查询不为空则返回
+     */
     public List<User> selectUser(User user, int i) {
-        System.out.println("进来数据连接层");
         List<User> userList = null;
         User user1 = null;
+        //用ID主键进行查询
         if (i==0)
         {
              user1 = userMapper.selectByPrimaryKey(i);
              userList.add(user1);
         }
+        //用用户名查询
         else if (i==1)
         {
             String uName = user.getUName();
-            System.out.println(uName+"11");
             UserExample userExample = new UserExample();
             userExample.createCriteria().andUNameEqualTo(uName);
             userList = userMapper.selectByExample(userExample);
         }
+        //用用户邮箱查询
         else if (i==2)
         {
             String uEmail = user.getUEmail();
@@ -59,11 +66,12 @@ public class UserServiceImpl implements UserService {
             userExample.createCriteria().andUEmailEqualTo(uEmail);
             userList = userMapper.selectByExample(userExample);
         }
-
+        //若查询为空则返回null
         if (userList==null||userList.size()==0)
         {
             return null;
         }
+        //否则返回这个list
         else {
             return userList;
         }
