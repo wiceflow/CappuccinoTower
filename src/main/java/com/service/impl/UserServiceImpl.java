@@ -76,4 +76,17 @@ public class UserServiceImpl implements UserService {
             return userList;
         }
     }
+
+
+    public List<User> QueryUser(){
+        UserExample userExample = new UserExample();
+        //去除重复字段
+        userExample.setDistinct(true);
+        List<User> userList=null;
+        userList = userMapper.selectByExample(userExample);
+        if(userList!=null&&userList.size()!=0) {
+            return userList;
+        }
+        return null;
+    }
 }

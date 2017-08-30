@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "User")
-public class LoginController {
+public class UserController {
     //注入依赖[UserService]
     @Autowired
     private UserService userService;
@@ -51,6 +53,20 @@ public class LoginController {
                 return 1;
             }
         }
+    }
+
+    /**
+     * 判断是否有这个用户
+     * @param user 用户姓名
+     * @return
+     */
+    public ModelAndView checkUser(User user){
+        List<User> listName=userService.selectUser(user,1);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("listName",listName);
+        modelAndView.setViewName("/project/putProject");
+        return modelAndView;
     }
 
 }

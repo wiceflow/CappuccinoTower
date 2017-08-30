@@ -127,6 +127,9 @@
 
 	<!-- 插入单条数据 -->
 	<insert id="insert" parameterType="com.pojo.Team">
+		<selectKey keyProperty="tId" order="AFTER" resultType="int">
+			SELECT LAST_INSERT_ID() AS tId
+		</selectKey>
 		insert into team (
 			t_id,
 			t_name,
