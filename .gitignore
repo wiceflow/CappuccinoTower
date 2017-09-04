@@ -1,0 +1,11 @@
+# Created by .ignore support plugin (hsz.mobi)
+/src/main/resources/jdbc.properties
+.gitignore
+.idea/artifacts/
+.idea/libraries/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+src/main/resources/jdbc.properties
+/.idea/

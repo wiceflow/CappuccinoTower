@@ -1,356 +1,312 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dao.TaskMapper" >
-
-	<!-- pojo类属性和对应表的结果集映射关系 -->
-	<resultMap id="BaseResultMap" type="com.pojo.Task">
-		<id column="task_id" property="taskId" jdbcType="INTEGER" />
-		<result column="task_name" property="taskName" jdbcType="VARCHAR" />
-		<result column="task_describe" property="taskDescribe" jdbcType="CLOB" />
-		<result column="task_createtime" property="taskCreatetime" jdbcType="TIMESTAMP" />
-		<result column="task_finishtime" property="taskFinishtime" jdbcType="TIMESTAMP" />
-		<result column="task_user" property="taskUser" jdbcType="INTEGER" />
-		<result column="task_assigner" property="taskAssigner" jdbcType="INTEGER" />
-		<result column="status" property="status" jdbcType="INTEGER" />
-	</resultMap>
-
-	<!-- 条件从句 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<!-- 读取criteria列表集合中的元素 -->
-			<foreach collection="oredCriteria" item="criteria" separator="or">
-				<!-- 判断criteria是否有条件 -->
-				<if test="criteria.valid">
-					<!-- 设置前后缀包裹，以and分隔 -->
-					<trim prefix="(" suffix=")" prefixOverrides="and">
-						<!-- 遍历每一个criteria中的List<Criterion>自定义条件列表集合 -->
-						<foreach collection="criteria.criteria" item="criterion">
-							<!-- 有选择的插入，相当于switch -->
-							<choose>
-								<!-- 无数值数据，用于field is null和field is not null -->
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<!-- 单一数据 -->
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<!-- 两个数据，用于between和not between语句 -->
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-								</when>
-								<!-- 用于in和not in -->
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-
-	<!-- 条件从句 -->
-	<sql id="Update_By_Example_Where_Clause">
-		<where>
-			<!-- 读取criteria列表集合中的元素 -->
-			<foreach collection="example.oredCriteria" item="criteria" separator="or">
-				<!-- 判断criteria是否有条件 -->
-				<if test="criteria.valid">
-					<!-- 设置前后缀包裹，以and分隔 -->
-					<trim prefix="(" suffix=")" prefixOverrides="and">
-						<!-- 遍历每一个criteria中的List<Criterion>自定义条件列表集合 -->
-						<foreach collection="criteria.criteria" item="criterion">
-							<!-- 有选择的插入，相当于switch -->
-							<choose>
-								<!-- 无数值数据，用于field is null和field is not null -->
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<!-- 单一数据 -->
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<!-- 两个数据，用于between和not between语句 -->
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-								</when>
-								<!-- 用于in和not in -->
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-
-	<sql id="Base_Column_List">
-		task_id,
-		task_name,
-		task_describe,
-		task_createtime,
-		task_finishtime,
-		task_user,
-		task_assigner,
-		status
-	</sql>
-	<!-- 统计符合自定义条件的数据个数 -->
-	<select id="countByExample" parameterType="com.pojo.TaskExample"
-		resultType="java.lang.Integer">
-		select count(*) from task
-		<!-- _parameter代表的时传入参数 -->
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</select>
-
-	<!-- 自定义条件删除数据 -->
-	<delete id="deleteByExample" parameterType="com.pojo.TaskExample">
-		delete from task
-		<!-- _parameter代表的时传入参数 -->
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</delete>
-
-	<!-- 根据主键删除单条数据 -->
-	<delete id="deleteByPrimaryKey">
-		delete from task
-		<!-- 传入主键作为条件 -->
-		where
-		task_id = #{taskId, jdbcType=INTEGER} 
-	</delete>
-
-	<!-- 插入单条数据 -->
-	<insert id="insert" parameterType="com.pojo.Task">
-		insert into task (
-			task_id,
-			task_name,
-			task_describe,
-			task_createtime,
-			task_finishtime,
-			task_user,
-			task_assigner,
-			status
-		)
-		values (
-			#{taskId, jdbcType=INTEGER},
-			#{taskName, jdbcType=VARCHAR},
-			#{taskDescribe, jdbcType=CLOB},
-			#{taskCreatetime, jdbcType=TIMESTAMP},
-			#{taskFinishtime, jdbcType=TIMESTAMP},
-			#{taskUser, jdbcType=INTEGER},
-			#{taskAssigner, jdbcType=INTEGER},
-			#{status, jdbcType=INTEGER}
-		)
-	</insert>
-
-	<!-- 有选择的插入单条数据 -->
-	<insert id="insertSelective" parameterType="com.pojo.Task">
-		insert into task
-		<!-- 前缀为"("、后缀为")"、去掉最后一个"," -->
-		<!-- 插入属性 -->
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="taskId != null">
-				taskId,
-			</if>
-			<if test="taskName != null">
-				taskName,
-			</if>
-			<if test="taskDescribe != null">
-				taskDescribe,
-			</if>
-			<if test="taskCreatetime != null">
-				taskCreatetime,
-			</if>
-			<if test="taskFinishtime != null">
-				taskFinishtime,
-			</if>
-			<if test="taskUser != null">
-				taskUser,
-			</if>
-			<if test="taskAssigner != null">
-				taskAssigner,
-			</if>
-			<if test="status != null">
-				status,
-			</if>
-		</trim>
-		<!-- 插入内容 -->
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="taskId != null">
-				#{taskId, jdbcType=INTEGER},
-			</if>
-			<if test="taskName != null">
-				#{taskName, jdbcType=VARCHAR},
-			</if>
-			<if test="taskDescribe != null">
-				#{taskDescribe, jdbcType=CLOB},
-			</if>
-			<if test="taskCreatetime != null">
-				#{taskCreatetime, jdbcType=TIMESTAMP},
-			</if>
-			<if test="taskFinishtime != null">
-				#{taskFinishtime, jdbcType=TIMESTAMP},
-			</if>
-			<if test="taskUser != null">
-				#{taskUser, jdbcType=INTEGER},
-			</if>
-			<if test="taskAssigner != null">
-				#{taskAssigner, jdbcType=INTEGER},
-			</if>
-			<if test="status != null">
-				#{status, jdbcType=INTEGER},
-			</if>
-		</trim>
-	</insert>
-
-	<!-- 查询符合自定义条件的数据 -->
-	<select id="selectByExample" resultMap="BaseResultMap"
-		parameterType="com.pojo.TaskExample">
-		select
-		<!-- 判断是否使用distinct查询 -->
-		<if test="distinct">
-			distinct
-		</if>
-		<!-- 查询字段 -->
-		<include refid="Base_Column_List" />
-		from task
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-		<!-- 判断是否指定排序从句 -->
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-	</select>
-
-	<!-- 根据主键查询单条数据 -->
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from task
-		<!-- #表示占位符、$表示拼接 -->
-		where
-		task_id = #{taskId, jdbcType=INTEGER} 
-	</select>
-
-	<!-- 自定义条件的有选择性的修改某些属性，可修改主键 -->
-	<update id="updateByExampleSelective">
-		update task
-		<!-- 修改属性，可修改主键 -->
-		<set>
-			<if test="record.taskId != null">
-				taskId = #{record.taskId, jdbcType=INTEGER},
-			</if>
-			<if test="record.taskName != null">
-				taskName = #{record.taskName, jdbcType=VARCHAR},
-			</if>
-			<if test="record.taskDescribe != null">
-				taskDescribe = #{record.taskDescribe, jdbcType=CLOB},
-			</if>
-			<if test="record.taskCreatetime != null">
-				taskCreatetime = #{record.taskCreatetime, jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.taskFinishtime != null">
-				taskFinishtime = #{record.taskFinishtime, jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.taskUser != null">
-				taskUser = #{record.taskUser, jdbcType=INTEGER},
-			</if>
-			<if test="record.taskAssigner != null">
-				taskAssigner = #{record.taskAssigner, jdbcType=INTEGER},
-			</if>
-			<if test="record.status != null">
-				status = #{record.status, jdbcType=INTEGER},
-			</if>
-		</set>
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-
-	<!-- 自定义条件修改所有属性，可修改主键 -->
-	<update id="updateByExample">
-		update task
-		<!-- 修改属性，可修改主键 -->
-		set
-		taskId = #{taskId, jdbcType=INTEGER},
-		taskName = #{taskName, jdbcType=VARCHAR},
-		taskDescribe = #{taskDescribe, jdbcType=CLOB},
-		taskCreatetime = #{taskCreatetime, jdbcType=TIMESTAMP},
-		taskFinishtime = #{taskFinishtime, jdbcType=TIMESTAMP},
-		taskUser = #{taskUser, jdbcType=INTEGER},
-		taskAssigner = #{taskAssigner, jdbcType=INTEGER},
-		status = #{status, jdbcType=INTEGER}
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-
-	<!-- 通过主键有选择性的修改某该属性，不可以修改主键 -->
-	<update id="updateByPrimaryKeySelective" parameterType="com.pojo.Task">
-		update task
-		<!-- 修改属性，不可以修改主键 -->
-		<set>
-			<if test="taskName != null">
-				taskName = #{taskName, jdbcType=VARCHAR},
-			</if>
-			<if test="taskDescribe != null">
-				taskDescribe = #{taskDescribe, jdbcType=CLOB},
-			</if>
-			<if test="taskCreatetime != null">
-				taskCreatetime = #{taskCreatetime, jdbcType=TIMESTAMP},
-			</if>
-			<if test="taskFinishtime != null">
-				taskFinishtime = #{taskFinishtime, jdbcType=TIMESTAMP},
-			</if>
-			<if test="taskUser != null">
-				taskUser = #{taskUser, jdbcType=INTEGER},
-			</if>
-			<if test="taskAssigner != null">
-				taskAssigner = #{taskAssigner, jdbcType=INTEGER},
-			</if>
-			<if test="status != null">
-				status = #{status, jdbcType=INTEGER},
-			</if>
-		</set>
-		<!-- 主键作为条件 -->
-		where
-		task_id = #{taskId, jdbcType=INTEGER} 
-	</update>
-
-	<!-- 通过主键修改属性，不可以修改主键 -->
-	<update id="updateByPrimaryKey" parameterType="com.pojo.Task">
-		update task
-		<!-- 修改属性，不可以修改主键 -->
-		set
-		taskName = #{taskName, jdbcType=VARCHAR},
-		taskDescribe = #{taskDescribe, jdbcType=CLOB},
-		taskCreatetime = #{taskCreatetime, jdbcType=TIMESTAMP},
-		taskFinishtime = #{taskFinishtime, jdbcType=TIMESTAMP},
-		taskUser = #{taskUser, jdbcType=INTEGER},
-		taskAssigner = #{taskAssigner, jdbcType=INTEGER},
-		status = #{status, jdbcType=INTEGER}
-		<!-- 主键作为条件 -->
-		where
-		task_id = #{taskId, jdbcType=INTEGER} 
-	</update>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.TaskMapper">
+  <resultMap id="BaseResultMap" type="com.pojo.Task">
+    <id column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_createtime" jdbcType="TIMESTAMP" property="taskCreatetime" />
+    <result column="task_finishtime" jdbcType="TIMESTAMP" property="taskFinishtime" />
+    <result column="task_user" jdbcType="INTEGER" property="taskUser" />
+    <result column="task_assigner" jdbcType="INTEGER" property="taskAssigner" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pojo.Task">
+    <result column="task_describe" jdbcType="LONGVARCHAR" property="taskDescribe" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    task_id, task_name, task_createtime, task_finishtime, task_user, task_assigner, status
+  </sql>
+  <sql id="Blob_Column_List">
+    task_describe
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.pojo.TaskExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.pojo.TaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pojo.TaskExample">
+    delete from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pojo.Task">
+    insert into task (task_id, task_name, task_createtime, 
+      task_finishtime, task_user, task_assigner, 
+      status, task_describe)
+    values (#{taskId,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{taskCreatetime,jdbcType=TIMESTAMP}, 
+      #{taskFinishtime,jdbcType=TIMESTAMP}, #{taskUser,jdbcType=INTEGER}, #{taskAssigner,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{taskDescribe,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pojo.Task">
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="taskName != null">
+        task_name,
+      </if>
+      <if test="taskCreatetime != null">
+        task_createtime,
+      </if>
+      <if test="taskFinishtime != null">
+        task_finishtime,
+      </if>
+      <if test="taskUser != null">
+        task_user,
+      </if>
+      <if test="taskAssigner != null">
+        task_assigner,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="taskDescribe != null">
+        task_describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCreatetime != null">
+        #{taskCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskFinishtime != null">
+        #{taskFinishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskUser != null">
+        #{taskUser,jdbcType=INTEGER},
+      </if>
+      <if test="taskAssigner != null">
+        #{taskAssigner,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="taskDescribe != null">
+        #{taskDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pojo.TaskExample" resultType="java.lang.Long">
+    select count(*) from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update task
+    <set>
+      <if test="record.taskId != null">
+        task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskName != null">
+        task_name = #{record.taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskCreatetime != null">
+        task_createtime = #{record.taskCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskFinishtime != null">
+        task_finishtime = #{record.taskFinishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskUser != null">
+        task_user = #{record.taskUser,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskAssigner != null">
+        task_assigner = #{record.taskAssigner,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskDescribe != null">
+        task_describe = #{record.taskDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update task
+    set task_id = #{record.taskId,jdbcType=INTEGER},
+      task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_createtime = #{record.taskCreatetime,jdbcType=TIMESTAMP},
+      task_finishtime = #{record.taskFinishtime,jdbcType=TIMESTAMP},
+      task_user = #{record.taskUser,jdbcType=INTEGER},
+      task_assigner = #{record.taskAssigner,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      task_describe = #{record.taskDescribe,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update task
+    set task_id = #{record.taskId,jdbcType=INTEGER},
+      task_name = #{record.taskName,jdbcType=VARCHAR},
+      task_createtime = #{record.taskCreatetime,jdbcType=TIMESTAMP},
+      task_finishtime = #{record.taskFinishtime,jdbcType=TIMESTAMP},
+      task_user = #{record.taskUser,jdbcType=INTEGER},
+      task_assigner = #{record.taskAssigner,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Task">
+    update task
+    <set>
+      <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCreatetime != null">
+        task_createtime = #{taskCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskFinishtime != null">
+        task_finishtime = #{taskFinishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskUser != null">
+        task_user = #{taskUser,jdbcType=INTEGER},
+      </if>
+      <if test="taskAssigner != null">
+        task_assigner = #{taskAssigner,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="taskDescribe != null">
+        task_describe = #{taskDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pojo.Task">
+    update task
+    set task_name = #{taskName,jdbcType=VARCHAR},
+      task_createtime = #{taskCreatetime,jdbcType=TIMESTAMP},
+      task_finishtime = #{taskFinishtime,jdbcType=TIMESTAMP},
+      task_user = #{taskUser,jdbcType=INTEGER},
+      task_assigner = #{taskAssigner,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      task_describe = #{taskDescribe,jdbcType=LONGVARCHAR}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pojo.Task">
+    update task
+    set task_name = #{taskName,jdbcType=VARCHAR},
+      task_createtime = #{taskCreatetime,jdbcType=TIMESTAMP},
+      task_finishtime = #{taskFinishtime,jdbcType=TIMESTAMP},
+      task_user = #{taskUser,jdbcType=INTEGER},
+      task_assigner = #{taskAssigner,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
 </mapper>

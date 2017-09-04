@@ -1,356 +1,317 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dao.ProjectMapper" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ProjectMapper">
+  <resultMap id="BaseResultMap" type="com.pojo.Project">
+    <id column="p_id" jdbcType="INTEGER" property="pId" />
+    <result column="p_name" jdbcType="VARCHAR" property="pName" />
+    <result column="p_sensitive" jdbcType="INTEGER" property="pSensitive" />
 
-	<!-- pojo类属性和对应表的结果集映射关系 -->
-	<resultMap id="BaseResultMap" type="com.pojo.Project">
-		<id column="p_id" property="pId" jdbcType="INTEGER" />
-		<result column="p_name" property="pName" jdbcType="VARCHAR" />
-		<result column="p_describe" property="pDescribe" jdbcType="CLOB" />
-		<result column="p_sensitive" property="pSensitive" jdbcType="INTEGER" />
-		<result column="ispublic" property="ispublic" jdbcType="INTEGER" />
-		<result column="t_id" property="tId" jdbcType="INTEGER" />
-		<result column="discusallid" property="discusallid" jdbcType="INTEGER" />
-		<result column="f_totalid" property="fTotalid" jdbcType="INTEGER" />
-	</resultMap>
-
-	<!-- 条件从句 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<!-- 读取criteria列表集合中的元素 -->
-			<foreach collection="oredCriteria" item="criteria" separator="or">
-				<!-- 判断criteria是否有条件 -->
-				<if test="criteria.valid">
-					<!-- 设置前后缀包裹，以and分隔 -->
-					<trim prefix="(" suffix=")" prefixOverrides="and">
-						<!-- 遍历每一个criteria中的List<Criterion>自定义条件列表集合 -->
-						<foreach collection="criteria.criteria" item="criterion">
-							<!-- 有选择的插入，相当于switch -->
-							<choose>
-								<!-- 无数值数据，用于field is null和field is not null -->
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<!-- 单一数据 -->
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<!-- 两个数据，用于between和not between语句 -->
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-								</when>
-								<!-- 用于in和not in -->
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-
-	<!-- 条件从句 -->
-	<sql id="Update_By_Example_Where_Clause">
-		<where>
-			<!-- 读取criteria列表集合中的元素 -->
-			<foreach collection="example.oredCriteria" item="criteria" separator="or">
-				<!-- 判断criteria是否有条件 -->
-				<if test="criteria.valid">
-					<!-- 设置前后缀包裹，以and分隔 -->
-					<trim prefix="(" suffix=")" prefixOverrides="and">
-						<!-- 遍历每一个criteria中的List<Criterion>自定义条件列表集合 -->
-						<foreach collection="criteria.criteria" item="criterion">
-							<!-- 有选择的插入，相当于switch -->
-							<choose>
-								<!-- 无数值数据，用于field is null和field is not null -->
-								<when test="criterion.noValue">
-									and ${criterion.condition}
-								</when>
-								<!-- 单一数据 -->
-								<when test="criterion.singleValue">
-									and ${criterion.condition} #{criterion.value}
-								</when>
-								<!-- 两个数据，用于between和not between语句 -->
-								<when test="criterion.betweenValue">
-									and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-								</when>
-								<!-- 用于in和not in -->
-								<when test="criterion.listValue">
-									and ${criterion.condition}
-									<foreach collection="criterion.value" item="listItem"
-										open="(" close=")" separator=",">
-										#{listItem}
-									</foreach>
-								</when>
-							</choose>
-						</foreach>
-					</trim>
-				</if>
-			</foreach>
-		</where>
-	</sql>
-
-	<sql id="Base_Column_List">
-		p_id,
-		p_name,
-		p_describe,
-		p_sensitive,
-		ispublic,
-		t_id,
-		discusallid,
-		f_totalid
-	</sql>
-	<!-- 统计符合自定义条件的数据个数 -->
-	<select id="countByExample" parameterType="com.pojo.ProjectExample"
-		resultType="java.lang.Integer">
-		select count(*) from project
-		<!-- _parameter代表的时传入参数 -->
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</select>
-
-	<!-- 自定义条件删除数据 -->
-	<delete id="deleteByExample" parameterType="com.pojo.ProjectExample">
-		delete from project
-		<!-- _parameter代表的时传入参数 -->
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-	</delete>
-
-	<!-- 根据主键删除单条数据 -->
-	<delete id="deleteByPrimaryKey">
-		delete from project
-		<!-- 传入主键作为条件 -->
-		where
-		p_id = #{pId, jdbcType=INTEGER} 
-	</delete>
-
-	<!-- 插入单条数据 -->
-	<insert id="insert" parameterType="com.pojo.Project">
-		insert into project (
-			p_id,
-			p_name,
-			p_describe,
-			p_sensitive,
-			ispublic,
-			t_id,
-			discusallid,
-			f_totalid
-		)
-		values (
-			#{pId, jdbcType=INTEGER},
-			#{pName, jdbcType=VARCHAR},
-			#{pDescribe, jdbcType=CLOB},
-			#{pSensitive, jdbcType=INTEGER},
-			#{ispublic, jdbcType=INTEGER},
-			#{tId, jdbcType=INTEGER},
-			#{discusallid, jdbcType=INTEGER},
-			#{fTotalid, jdbcType=INTEGER}
-		)
-	</insert>
-
-	<!-- 有选择的插入单条数据 -->
-	<insert id="insertSelective" parameterType="com.pojo.Project">
-		insert into project
-		<!-- 前缀为"("、后缀为")"、去掉最后一个"," -->
-		<!-- 插入属性 -->
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="pId != null">
-				pId,
-			</if>
-			<if test="pName != null">
-				pName,
-			</if>
-			<if test="pDescribe != null">
-				pDescribe,
-			</if>
-			<if test="pSensitive != null">
-				pSensitive,
-			</if>
-			<if test="ispublic != null">
-				ispublic,
-			</if>
-			<if test="tId != null">
-				tId,
-			</if>
-			<if test="discusallid != null">
-				discusallid,
-			</if>
-			<if test="fTotalid != null">
-				fTotalid,
-			</if>
-		</trim>
-		<!-- 插入内容 -->
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="pId != null">
-				#{pId, jdbcType=INTEGER},
-			</if>
-			<if test="pName != null">
-				#{pName, jdbcType=VARCHAR},
-			</if>
-			<if test="pDescribe != null">
-				#{pDescribe, jdbcType=CLOB},
-			</if>
-			<if test="pSensitive != null">
-				#{pSensitive, jdbcType=INTEGER},
-			</if>
-			<if test="ispublic != null">
-				#{ispublic, jdbcType=INTEGER},
-			</if>
-			<if test="tId != null">
-				#{tId, jdbcType=INTEGER},
-			</if>
-			<if test="discusallid != null">
-				#{discusallid, jdbcType=INTEGER},
-			</if>
-			<if test="fTotalid != null">
-				#{fTotalid, jdbcType=INTEGER},
-			</if>
-		</trim>
-	</insert>
-
-	<!-- 查询符合自定义条件的数据 -->
-	<select id="selectByExample" resultMap="BaseResultMap"
-		parameterType="com.pojo.ProjectExample">
-		select
-		<!-- 判断是否使用distinct查询 -->
-		<if test="distinct">
-			distinct
-		</if>
-		<!-- 查询字段 -->
-		<include refid="Base_Column_List" />
-		from project
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Example_Where_Clause" />
-		</if>
-		<!-- 判断是否指定排序从句 -->
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-	</select>
-
-	<!-- 根据主键查询单条数据 -->
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from project
-		<!-- #表示占位符、$表示拼接 -->
-		where
-		p_id = #{pId, jdbcType=INTEGER} 
-	</select>
-
-	<!-- 自定义条件的有选择性的修改某些属性，可修改主键 -->
-	<update id="updateByExampleSelective">
-		update project
-		<!-- 修改属性，可修改主键 -->
-		<set>
-			<if test="record.pId != null">
-				pId = #{record.pId, jdbcType=INTEGER},
-			</if>
-			<if test="record.pName != null">
-				pName = #{record.pName, jdbcType=VARCHAR},
-			</if>
-			<if test="record.pDescribe != null">
-				pDescribe = #{record.pDescribe, jdbcType=CLOB},
-			</if>
-			<if test="record.pSensitive != null">
-				pSensitive = #{record.pSensitive, jdbcType=INTEGER},
-			</if>
-			<if test="record.ispublic != null">
-				ispublic = #{record.ispublic, jdbcType=INTEGER},
-			</if>
-			<if test="record.tId != null">
-				tId = #{record.tId, jdbcType=INTEGER},
-			</if>
-			<if test="record.discusallid != null">
-				discusallid = #{record.discusallid, jdbcType=INTEGER},
-			</if>
-			<if test="record.fTotalid != null">
-				fTotalid = #{record.fTotalid, jdbcType=INTEGER},
-			</if>
-		</set>
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-
-	<!-- 自定义条件修改所有属性，可修改主键 -->
-	<update id="updateByExample">
-		update project
-		<!-- 修改属性，可修改主键 -->
-		set
-		pId = #{pId, jdbcType=INTEGER},
-		pName = #{pName, jdbcType=VARCHAR},
-		pDescribe = #{pDescribe, jdbcType=CLOB},
-		pSensitive = #{pSensitive, jdbcType=INTEGER},
-		ispublic = #{ispublic, jdbcType=INTEGER},
-		tId = #{tId, jdbcType=INTEGER},
-		discusallid = #{discusallid, jdbcType=INTEGER},
-		fTotalid = #{fTotalid, jdbcType=INTEGER}
-		<!-- 自定义条件 -->
-		<if test="_parameter != null">
-			<include refid="Update_By_Example_Where_Clause" />
-		</if>
-	</update>
-
-	<!-- 通过主键有选择性的修改某该属性，不可以修改主键 -->
-	<update id="updateByPrimaryKeySelective" parameterType="com.pojo.Project">
-		update project
-		<!-- 修改属性，不可以修改主键 -->
-		<set>
-			<if test="pName != null">
-				pName = #{pName, jdbcType=VARCHAR},
-			</if>
-			<if test="pDescribe != null">
-				pDescribe = #{pDescribe, jdbcType=CLOB},
-			</if>
-			<if test="pSensitive != null">
-				pSensitive = #{pSensitive, jdbcType=INTEGER},
-			</if>
-			<if test="ispublic != null">
-				ispublic = #{ispublic, jdbcType=INTEGER},
-			</if>
-			<if test="tId != null">
-				tId = #{tId, jdbcType=INTEGER},
-			</if>
-			<if test="discusallid != null">
-				discusallid = #{discusallid, jdbcType=INTEGER},
-			</if>
-			<if test="fTotalid != null">
-				fTotalid = #{fTotalid, jdbcType=INTEGER},
-			</if>
-		</set>
-		<!-- 主键作为条件 -->
-		where
-		p_id = #{pId, jdbcType=INTEGER} 
-	</update>
-
-	<!-- 通过主键修改属性，不可以修改主键 -->
-	<update id="updateByPrimaryKey" parameterType="com.pojo.Project">
-		update project
-		<!-- 修改属性，不可以修改主键 -->
-		set
-		pName = #{pName, jdbcType=VARCHAR},
-		pDescribe = #{pDescribe, jdbcType=CLOB},
-		pSensitive = #{pSensitive, jdbcType=INTEGER},
-		ispublic = #{ispublic, jdbcType=INTEGER},
-		tId = #{tId, jdbcType=INTEGER},
-		discusallid = #{discusallid, jdbcType=INTEGER},
-		fTotalid = #{fTotalid, jdbcType=INTEGER}
-		<!-- 主键作为条件 -->
-		where
-		p_id = #{pId, jdbcType=INTEGER} 
-	</update>
+    <result column="ispublic" jdbcType="INTEGER" property="ispublic" />
+    <result column="t_id" jdbcType="INTEGER" property="tId" />
+    <result column="discusallid" jdbcType="INTEGER" property="discusallid" />
+    <result column="f_totalid" jdbcType="INTEGER" property="fTotalid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pojo.Project">
+    <result column="p_describe" jdbcType="LONGVARCHAR" property="pDescribe" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    p_id, p_name, p_sensitive, ispublic, t_id, discusallid, f_totalid
+  </sql>
+  <sql id="Blob_Column_List">
+    p_describe
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.pojo.ProjectExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.pojo.ProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project
+    where p_id = #{pId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from project
+    where p_id = #{pId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pojo.ProjectExample">
+    delete from project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pojo.Project">
+    <!-- 新增项目的时候返回此次的自增ID -->
+    <selectKey keyProperty="pId" order="AFTER" resultType="int">
+      SELECT LAST_INSERT_ID() AS pId
+    </selectKey>
+    insert into project (p_id, p_name, p_sensitive, 
+      ispublic, t_id, discusallid, 
+      f_totalid, p_describe)
+    values (#{pId,jdbcType=INTEGER}, #{pName,jdbcType=VARCHAR}, #{pSensitive,jdbcType=INTEGER}, 
+      #{ispublic,jdbcType=INTEGER}, #{tId,jdbcType=INTEGER}, #{discusallid,jdbcType=INTEGER}, 
+      #{fTotalid,jdbcType=INTEGER}, #{pDescribe,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pojo.Project">
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        p_id,
+      </if>
+      <if test="pName != null">
+        p_name,
+      </if>
+      <if test="pSensitive != null">
+        p_sensitive,
+      </if>
+      <if test="ispublic != null">
+        ispublic,
+      </if>
+      <if test="tId != null">
+        t_id,
+      </if>
+      <if test="discusallid != null">
+        discusallid,
+      </if>
+      <if test="fTotalid != null">
+        f_totalid,
+      </if>
+      <if test="pDescribe != null">
+        p_describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="pName != null">
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pSensitive != null">
+        #{pSensitive,jdbcType=INTEGER},
+      </if>
+      <if test="ispublic != null">
+        #{ispublic,jdbcType=INTEGER},
+      </if>
+      <if test="tId != null">
+        #{tId,jdbcType=INTEGER},
+      </if>
+      <if test="discusallid != null">
+        #{discusallid,jdbcType=INTEGER},
+      </if>
+      <if test="fTotalid != null">
+        #{fTotalid,jdbcType=INTEGER},
+      </if>
+      <if test="pDescribe != null">
+        #{pDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pojo.ProjectExample" resultType="java.lang.Long">
+    select count(*) from project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update project
+    <set>
+      <if test="record.pId != null">
+        p_id = #{record.pId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pName != null">
+        p_name = #{record.pName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pSensitive != null">
+        p_sensitive = #{record.pSensitive,jdbcType=INTEGER},
+      </if>
+      <if test="record.ispublic != null">
+        ispublic = #{record.ispublic,jdbcType=INTEGER},
+      </if>
+      <if test="record.tId != null">
+        t_id = #{record.tId,jdbcType=INTEGER},
+      </if>
+      <if test="record.discusallid != null">
+        discusallid = #{record.discusallid,jdbcType=INTEGER},
+      </if>
+      <if test="record.fTotalid != null">
+        f_totalid = #{record.fTotalid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pDescribe != null">
+        p_describe = #{record.pDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update project
+    set p_id = #{record.pId,jdbcType=INTEGER},
+      p_name = #{record.pName,jdbcType=VARCHAR},
+      p_sensitive = #{record.pSensitive,jdbcType=INTEGER},
+      ispublic = #{record.ispublic,jdbcType=INTEGER},
+      t_id = #{record.tId,jdbcType=INTEGER},
+      discusallid = #{record.discusallid,jdbcType=INTEGER},
+      f_totalid = #{record.fTotalid,jdbcType=INTEGER},
+      p_describe = #{record.pDescribe,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update project
+    set p_id = #{record.pId,jdbcType=INTEGER},
+      p_name = #{record.pName,jdbcType=VARCHAR},
+      p_sensitive = #{record.pSensitive,jdbcType=INTEGER},
+      ispublic = #{record.ispublic,jdbcType=INTEGER},
+      t_id = #{record.tId,jdbcType=INTEGER},
+      discusallid = #{record.discusallid,jdbcType=INTEGER},
+      f_totalid = #{record.fTotalid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Project">
+    update project
+    <set>
+      <if test="pName != null">
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pSensitive != null">
+        p_sensitive = #{pSensitive,jdbcType=INTEGER},
+      </if>
+      <if test="ispublic != null">
+        ispublic = #{ispublic,jdbcType=INTEGER},
+      </if>
+      <if test="tId != null">
+        t_id = #{tId,jdbcType=INTEGER},
+      </if>
+      <if test="discusallid != null">
+        discusallid = #{discusallid,jdbcType=INTEGER},
+      </if>
+      <if test="fTotalid != null">
+        f_totalid = #{fTotalid,jdbcType=INTEGER},
+      </if>
+      <if test="pDescribe != null">
+        p_describe = #{pDescribe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pojo.Project">
+    update project
+    set p_name = #{pName,jdbcType=VARCHAR},
+      p_sensitive = #{pSensitive,jdbcType=INTEGER},
+      ispublic = #{ispublic,jdbcType=INTEGER},
+      t_id = #{tId,jdbcType=INTEGER},
+      discusallid = #{discusallid,jdbcType=INTEGER},
+      f_totalid = #{fTotalid,jdbcType=INTEGER},
+      p_describe = #{pDescribe,jdbcType=LONGVARCHAR}
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pojo.Project">
+    update project
+    set p_name = #{pName,jdbcType=VARCHAR},
+      p_sensitive = #{pSensitive,jdbcType=INTEGER},
+      ispublic = #{ispublic,jdbcType=INTEGER},
+      t_id = #{tId,jdbcType=INTEGER},
+      discusallid = #{discusallid,jdbcType=INTEGER},
+      f_totalid = #{fTotalid,jdbcType=INTEGER}
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
 </mapper>

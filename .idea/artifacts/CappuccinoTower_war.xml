@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="CappuccinoTower:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="CappuccinoTower.war">
+      <element id="artifact" artifact-name="CappuccinoTower:war exploded" />
+    </root>
+  </artifact>
+</component>

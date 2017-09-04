@@ -1,84 +1,138 @@
 package com.pojo;
 
+import java.io.Serializable;
 
-public class Taskinfo {
+/**
+ * @author 
+ */
+public class Taskinfo implements Serializable {
+    /**
+     * 任务清单编号
+     */
+    private Integer taskinfoId;
 
-	/**
-	 * 任务清单编号
-	 */
-	private Integer taskinfoId = null;
+    /**
+     * 任务清单名称
+     */
+    private String taskinfoName;
 
-	/**
-	 * 任务清单名称
-	 */
-	private String taskinfoName = null;
+    /**
+     * 任务编号
+     */
+    private Integer taskId;
 
-	/**
-	 * 任务清单描述
-	 */
-	private String takinfoDescribe = null;
+    /**
+     * 任务清单创建者
+     */
+    private Integer taskinfoUser;
 
-	/**
-	 * 任务编号
-	 */
-	private Integer taskId = null;
+    /**
+     * 项目编号
+     */
+    private Integer pId;
 
-	/**
-	 * 任务清单创建者
-	 */
-	private Integer taskinfoUser = null;
+    /**
+     * 任务清单描述
+     */
+    private String takinfoDescribe;
 
-	/**
-	 * 项目编号
-	 */
-	private Integer pId = null;
+    private static final long serialVersionUID = 1L;
 
-	public void setTaskinfoId(Integer taskinfoId) {
-		this.taskinfoId = taskinfoId;
-	}
+    public Integer getTaskinfoId() {
+        return taskinfoId;
+    }
 
-	public Integer getTaskinfoId() {
-		return this.taskinfoId;
-	}
+    public void setTaskinfoId(Integer taskinfoId) {
+        this.taskinfoId = taskinfoId;
+    }
 
-	public void setTaskinfoName(String taskinfoName) {
-		this.taskinfoName = taskinfoName;
-	}
+    public String getTaskinfoName() {
+        return taskinfoName;
+    }
 
-	public String getTaskinfoName() {
-		return this.taskinfoName;
-	}
+    public void setTaskinfoName(String taskinfoName) {
+        this.taskinfoName = taskinfoName;
+    }
 
-	public void setTakinfoDescribe(String takinfoDescribe) {
-		this.takinfoDescribe = takinfoDescribe;
-	}
+    public Integer getTaskId() {
+        return taskId;
+    }
 
-	public String getTakinfoDescribe() {
-		return this.takinfoDescribe;
-	}
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
 
-	public void setTaskId(Integer taskId) {
-		this.taskId = taskId;
-	}
+    public Integer getTaskinfoUser() {
+        return taskinfoUser;
+    }
 
-	public Integer getTaskId() {
-		return this.taskId;
-	}
+    public void setTaskinfoUser(Integer taskinfoUser) {
+        this.taskinfoUser = taskinfoUser;
+    }
 
-	public void setTaskinfoUser(Integer taskinfoUser) {
-		this.taskinfoUser = taskinfoUser;
-	}
+    public Integer getpId() {
+        return pId;
+    }
 
-	public Integer getTaskinfoUser() {
-		return this.taskinfoUser;
-	}
+    public void setpId(Integer pId) {
+        this.pId = pId;
+    }
 
-	public void setPId(Integer pId) {
-		this.pId = pId;
-	}
+    public String getTakinfoDescribe() {
+        return takinfoDescribe;
+    }
 
-	public Integer getPId() {
-		return this.pId;
-	}
+    public void setTakinfoDescribe(String takinfoDescribe) {
+        this.takinfoDescribe = takinfoDescribe;
+    }
 
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        Taskinfo other = (Taskinfo) that;
+        return (this.getTaskinfoId() == null ? other.getTaskinfoId() == null : this.getTaskinfoId().equals(other.getTaskinfoId()))
+            && (this.getTaskinfoName() == null ? other.getTaskinfoName() == null : this.getTaskinfoName().equals(other.getTaskinfoName()))
+            && (this.getTaskId() == null ? other.getTaskId() == null : this.getTaskId().equals(other.getTaskId()))
+            && (this.getTaskinfoUser() == null ? other.getTaskinfoUser() == null : this.getTaskinfoUser().equals(other.getTaskinfoUser()))
+            && (this.getpId() == null ? other.getpId() == null : this.getpId().equals(other.getpId()))
+            && (this.getTakinfoDescribe() == null ? other.getTakinfoDescribe() == null : this.getTakinfoDescribe().equals(other.getTakinfoDescribe()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getTaskinfoId() == null) ? 0 : getTaskinfoId().hashCode());
+        result = prime * result + ((getTaskinfoName() == null) ? 0 : getTaskinfoName().hashCode());
+        result = prime * result + ((getTaskId() == null) ? 0 : getTaskId().hashCode());
+        result = prime * result + ((getTaskinfoUser() == null) ? 0 : getTaskinfoUser().hashCode());
+        result = prime * result + ((getpId() == null) ? 0 : getpId().hashCode());
+        result = prime * result + ((getTakinfoDescribe() == null) ? 0 : getTakinfoDescribe().hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", taskinfoId=").append(taskinfoId);
+        sb.append(", taskinfoName=").append(taskinfoName);
+        sb.append(", taskId=").append(taskId);
+        sb.append(", taskinfoUser=").append(taskinfoUser);
+        sb.append(", pId=").append(pId);
+        sb.append(", takinfoDescribe=").append(takinfoDescribe);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 }
