@@ -45,16 +45,14 @@
                     uPassword:loginPsw,
                     loginType:2
                 },
-                function (date) {
-                    if (date.errcode==0)
-                        alert("date.info");
-                    else if (date.errcode==1)
+                function (date, status) {
+                    if (date==0)
+                        alert("账号错误");
+                    else if (date==1)
                         alert("密码错误");
-                    else if (date.errcode==2) {
-                        alert(date.data.uName+ " 欢迎您");
-                        location.href = "main.jsp";
-                    }
-                },"json"
+                    else if (date==2)
+                        location.href = "usersetting.jsp";
+                }
             )
         }
         function register() {

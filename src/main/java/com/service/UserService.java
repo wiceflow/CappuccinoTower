@@ -1,6 +1,5 @@
 package com.service;
 
-import com.dto.TeamforJsp;
 import com.pojo.Team;
 import com.pojo.User;
 
@@ -53,12 +52,5 @@ public interface UserService {
      * 遍历整个User表
      * @return
      */
-    List<User> QueryList(int tId);
-
-    /**
-     * 根据tId返回一个DTO类型
-     * @param tId
-     * @return
-     */
-    List<TeamforJsp> QueryByTid(int tId);
+    List<User> QueryList();
 }

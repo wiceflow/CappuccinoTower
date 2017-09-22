@@ -18,7 +18,13 @@ public interface AlldiscusMapper {
 
     List<Alldiscus> selectByExample(AlldiscusExample example);
 
+    Alldiscus selectByPrimaryKey(Integer discusallId);
+
     int updateByExampleSelective(@Param("record") Alldiscus record, @Param("example") AlldiscusExample example);
 
     int updateByExample(@Param("record") Alldiscus record, @Param("example") AlldiscusExample example);
+
+    int updateByPrimaryKeySelective(Alldiscus record);
+
+    int updateByPrimaryKey(Alldiscus record);
 }
