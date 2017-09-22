@@ -1,9 +1,6 @@
 package com.service;
 
-import com.dto.General;
 import com.pojo.Dynamic;
-import com.pojo.Group;
-import com.pojo.User;
 
 import java.util.List;
 
@@ -45,9 +42,6 @@ public interface DynamicService {
      * @param pId 根据项目id查询
      * @return
      */
-    List<General> selectDynamic(Dynamic dynamic, int pId);
-
-    List<General> QueryList(Dynamic dynamic);
-
+    List<Dynamic> selectDynamic(Dynamic dynamic,int pId);
 
 }

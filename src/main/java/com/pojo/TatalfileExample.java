@@ -3,7 +3,7 @@ package com.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FolderExample {
+public class TatalfileExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -14,7 +14,7 @@ public class FolderExample {
 
     private Integer offset;
 
-    public FolderExample() {
+    public TatalfileExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -124,6 +124,66 @@ public class FolderExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andTotalfileIdIsNull() {
+            addCriterion("totalfile_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdIsNotNull() {
+            addCriterion("totalfile_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdEqualTo(Integer value) {
+            addCriterion("totalfile_id =", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdNotEqualTo(Integer value) {
+            addCriterion("totalfile_id <>", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdGreaterThan(Integer value) {
+            addCriterion("totalfile_id >", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("totalfile_id >=", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdLessThan(Integer value) {
+            addCriterion("totalfile_id <", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdLessThanOrEqualTo(Integer value) {
+            addCriterion("totalfile_id <=", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdIn(List<Integer> values) {
+            addCriterion("totalfile_id in", values, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdNotIn(List<Integer> values) {
+            addCriterion("totalfile_id not in", values, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdBetween(Integer value1, Integer value2) {
+            addCriterion("totalfile_id between", value1, value2, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("totalfile_id not between", value1, value2, "totalfileId");
+            return (Criteria) this;
+        }
+
         public Criteria andFolderIdIsNull() {
             addCriterion("folder_id is null");
             return (Criteria) this;
@@ -181,76 +241,6 @@ public class FolderExample {
 
         public Criteria andFolderIdNotBetween(Integer value1, Integer value2) {
             addCriterion("folder_id not between", value1, value2, "folderId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameIsNull() {
-            addCriterion("folder_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameIsNotNull() {
-            addCriterion("folder_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameEqualTo(String value) {
-            addCriterion("folder_name =", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameNotEqualTo(String value) {
-            addCriterion("folder_name <>", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameGreaterThan(String value) {
-            addCriterion("folder_name >", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameGreaterThanOrEqualTo(String value) {
-            addCriterion("folder_name >=", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameLessThan(String value) {
-            addCriterion("folder_name <", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameLessThanOrEqualTo(String value) {
-            addCriterion("folder_name <=", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameLike(String value) {
-            addCriterion("folder_name like", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameNotLike(String value) {
-            addCriterion("folder_name not like", value, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameIn(List<String> values) {
-            addCriterion("folder_name in", values, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameNotIn(List<String> values) {
-            addCriterion("folder_name not in", values, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameBetween(String value1, String value2) {
-            addCriterion("folder_name between", value1, value2, "folderName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFolderNameNotBetween(String value1, String value2) {
-            addCriterion("folder_name not between", value1, value2, "folderName");
             return (Criteria) this;
         }
 

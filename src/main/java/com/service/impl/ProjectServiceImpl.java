@@ -2,9 +2,8 @@ package com.service.impl;
 
 import com.dao.DiscusMapper;
 import com.dao.ProjectMapper;
+import com.dao.TatalfileMapper;
 import com.dao.TeamMapper;
-import com.dao.TotalfileMapper;
-import com.dto.ProjectList;
 import com.pojo.*;
 import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class ProjectServiceImpl implements ProjectService {
     DiscusMapper discusMapper;
     // 注入TatalfileMapper依赖 [对数据库TatalfileMapper表进行操作的Dao层]
     @Autowired
-    TotalfileMapper tatalfileMapper;
+    TatalfileMapper tatalfileMapper;
     // 注入TeamService依赖
     @Autowired
     TeamService teamService;
@@ -53,7 +52,6 @@ public class ProjectServiceImpl implements ProjectService {
      */
 
     public Project addProject(Project project, List<Integer> uId) {
-        project.settId(1);
         // 判断是否有sensitive
         if (project.getpSensitive() == null) {
             project.setpSensitive(0);
@@ -147,6 +145,7 @@ public class ProjectServiceImpl implements ProjectService {
             for (int a = 0; a < projectList.size(); a++) {
                 System.out.println(projectList.get(a).toString() + "b--------------");
             }
+
         }
         //若查询为空则返回null
         if (projectList == null || projectList.size() == 0) {
@@ -155,7 +154,6 @@ public class ProjectServiceImpl implements ProjectService {
         }
         //否则返回这个list
         else {
-            System.out.println("返回了List");
             return projectList;
         }
     }
@@ -194,24 +192,6 @@ public class ProjectServiceImpl implements ProjectService {
             return projectList;
         }
 
-    }
-
-    /**
-     * 将项目的相关信息全部遍历出来
-     * @return
-     */
-    public Project projectALL(int pId,int uId){
-        //创建ProjectList,返回web层的对象
-        ProjectList projectList=new ProjectList();
-        //根据pId查找出项目的信息；
-        Project project = projectMapper.selectByPrimaryKey(pId);
-        //将查找到的project，放到projectList中，
-        projectList.setpId(pId);
-        projectList.setpName(project.getpName());
-        projectList.setpDescribe(project.getpDescribe());
-        projectList.setIspublic(project.getIspublic());
-        projectList.setpSensitive(project.getpSensitive());
-        return project;
     }
 
 }

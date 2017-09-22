@@ -2,13 +2,13 @@ package com.service.impl;
 
 import com.dao.TeamMapper;
 import com.dao.UserMapper;
-import com.dao.UserandteamMapper;
-import com.dto.TeamforJsp;
-import com.pojo.*;
+import com.pojo.Project;
+import com.pojo.Team;
+import com.pojo.User;
+import com.pojo.UserExample;
 import com.service.ProjectService;
 import com.service.TeamService;
 import com.service.UserService;
-import com.service.UserandteamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,16 +32,6 @@ public class UserServiceImpl implements UserService {
     // 注入TeamService依赖 [对数据库进行操作的Sercie层]
     @Autowired
     TeamService teamService;
-    //注入团队和用户依赖
-    @Autowired
-    UserandteamService userandteamService;
-
-    @Autowired
-    UserandteamMapper userandteamMapper;
-
-    @Autowired
-    TeamMapper teamMapper;
-
 
     public int addUser(User user, Team team) {
         List<User> userList = null;
@@ -121,7 +111,6 @@ public class UserServiceImpl implements UserService {
             userExample.createCriteria().andUEmailEqualTo(uEmail);
             userList = userMapper.selectByExample(userExample);
         }
-
         //若查询为空则返回null
         if (userList == null || userList.size() == 0) {
             return null;
@@ -152,74 +141,18 @@ public class UserServiceImpl implements UserService {
         //select u_id, u_email, u_password, u_picture, u_name from user WHERE u_name like '%小%';
         //将按照uName查找到的List 返回
         listByUname = userMapper.selectByExample(userExample);
-        if(listByUname!=null&&listByUname.size()!=0){
-            return listByUname;
-        }
-        return null;
+        return listByUname;
     }
 
     /**
      * 遍历整个User表   稍后删掉
      * @return
      */
-    public List<User> QueryList(int tId){
-        Userandteam userandteam = new Userandteam();
-        //将tId放到userandteam对象中去
-        userandteam.settId(tId);
-        //根据tId（团队ID）查询uId（用户编号）通过userandteam表
-        //得到团队中的用户 List
-        List<Userandteam> userandteamList = userandteamService.selectUserandteam(userandteam,2);
-
-        List<User> userList = new ArrayList<User>();
-        for(int i=0;i<userandteamList.size();i++){
-            UserExample userExample = new UserExample();
-            userExample.createCriteria().andUIdEqualTo(userandteamList.get(i).getuId());
-            List<User> users = userMapper.selectByExample(userExample);
-            userList.add(users.get(0));
-        }
-        //判断
-        if(userList!=null||userList.size()!=0){
-            return userList;
-        }else{
-            System.out.println("没有查询到1111");
-            return null;
-        }
-
-    }
-
-    /**
-     * 根据tId返回一个DTO类型
-     * @param tId
-     * @return
-     */
-    public List<TeamforJsp> QueryByTid(int tId){
-        UserandteamExample userandteamExample=new UserandteamExample();
-        userandteamExample.createCriteria().andTIdEqualTo(tId);
-        List<TeamforJsp> teamforJspList=new ArrayList<TeamforJsp>();
-        List<Userandteam> userandteamList = userandteamMapper.selectByExample(userandteamExample);
-        Team team = teamMapper.selectByPrimaryKey(tId);
-        for(int i=0;i<userandteamList.size();i++){
-            TeamforJsp teamforJsp=new TeamforJsp();
-            User user = userMapper.selectByPrimaryKey(userandteamList.get(i).getuId());
-
-            teamforJsp.settId(userandteamList.get(i).gettId());
-            teamforJsp.setType(userandteamList.get(i).getType());
-
-            teamforJsp.settName(team.gettName());
-            teamforJsp.setIsgroup(team.getIsgroup());
-
-            teamforJsp.setuId(user.getuId());
-            teamforJsp.setuName(user.getuName());
-            teamforJsp.setuEmail(user.getuEmail());
-            if(team.getIsgroup()!=0){
-                //带改善
-            }
-            teamforJspList.add(teamforJsp);
-        }
-        if(teamforJspList!=null&&teamforJspList.get(0).gettId()!=0){
-            System.out.println("--->queryByTid---->Service");
-            return teamforJspList;
-        }
-        return null;
+    public List<User> QueryList(){
+        List<User> list=null;
+        UserExample userExample=new UserExample();
+        userExample.setDistinct(true);
+        list=userMapper.selectByExample(userExample);
+        return list;
     }
 }

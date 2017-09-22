@@ -1,10 +1,7 @@
 package com.controller;
 
 import com.pojo.Task;
-import com.service.DynamicService;
 import com.service.TaskService;
-import com.util.AjaxResult;
-import com.util.DynamicTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +27,6 @@ public class TaskController {
     private static final Logger _LOG = LoggerFactory.getLogger(TaskController.class);
     //注入依赖
     @Autowired
-    private DynamicService dynamicService;
-    @Autowired
     private TaskService taskService;
     /**
      * 新增任务
@@ -39,24 +34,22 @@ public class TaskController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "AddTask")
+    @RequestMapping(value = "AddTask",method = RequestMethod.POST)
+    // aa用来判断是从清单里添加还是直接添加的任务  aa=1是从清单里创建任务   aa=0是直接创建任务
     // TODO 优化参数  重设返回值
-    public AjaxResult addTask(Task task, HttpServletRequest request){
-
+    public void addTask(Task task, HttpServletRequest request,String taskinfoid,int aa){
+        if(aa==1)
+        {
+            task.setTaskinfoId(Integer.valueOf(taskinfoid));
+        }
         // 返回此次新增任务的ID
         int i = taskService.addTask(task);
         if (i==0){
             _LOG.error("向数据库插入新的一个任务出错 --> Controller层");
         }
-        else{
-            task.setTaskId(i);
-            //动态-->将操作信息存入动态表，因为用到session所以在controller中控制，不再去service中控制，减少代码使用
-            //动态操作
-            DynamicTool d = new DynamicTool(i,"task","新建了一个任务",request,dynamicService);
-            d.newDynamic();
-        }
-        //返回1，表示任务添加成功
-        return new AjaxResult(1,"添加任务成功");
+
+        task.setTaskId(i);
+
     }
 
     /**
@@ -66,7 +59,7 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value = "UpdateTask",method = RequestMethod.POST)
-    public AjaxResult updateTask(Task task, HttpServletRequest request){
+    public String updateTask(Task task, HttpServletRequest request){
         HttpSession session = request.getSession();
         //获取系统当前时间
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -81,18 +74,14 @@ public class TaskController {
         task.setTaskCreatetime(TaskCreatetime);
         if(task!=null){
             task.setTaskId(task.getTaskId());
-            int i = task.getTaskId();
-            int m=taskService.updateTask(task);
+                int m=taskService.updateTask(task);
             if(m==1){
-                //动态操作
-                DynamicTool d = new DynamicTool(i,"task","更新了一个任务",request,dynamicService);
-                d.newDynamic();
                 System.out.println("更新成功");
-                return new AjaxResult(1,"更新任务成功");
             }else{
                 System.out.println("更新失败");
-                return new AjaxResult(0,"更新任务失败");
             }
+            session.setAttribute("task",task);
+            return "task/updateTask";
         }
         return null;
     }
@@ -105,18 +94,16 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value = "Taskinformation",method = RequestMethod.GET)
-    public AjaxResult TaskInformation(Task task,String taskid, HttpServletRequest request){
+    public String TaskInformation(Task task,String taskid, HttpServletRequest request){
         HttpSession session = request.getSession();
         task.setTaskId(Integer.valueOf(taskid));
         List<Task> taskList1 = taskService.selectTask(task,0);
             if(taskList1!=null){
                 Task task2 = taskList1.get(0);
                 request.setAttribute("task2",task2);
-                //返回1，表示查询任务信息成功
-                return new AjaxResult(1,"查询成功");
+                return "task/TaskInformation";
             }else {
-                //返回0，表示查询任务信息失败
-                return new AjaxResult(0,"查询失败");
+                return "AllFail";
             }
         }
 
@@ -126,12 +113,12 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value = "TaskList")
-    public AjaxResult TaskList(HttpServletRequest request){
+    public String TaskList(HttpServletRequest request){
         List<Task> taskList=taskService.QueryList();
         System.out.println(taskList);
         request.getSession().setAttribute("tasklist",taskList);
-        //返回1，表示遍历任务成功
-        return new AjaxResult(1,"遍历任务成功");
+
+        return "task/TaskList";
     }
 
     /**
@@ -142,16 +129,14 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value = "TaskListInfor",method = RequestMethod.GET)
-    public AjaxResult TaskListInfor(Task task,String taskid,HttpServletRequest request){
+    public String TaskListInfor(Task task,String taskid,HttpServletRequest request){
         List<Task> taskList = taskService.selectTask(task, Integer.parseInt(taskid));
         if(taskList!=null){
             Task task1 = taskList.get(0);
             request.setAttribute("task1",task1);
-            //返回1，表示任务信息显示成功
-            return new AjaxResult(1,"任务信息显示成功");
+            return "Task/UpdateTask";
         }else{
-            //返回0，表示任务信息显示失败
-            return new AjaxResult(0,"任务信息显示失败");
+            return "AllFail";
         }
     }
 
@@ -161,18 +146,14 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value = "TaskDelete",method = RequestMethod.GET)
-    public AjaxResult TaskDelete(String taskid,HttpServletRequest request){
+    public String TaskDelete(String taskid){
         int i = taskService.deleteTask(Integer.parseInt(taskid));
-        int m = Integer.parseInt(taskid);
         if(i==1){
-            //动态操作
-            DynamicTool d = new DynamicTool(m,"task","删除了一个任务",request,dynamicService);
-            d.newDynamic();
-            //返回1，表示删除任务成功
-            return new AjaxResult(1,"删除任务成功");
+            System.out.println("删除成功——————————————————————————");
+            return "AllSuccess";
         }else{
-            //返回0，表示删除任务失败
-            return new AjaxResult(0,"删除任务失败");
+            System.out.println("删除失败——————————————————————————");
+            return "AllFail";
         }
     }
 }

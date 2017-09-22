@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dao.DiscusMapper">
-  <resultMap id="BaseResultMap" type="com.pojo.Discus">
-    <id column="discus_id" jdbcType="INTEGER" property="discusId" />
-    <result column="d_topic" jdbcType="VARCHAR" property="dTopic" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pojo.Discus">
-    <result column="d_content" jdbcType="LONGVARCHAR" property="dContent" />
+<mapper namespace="com.dao.TatalfileMapper">
+  <resultMap id="BaseResultMap" type="com.pojo.Tatalfile">
+    <id column="totalfile_id" jdbcType="INTEGER" property="totalfileId" />
+    <result column="folder_id" jdbcType="INTEGER" property="folderId" />
+    <result column="file_id" jdbcType="INTEGER" property="fileId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,34 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    discus_id, d_topic
+    totalfile_id, folder_id, file_id
   </sql>
-  <sql id="Blob_Column_List">
-    d_content
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.pojo.DiscusExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExample" parameterType="com.pojo.TatalfileExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from discus
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" parameterType="com.pojo.DiscusExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from discus
+    from tatalfile
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -110,116 +89,101 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from discus
-    where discus_id = #{discusId,jdbcType=INTEGER}
+    from tatalfile
+    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from discus
-    where discus_id = #{discusId,jdbcType=INTEGER}
+    delete from tatalfile
+    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pojo.DiscusExample">
-    delete from discus
+  <delete id="deleteByExample" parameterType="com.pojo.TatalfileExample">
+    delete from tatalfile
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pojo.Discus">
-    insert into discus (discus_id, d_topic, d_content
+  <insert id="insert" parameterType="com.pojo.Tatalfile">
+    insert into tatalfile (totalfile_id, folder_id, file_id
       )
-    values (#{discusId,jdbcType=INTEGER}, #{dTopic,jdbcType=VARCHAR}, #{dContent,jdbcType=LONGVARCHAR}
+    values (#{totalfileId,jdbcType=INTEGER}, #{folderId,jdbcType=INTEGER}, #{fileId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.pojo.Discus">
-    insert into discus
+  <insert id="insertSelective" parameterType="com.pojo.Tatalfile">
+    insert into tatalfile
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="discusId != null">
-        discus_id,
+      <if test="totalfileId != null">
+        totalfile_id,
       </if>
-      <if test="dTopic != null">
-        d_topic,
+      <if test="folderId != null">
+        folder_id,
       </if>
-      <if test="dContent != null">
-        d_content,
+      <if test="fileId != null">
+        file_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="discusId != null">
-        #{discusId,jdbcType=INTEGER},
+      <if test="totalfileId != null">
+        #{totalfileId,jdbcType=INTEGER},
       </if>
-      <if test="dTopic != null">
-        #{dTopic,jdbcType=VARCHAR},
+      <if test="folderId != null">
+        #{folderId,jdbcType=INTEGER},
       </if>
-      <if test="dContent != null">
-        #{dContent,jdbcType=LONGVARCHAR},
+      <if test="fileId != null">
+        #{fileId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pojo.DiscusExample" resultType="java.lang.Long">
-    select count(*) from discus
+  <select id="countByExample" parameterType="com.pojo.TatalfileExample" resultType="java.lang.Long">
+    select count(*) from tatalfile
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update discus
+    update tatalfile
     <set>
-      <if test="record.discusId != null">
-        discus_id = #{record.discusId,jdbcType=INTEGER},
+      <if test="record.totalfileId != null">
+        totalfile_id = #{record.totalfileId,jdbcType=INTEGER},
       </if>
-      <if test="record.dTopic != null">
-        d_topic = #{record.dTopic,jdbcType=VARCHAR},
+      <if test="record.folderId != null">
+        folder_id = #{record.folderId,jdbcType=INTEGER},
       </if>
-      <if test="record.dContent != null">
-        d_content = #{record.dContent,jdbcType=LONGVARCHAR},
+      <if test="record.fileId != null">
+        file_id = #{record.fileId,jdbcType=INTEGER},
       </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update discus
-    set discus_id = #{record.discusId,jdbcType=INTEGER},
-      d_topic = #{record.dTopic,jdbcType=VARCHAR},
-      d_content = #{record.dContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update discus
-    set discus_id = #{record.discusId,jdbcType=INTEGER},
-      d_topic = #{record.dTopic,jdbcType=VARCHAR}
+    update tatalfile
+    set totalfile_id = #{record.totalfileId,jdbcType=INTEGER},
+      folder_id = #{record.folderId,jdbcType=INTEGER},
+      file_id = #{record.fileId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Discus">
-    update discus
+  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Tatalfile">
+    update tatalfile
     <set>
-      <if test="dTopic != null">
-        d_topic = #{dTopic,jdbcType=VARCHAR},
+      <if test="folderId != null">
+        folder_id = #{folderId,jdbcType=INTEGER},
       </if>
-      <if test="dContent != null">
-        d_content = #{dContent,jdbcType=LONGVARCHAR},
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=INTEGER},
       </if>
     </set>
-    where discus_id = #{discusId,jdbcType=INTEGER}
+    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pojo.Discus">
-    update discus
-    set d_topic = #{dTopic,jdbcType=VARCHAR},
-      d_content = #{dContent,jdbcType=LONGVARCHAR}
-    where discus_id = #{discusId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.pojo.Discus">
-    update discus
-    set d_topic = #{dTopic,jdbcType=VARCHAR}
-    where discus_id = #{discusId,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.pojo.Tatalfile">
+    update tatalfile
+    set folder_id = #{folderId,jdbcType=INTEGER},
+      file_id = #{fileId,jdbcType=INTEGER}
+    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -9,7 +9,6 @@
     <result column="u_id" jdbcType="INTEGER" property="uId" />
     <result column="be_operated" jdbcType="INTEGER" property="beOperated" />
     <result column="be_table" jdbcType="VARCHAR" property="beTable" />
-    <result column="t_id" jdbcType="INTEGER" property="tId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    dynamic_id, d_time, p_id, action, u_id, be_operated, be_table, t_id
+    dynamic_id, d_time, p_id, action, u_id, be_operated, be_table
   </sql>
   <select id="selectByExample" parameterType="com.pojo.DynamicExample" resultMap="BaseResultMap">
     select
@@ -113,10 +112,10 @@
   <insert id="insert" parameterType="com.pojo.Dynamic">
     insert into dynamic (dynamic_id, d_time, p_id, 
       action, u_id, be_operated, 
-      be_table, t_id)
+      be_table)
     values (#{dynamicId,jdbcType=INTEGER}, #{dTime,jdbcType=TIMESTAMP}, #{pId,jdbcType=INTEGER}, 
       #{action,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER}, #{beOperated,jdbcType=INTEGER}, 
-      #{beTable,jdbcType=VARCHAR}, #{tId,jdbcType=INTEGER})
+      #{beTable,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pojo.Dynamic">
     insert into dynamic
@@ -142,9 +141,6 @@
       <if test="beTable != null">
         be_table,
       </if>
-      <if test="tId != null">
-        t_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dynamicId != null">
@@ -167,9 +163,6 @@
       </if>
       <if test="beTable != null">
         #{beTable,jdbcType=VARCHAR},
-      </if>
-      <if test="tId != null">
-        #{tId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -203,9 +196,6 @@
       <if test="record.beTable != null">
         be_table = #{record.beTable,jdbcType=VARCHAR},
       </if>
-      <if test="record.tId != null">
-        t_id = #{record.tId,jdbcType=INTEGER},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -219,8 +209,7 @@
       action = #{record.action,jdbcType=VARCHAR},
       u_id = #{record.uId,jdbcType=INTEGER},
       be_operated = #{record.beOperated,jdbcType=INTEGER},
-      be_table = #{record.beTable,jdbcType=VARCHAR},
-      t_id = #{record.tId,jdbcType=INTEGER}
+      be_table = #{record.beTable,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -246,9 +235,6 @@
       <if test="beTable != null">
         be_table = #{beTable,jdbcType=VARCHAR},
       </if>
-      <if test="tId != null">
-        t_id = #{tId,jdbcType=INTEGER},
-      </if>
     </set>
     where dynamic_id = #{dynamicId,jdbcType=INTEGER}
   </update>
@@ -259,8 +245,7 @@
       action = #{action,jdbcType=VARCHAR},
       u_id = #{uId,jdbcType=INTEGER},
       be_operated = #{beOperated,jdbcType=INTEGER},
-      be_table = #{beTable,jdbcType=VARCHAR},
-      t_id = #{tId,jdbcType=INTEGER}
+      be_table = #{beTable,jdbcType=VARCHAR}
     where dynamic_id = #{dynamicId,jdbcType=INTEGER}
   </update>
 </mapper>
