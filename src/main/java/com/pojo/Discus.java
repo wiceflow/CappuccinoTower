@@ -16,6 +16,14 @@ public class Discus implements Serializable {
      */
     private String dTopic;
 
+    private Integer cId;
+
+    private Integer discusallId;
+
+    private Integer uId;
+
+    private String uName;
+
     /**
      * 讨论内容
      */
@@ -37,6 +45,38 @@ public class Discus implements Serializable {
 
     public void setdTopic(String dTopic) {
         this.dTopic = dTopic;
+    }
+
+    public Integer getcId() {
+        return cId;
+    }
+
+    public void setcId(Integer cId) {
+        this.cId = cId;
+    }
+
+    public Integer getDiscusallId() {
+        return discusallId;
+    }
+
+    public void setDiscusallId(Integer discusallId) {
+        this.discusallId = discusallId;
+    }
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
+
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
     }
 
     public String getdContent() {
@@ -61,6 +101,10 @@ public class Discus implements Serializable {
         Discus other = (Discus) that;
         return (this.getDiscusId() == null ? other.getDiscusId() == null : this.getDiscusId().equals(other.getDiscusId()))
             && (this.getdTopic() == null ? other.getdTopic() == null : this.getdTopic().equals(other.getdTopic()))
+            && (this.getcId() == null ? other.getcId() == null : this.getcId().equals(other.getcId()))
+            && (this.getDiscusallId() == null ? other.getDiscusallId() == null : this.getDiscusallId().equals(other.getDiscusallId()))
+            && (this.getuId() == null ? other.getuId() == null : this.getuId().equals(other.getuId()))
+            && (this.getuName() == null ? other.getuName() == null : this.getuName().equals(other.getuName()))
             && (this.getdContent() == null ? other.getdContent() == null : this.getdContent().equals(other.getdContent()));
     }
 
@@ -70,6 +114,10 @@ public class Discus implements Serializable {
         int result = 1;
         result = prime * result + ((getDiscusId() == null) ? 0 : getDiscusId().hashCode());
         result = prime * result + ((getdTopic() == null) ? 0 : getdTopic().hashCode());
+        result = prime * result + ((getcId() == null) ? 0 : getcId().hashCode());
+        result = prime * result + ((getDiscusallId() == null) ? 0 : getDiscusallId().hashCode());
+        result = prime * result + ((getuId() == null) ? 0 : getuId().hashCode());
+        result = prime * result + ((getuName() == null) ? 0 : getuName().hashCode());
         result = prime * result + ((getdContent() == null) ? 0 : getdContent().hashCode());
         return result;
     }
@@ -82,6 +130,10 @@ public class Discus implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", discusId=").append(discusId);
         sb.append(", dTopic=").append(dTopic);
+        sb.append(", cId=").append(cId);
+        sb.append(", discusallId=").append(discusallId);
+        sb.append(", uId=").append(uId);
+        sb.append(", uName=").append(uName);
         sb.append(", dContent=").append(dContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

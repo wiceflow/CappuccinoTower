@@ -1,14 +1,16 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: WU
+  Date: 2017/9/8
+  Time: 16:03
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<title>注册页面</title>
 <head>
-    <title>注册</title>
-    <link rel="stylesheet" href="resources/css/register.css"/>
-    <link rel="stylesheet" type="text/css" href="resources/js/jquery-easyui-1.4.5/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="resources/js/jquery-easyui-1.4.5/themes/icon.css">
-    <script type="text/javascript" src="resources/js/jquery-easyui-1.4.5/jquery.min.js"></script>
-    <script type="text/javascript" src="resources/js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="resources/js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
+    <title>Title</title>
+    <link rel="stylesheet" href="../resources/css/register.css"/>
+    <script type="text/javascript" src="../resources/js/jquery-3.1.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -28,12 +30,12 @@
                     }
                 });
             });
-
             $("#a2").hide()
             $("#a3").hover(function () {
                 $("#a2").fadeToggle()
-            })
+            });
         })
+
         function register2() {
             var tName = $("#td1").val();
             var uName = $("#td2").val();
@@ -51,13 +53,94 @@
                 function (date, status) {
                     alert("注册成功");
                 }
-
             )
         }
     </script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $("#td2").blur(function(e) {
+                if ($("#td2").val() != "请输入你的名字") {
 
+                    $.ajax({
+                        type: "Post",
+                        url: "/user/login",
+                        dataType: "json",
+                        data: {
+                            uName: $("#td2").val(),
+                            uPassword: 000000000000,
+                            loginType: 1,
+                        },
+                        success: function (date) {
+                            if (date.errcode == 0) {
+                                $("#td21").html("该用户名可以使用");
+                                $("#td21").css({"color": "#F00"});
+                            }
+                            if (date.errcode == 1) {
+                                $("#td21").html("该用户名已经存在");
+                                $("#td21").css({"color": "#F00"});
+                            }
+                        },
+                        error: function () {
+                            alert("错误信息")
+                        }
+                    })
+                }//if的结束
+            })
+
+            //验证邮箱是否合法
+            $("#td3").blur(function () {
+                if($("#td3").val()!="请输入有效邮箱，例如：510024166@qq.com"){
+                    var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                    if(!reg.test($("#td3").val())){
+                        $("#td31").html("邮箱格式不正确");
+                        $("#td31").css({"color": "#F00"});
+                    }
+                    else{
+                        $.ajax({
+                            type:"Post",
+                            url:"/user/login",
+                            dataType:"json",
+                            data:{
+                                uEmail:$("#td3").val(),
+                                uPassword: 0000000000,
+                                loginType: 2,
+                            },
+                            success:function (date) {
+                                if(date.errcode==0){
+                                    $("#td31").html("邮箱可以使用");
+                                    $("#td31").css({"color": "#F00"});
+                                }
+                                if(date.errcode==1){
+                                    $("#td31").html("该邮箱已被注册");
+                                    $("#td31").css({"color": "#F00"});
+                                }
+                            },
+                            error:function () {
+                                alert("错误信息")
+                            }
+                        })
+                    }
+
+                }
+            })
+
+            //验证密码是否符合要求
+            $("#td4").blur(function () {
+                var password=$("#td4").val();
+                if(password.length<6){
+                    $("#td41").html("密码长度要大于6");
+                    $("#td41").css({"color": "#F00"});
+                }else{
+                    $("#td41").html("密码可以使用");
+                    $("#td41").css({"color": "#F00"});
+                }
+            })
+
+
+        })
+    </script>
 </head>
-<body style="background-color: black;text-align: center;">
+<body style="background-color:white;text-align: center;">
 <div>
     <div style="text-align: center;color:pink;font-size:80px;font-family: '微软雅黑';margin-top: 50px;">
         <b>Power</b>
@@ -73,7 +156,6 @@
                            value="请输入团队名称"
                            style="height: 30px;width: 300px;"
                     >
-
                 </td>
             </tr>
 
@@ -84,7 +166,9 @@
                            id="td2"
                            value="请输入你的名字"
                            style="height: 30px;width: 300px;font-weight: bold;">
+                    <span id="td21" style="position: absolute"></span>
                 </td>
+
             </tr>
 
             <tr>
@@ -94,7 +178,9 @@
                            id="td3"
                            value="请输入有效邮箱，例如：510024166@qq.com"
                            style="height: 30px;width: 300px;color:darkgrey;font-weight: bold;">
+                    <span id="td31" style="position: absolute"></span>
                 </td>
+
             </tr>
 
             <tr>
@@ -104,7 +190,9 @@
                            id="td4"
                            value="请设置密码(至少包含6个字符)"
                            style="height: 30px;width: 300px;color: darkgrey;font-weight: bold;">
+                    <span id="td41" style="position: absolute"></span>
                 </td>
+
             </tr>
 
 

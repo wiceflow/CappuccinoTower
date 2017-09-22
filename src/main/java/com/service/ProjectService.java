@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.ProjectList;
 import com.pojo.Project;
 import java.util.List;
 
@@ -42,4 +43,9 @@ public interface ProjectService {
      * @return
      */
     List<Project> QueryList(int uId);
+
+    /**
+     * 将一个项目的相关信息全部遍历出来
+     */
+    public Project projectALL(int pId, int uId);
 }

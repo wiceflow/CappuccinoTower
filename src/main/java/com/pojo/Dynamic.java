@@ -42,6 +42,11 @@ public class Dynamic implements Serializable {
      */
     private String beTable;
 
+    /**
+     * 团队编号
+     */
+    private Integer tId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getDynamicId() {
@@ -100,6 +105,14 @@ public class Dynamic implements Serializable {
         this.beTable = beTable;
     }
 
+    public Integer gettId() {
+        return tId;
+    }
+
+    public void settId(Integer tId) {
+        this.tId = tId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -118,7 +131,8 @@ public class Dynamic implements Serializable {
             && (this.getAction() == null ? other.getAction() == null : this.getAction().equals(other.getAction()))
             && (this.getuId() == null ? other.getuId() == null : this.getuId().equals(other.getuId()))
             && (this.getBeOperated() == null ? other.getBeOperated() == null : this.getBeOperated().equals(other.getBeOperated()))
-            && (this.getBeTable() == null ? other.getBeTable() == null : this.getBeTable().equals(other.getBeTable()));
+            && (this.getBeTable() == null ? other.getBeTable() == null : this.getBeTable().equals(other.getBeTable()))
+            && (this.gettId() == null ? other.gettId() == null : this.gettId().equals(other.gettId()));
     }
 
     @Override
@@ -132,6 +146,7 @@ public class Dynamic implements Serializable {
         result = prime * result + ((getuId() == null) ? 0 : getuId().hashCode());
         result = prime * result + ((getBeOperated() == null) ? 0 : getBeOperated().hashCode());
         result = prime * result + ((getBeTable() == null) ? 0 : getBeTable().hashCode());
+        result = prime * result + ((gettId() == null) ? 0 : gettId().hashCode());
         return result;
     }
 
@@ -148,6 +163,7 @@ public class Dynamic implements Serializable {
         sb.append(", uId=").append(uId);
         sb.append(", beOperated=").append(beOperated);
         sb.append(", beTable=").append(beTable);
+        sb.append(", tId=").append(tId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

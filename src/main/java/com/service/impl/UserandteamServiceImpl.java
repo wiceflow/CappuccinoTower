@@ -72,8 +72,10 @@ public class UserandteamServiceImpl implements UserandteamService {
         //根据uId(用户ID)查找tId（团队编号）
         if(i==0)
         {
-            userandteam1 = userandteamMapper.selectByPrimaryKey(userandteam.getUtId());
-            userandteamList.add(userandteam1);
+            UserandteamExample userandteamExample=new UserandteamExample();
+            userandteamExample.createCriteria().andUIdEqualTo(userandteam.getuId());
+            userandteamList= userandteamMapper.selectByExample(userandteamExample);
+
             //userandteamList
             if(userandteamList==null&&userandteamList.size()==0){
                 System.out.println("没有查询到数据");
@@ -96,6 +98,38 @@ public class UserandteamServiceImpl implements UserandteamService {
                 return null;
             }else {
                 // 返回List数组
+                return userandteamList;
+            }
+        }
+        if(i==2)
+        {
+            //根据tid查询用户id
+            UserandteamExample userandteamExample=new UserandteamExample();
+            userandteamExample.createCriteria().andTIdEqualTo(userandteam.gettId());
+            userandteamList= userandteamMapper.selectByExample(userandteamExample);
+
+            System.out.println(userandteamList.get(0).getuId()+"这是用户id");
+
+            //userandteamList
+            if(userandteamList==null&&userandteamList.get(0).getuId()==null){
+                System.out.println("没有查询到数据");
+                return null;
+            }else {
+                System.out.println("返回了List集合");
+                return userandteamList;
+            }
+        }
+        //根据tId和uId进行判断是否是超级管理员
+        if (i==3){
+            UserandteamExample userandteamExample=new UserandteamExample();
+            userandteamExample.createCriteria().andUIdEqualTo(userandteam.getuId()).andTIdEqualTo(userandteam.gettId());
+            userandteamList= userandteamMapper.selectByExample(userandteamExample);
+            //userandteamList
+            if(userandteamList==null&&userandteamList.get(0).getuId()==null){
+                System.out.println("没有查询到数据--->i=3");
+                return null;
+            }else {
+                System.out.println("返回了List集合--->i=3");
                 return userandteamList;
             }
         }

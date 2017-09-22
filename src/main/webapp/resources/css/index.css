@@ -1,0 +1,32 @@
+a{
+    text-decoration:none;
+
+}
+
+a.p1:link{
+    color: pink;
+}
+a.p1:visited{
+    color: grey;
+}
+a.p1:hover{
+    color: aqua;
+}
+a.p1:active{
+    color: deeppink;
+}
+
+a.p2:link{
+    color: greenyellow;
+}
+a.p2:visited{
+    color: red;
+}
+a.p2:hover{
+    color: mediumpurple;
+}
+a.p2:active{
+    color: #52D689;
+}
+
+

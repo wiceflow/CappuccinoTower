@@ -16,7 +16,7 @@ public interface FolderService {
      * @param folder 文件夹实体类
      * @return 返回0表示失败，返回1表示成功
      */
-    int addFolder(Folder folder);
+    int addFolder(Folder folder,int pId);
 
 
     /**
@@ -41,5 +41,10 @@ public interface FolderService {
      */
     List<Folder> selectFolder(Folder folder,int folderId);
 
-    List<Folder> QueryList();
+    /**
+     * 根据totalid进行查询
+     * @param totalid
+     * @return
+     */
+    List<Folder> QueryList(int totalid);
 }

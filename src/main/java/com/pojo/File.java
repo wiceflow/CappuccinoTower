@@ -16,9 +16,10 @@ public class File implements Serializable {
      */
     private String fileUrl;
 
-    /**
-     * 文件名
-     */
+    private Integer totalfileId;
+
+    private Integer folderId;
+
     private String fileName;
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +38,22 @@ public class File implements Serializable {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public Integer getTotalfileId() {
+        return totalfileId;
+    }
+
+    public void setTotalfileId(Integer totalfileId) {
+        this.totalfileId = totalfileId;
+    }
+
+    public Integer getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(Integer folderId) {
+        this.folderId = folderId;
     }
 
     public String getFileName() {
@@ -61,6 +78,8 @@ public class File implements Serializable {
         File other = (File) that;
         return (this.getFileId() == null ? other.getFileId() == null : this.getFileId().equals(other.getFileId()))
             && (this.getFileUrl() == null ? other.getFileUrl() == null : this.getFileUrl().equals(other.getFileUrl()))
+            && (this.getTotalfileId() == null ? other.getTotalfileId() == null : this.getTotalfileId().equals(other.getTotalfileId()))
+            && (this.getFolderId() == null ? other.getFolderId() == null : this.getFolderId().equals(other.getFolderId()))
             && (this.getFileName() == null ? other.getFileName() == null : this.getFileName().equals(other.getFileName()));
     }
 
@@ -70,6 +89,8 @@ public class File implements Serializable {
         int result = 1;
         result = prime * result + ((getFileId() == null) ? 0 : getFileId().hashCode());
         result = prime * result + ((getFileUrl() == null) ? 0 : getFileUrl().hashCode());
+        result = prime * result + ((getTotalfileId() == null) ? 0 : getTotalfileId().hashCode());
+        result = prime * result + ((getFolderId() == null) ? 0 : getFolderId().hashCode());
         result = prime * result + ((getFileName() == null) ? 0 : getFileName().hashCode());
         return result;
     }
@@ -82,6 +103,8 @@ public class File implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", fileId=").append(fileId);
         sb.append(", fileUrl=").append(fileUrl);
+        sb.append(", totalfileId=").append(totalfileId);
+        sb.append(", folderId=").append(folderId);
         sb.append(", fileName=").append(fileName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

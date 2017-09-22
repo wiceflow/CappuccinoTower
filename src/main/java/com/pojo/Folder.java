@@ -21,6 +21,8 @@ public class Folder implements Serializable {
      */
     private Integer fileId;
 
+    private Integer totalfileId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getFolderId() {
@@ -47,6 +49,14 @@ public class Folder implements Serializable {
         this.fileId = fileId;
     }
 
+    public Integer getTotalfileId() {
+        return totalfileId;
+    }
+
+    public void setTotalfileId(Integer totalfileId) {
+        this.totalfileId = totalfileId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -61,7 +71,8 @@ public class Folder implements Serializable {
         Folder other = (Folder) that;
         return (this.getFolderId() == null ? other.getFolderId() == null : this.getFolderId().equals(other.getFolderId()))
             && (this.getFolderName() == null ? other.getFolderName() == null : this.getFolderName().equals(other.getFolderName()))
-            && (this.getFileId() == null ? other.getFileId() == null : this.getFileId().equals(other.getFileId()));
+            && (this.getFileId() == null ? other.getFileId() == null : this.getFileId().equals(other.getFileId()))
+            && (this.getTotalfileId() == null ? other.getTotalfileId() == null : this.getTotalfileId().equals(other.getTotalfileId()));
     }
 
     @Override
@@ -71,6 +82,7 @@ public class Folder implements Serializable {
         result = prime * result + ((getFolderId() == null) ? 0 : getFolderId().hashCode());
         result = prime * result + ((getFolderName() == null) ? 0 : getFolderName().hashCode());
         result = prime * result + ((getFileId() == null) ? 0 : getFileId().hashCode());
+        result = prime * result + ((getTotalfileId() == null) ? 0 : getTotalfileId().hashCode());
         return result;
     }
 
@@ -83,6 +95,7 @@ public class Folder implements Serializable {
         sb.append(", folderId=").append(folderId);
         sb.append(", folderName=").append(folderName);
         sb.append(", fileId=").append(fileId);
+        sb.append(", totalfileId=").append(totalfileId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

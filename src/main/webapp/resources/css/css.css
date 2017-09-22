@@ -1,0 +1,72 @@
+a {
+	text-decoration: none;
+	color: red;
+}
+.ssspan {
+	color: grey;
+}
+.schedulespan {
+	color: grey;
+}
+.jq22 {
+	width: 200px;
+	margin: 0 auto;
+	font-family: arial, SimSun;
+	font-size: 0;
+}
+.jq22 .module_item {
+	width: 100%;
+	margin-bottom: 20px;
+}
+.jq22 .module_item1 {
+	background-color: #1faeff;
+}
+.jq22 .module_item2 {
+	background-color: #ff2e12;
+}
+.jq22 .module_item3 {
+	background-color: #00c13f;
+}
+.jq22 .module_item4 {
+	background-color: #e1b700;
+}
+.jq22 .module_item5 {
+	background-color: #7200ac;
+}
+.jq22 span {
+	display: block;
+	height: 50px;
+	line-height: 50px;
+	font-size: 2rem;
+	text-align: center;
+	color: #fff;
+}
+* {
+	font-family: "微软雅黑"
+}
+#count_a {
+	width: 400px;
+	height: 100px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	border: 10px solid #7F8C8D;
+	-webkit-box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	box-orient: horizontal;
+	font-size: 20px;
+}
+#count_a div {
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-box-flex: 1;
+}
+#count_a1 {
+	background-color: gold;
+}
+#count_a2 {
+	background-color: orangered;
+}
+#count_a3 {
+	background-color: lightgreen;
+}

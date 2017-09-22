@@ -38,4 +38,6 @@ public interface TeamService {
      * @return 返回0代失败，1代表成功
      */
     List<Team> selectTeam(Team team,int i);
+
+    List<Team> Query();
 }

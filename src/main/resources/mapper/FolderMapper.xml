@@ -5,6 +5,7 @@
     <id column="folder_id" jdbcType="INTEGER" property="folderId" />
     <result column="folder_name" jdbcType="VARCHAR" property="folderName" />
     <result column="file_id" jdbcType="INTEGER" property="fileId" />
+    <result column="totalfile_id" jdbcType="INTEGER" property="totalfileId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    folder_id, folder_name, file_id
+    folder_id, folder_name, file_id, totalfile_id
   </sql>
   <select id="selectByExample" parameterType="com.pojo.FolderExample" resultMap="BaseResultMap">
     select
@@ -106,14 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.Folder">
+    <!-- 新增项目的时候返回此次的自增ID -->
     <selectKey keyProperty="folderId" order="AFTER" resultType="int">
-    SELECT LAST_INSERT_ID() AS folderId
+      SELECT LAST_INSERT_ID() AS folderId
     </selectKey>
-
-    insert into folder (folder_id, folder_name, file_id
-      )
-    values (#{folderId,jdbcType=INTEGER}, #{folderName,jdbcType=VARCHAR}, #{fileId,jdbcType=INTEGER}
-      )
+    insert into folder (folder_id, folder_name, file_id, 
+      totalfile_id)
+    values (#{folderId,jdbcType=INTEGER}, #{folderName,jdbcType=VARCHAR}, #{fileId,jdbcType=INTEGER}, 
+      #{totalfileId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.pojo.Folder">
     insert into folder
@@ -127,6 +128,9 @@
       <if test="fileId != null">
         file_id,
       </if>
+      <if test="totalfileId != null">
+        totalfile_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="folderId != null">
@@ -137,6 +141,9 @@
       </if>
       <if test="fileId != null">
         #{fileId,jdbcType=INTEGER},
+      </if>
+      <if test="totalfileId != null">
+        #{totalfileId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -158,6 +165,9 @@
       <if test="record.fileId != null">
         file_id = #{record.fileId,jdbcType=INTEGER},
       </if>
+      <if test="record.totalfileId != null">
+        totalfile_id = #{record.totalfileId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -167,7 +177,8 @@
     update folder
     set folder_id = #{record.folderId,jdbcType=INTEGER},
       folder_name = #{record.folderName,jdbcType=VARCHAR},
-      file_id = #{record.fileId,jdbcType=INTEGER}
+      file_id = #{record.fileId,jdbcType=INTEGER},
+      totalfile_id = #{record.totalfileId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -181,13 +192,17 @@
       <if test="fileId != null">
         file_id = #{fileId,jdbcType=INTEGER},
       </if>
+      <if test="totalfileId != null">
+        totalfile_id = #{totalfileId,jdbcType=INTEGER},
+      </if>
     </set>
     where folder_id = #{folderId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pojo.Folder">
     update folder
     set folder_name = #{folderName,jdbcType=VARCHAR},
-      file_id = #{fileId,jdbcType=INTEGER}
+      file_id = #{fileId,jdbcType=INTEGER},
+      totalfile_id = #{totalfileId,jdbcType=INTEGER}
     where folder_id = #{folderId,jdbcType=INTEGER}
   </update>
 </mapper>

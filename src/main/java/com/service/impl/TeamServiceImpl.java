@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,6 +65,21 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public List<Team> selectTeam(Team team, int i) {
+        List<Team> teamList = new ArrayList<Team>();
+        //当i=0，根据团队id查询团队名
+        if(i==0){
+            Team team1 = teamMapper.selectByPrimaryKey(team.gettId());
+            if(team1!=null){
+                teamList.add(team1);
+                return teamList;
+            }else{
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public List<Team> Query() {
         return null;
     }
 }

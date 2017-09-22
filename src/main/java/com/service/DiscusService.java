@@ -1,6 +1,7 @@
 package com.service;
 
 import com.pojo.Discus;
+import com.pojo.Project;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface DiscusService {
      * @param discus 讨论表实体类
      * @return 返回0表示失败，返回1表示成功
      */
-    int addDiscus(Discus discus);
+    Discus addDiscus(Discus discus, Project project);
 
 
     /**
@@ -41,4 +42,11 @@ public interface DiscusService {
      * @return
      */
     List<Discus> select(Discus discus, int discusId);
+
+    /**
+     *根据项目id 遍历出该id所有的讨论
+     * @param pId
+     * @return
+     */
+    public List<Discus> QueryDiscus(int pId);
 }
