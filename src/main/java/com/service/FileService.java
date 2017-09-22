@@ -15,7 +15,7 @@ public interface FileService {
      * @param file 文件的实体类
      * @return 返回0表示失败，返回1表示成功
      */
-    File addFile(File file);
+    File addFile(File file,int pId);
 
 
     /**
@@ -45,5 +45,5 @@ public interface FileService {
      * 遍历上传的文件
      * @return
      */
-    List<File> QueryList();
+    List<File> QueryList(int totalid);
 }

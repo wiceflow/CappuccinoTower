@@ -564,6 +564,66 @@ public class DynamicExample {
             addCriterion("be_table not between", value1, value2, "beTable");
             return (Criteria) this;
         }
+
+        public Criteria andTIdIsNull() {
+            addCriterion("t_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdIsNotNull() {
+            addCriterion("t_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdEqualTo(Integer value) {
+            addCriterion("t_id =", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdNotEqualTo(Integer value) {
+            addCriterion("t_id <>", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdGreaterThan(Integer value) {
+            addCriterion("t_id >", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("t_id >=", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdLessThan(Integer value) {
+            addCriterion("t_id <", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdLessThanOrEqualTo(Integer value) {
+            addCriterion("t_id <=", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdIn(List<Integer> values) {
+            addCriterion("t_id in", values, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdNotIn(List<Integer> values) {
+            addCriterion("t_id not in", values, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdBetween(Integer value1, Integer value2) {
+            addCriterion("t_id between", value1, value2, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("t_id not between", value1, value2, "tId");
+            return (Criteria) this;
+        }
     }
 
     /**

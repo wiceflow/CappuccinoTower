@@ -39,5 +39,5 @@ public interface TaskinfoService {
      */
     List<Taskinfo> selectTaskinfo(Taskinfo taskinfo,int i);
 
-    List<Taskinfo> QueryList();
+    List<Taskinfo> QueryList(int pId);
 }

@@ -254,6 +254,126 @@ public class FileExample {
             return (Criteria) this;
         }
 
+        public Criteria andTotalfileIdIsNull() {
+            addCriterion("totalfile_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdIsNotNull() {
+            addCriterion("totalfile_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdEqualTo(Integer value) {
+            addCriterion("totalfile_id =", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdNotEqualTo(Integer value) {
+            addCriterion("totalfile_id <>", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdGreaterThan(Integer value) {
+            addCriterion("totalfile_id >", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("totalfile_id >=", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdLessThan(Integer value) {
+            addCriterion("totalfile_id <", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdLessThanOrEqualTo(Integer value) {
+            addCriterion("totalfile_id <=", value, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdIn(List<Integer> values) {
+            addCriterion("totalfile_id in", values, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdNotIn(List<Integer> values) {
+            addCriterion("totalfile_id not in", values, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdBetween(Integer value1, Integer value2) {
+            addCriterion("totalfile_id between", value1, value2, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalfileIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("totalfile_id not between", value1, value2, "totalfileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdIsNull() {
+            addCriterion("folder_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdIsNotNull() {
+            addCriterion("folder_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdEqualTo(Integer value) {
+            addCriterion("folder_id =", value, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdNotEqualTo(Integer value) {
+            addCriterion("folder_id <>", value, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdGreaterThan(Integer value) {
+            addCriterion("folder_id >", value, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("folder_id >=", value, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdLessThan(Integer value) {
+            addCriterion("folder_id <", value, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdLessThanOrEqualTo(Integer value) {
+            addCriterion("folder_id <=", value, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdIn(List<Integer> values) {
+            addCriterion("folder_id in", values, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdNotIn(List<Integer> values) {
+            addCriterion("folder_id not in", values, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdBetween(Integer value1, Integer value2) {
+            addCriterion("folder_id between", value1, value2, "folderId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFolderIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("folder_id not between", value1, value2, "folderId");
+            return (Criteria) this;
+        }
+
         public Criteria andFileNameIsNull() {
             addCriterion("file_name is null");
             return (Criteria) this;

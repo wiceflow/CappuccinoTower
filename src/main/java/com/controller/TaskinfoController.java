@@ -2,7 +2,10 @@ package com.controller;
 
 import com.pojo.Project;
 import com.pojo.Taskinfo;
+import com.service.DynamicService;
 import com.service.TaskinfoService;
+import com.util.AjaxResult;
+import com.util.DynamicTool;
 import com.util.ObtainSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,6 +35,8 @@ public class TaskinfoController {
 
     @Autowired
     private TaskinfoService taskinfoService;
+    @Autowired
+    private DynamicService dynamicService;
 
     /**
      * 新增任务清单
@@ -38,16 +45,21 @@ public class TaskinfoController {
      * @return
      */
     @RequestMapping(value = "addTaskInfo")
-    public String addTaskInfo(Taskinfo taskinfo, HttpServletRequest request){
-        int pId = new ObtainSession(request).getProject().getpId();
+    @ResponseBody
+    public AjaxResult addTaskInfo(@RequestParam("pId")int pId, Taskinfo taskinfo, HttpServletRequest request){
+        //从session中取出user 的 id
+        taskinfo.setTaskinfoUser(new ObtainSession(request).getUser().getuId());
         //调用addTaskinfo方法   --> 返回了任务清单的ID
         taskinfo = taskinfoService.addTaskinfo(taskinfo,pId);
-        //TODO 将刚创建的任务清单对象存入session中
-        request.getSession().setAttribute("taskinfo",taskinfo);
+        int i = taskinfo.getTaskinfoId();
         if(taskinfo==null){
             _LOG.error("向数据库插入数据失败");
+            return new AjaxResult(0,"新增任务清单失败");
         }
-        return "AllFail";
+        //动态操作
+        DynamicTool d = new DynamicTool(i,"taskinfo","新建了一个任务清单",request,dynamicService);
+        d.newDynamic();
+        return new AjaxResult(1,"新增任务清单成功",taskinfo);
     }
 
     /**
@@ -58,7 +70,7 @@ public class TaskinfoController {
      * @return
      */
     @RequestMapping(value = "TaskInfoinformation",method = RequestMethod.GET)
-    public String TaskInfoinformation(Taskinfo taskinfo,String taskinfoid,HttpServletRequest request){
+    public AjaxResult TaskInfoinformation(Taskinfo taskinfo,String taskinfoid,HttpServletRequest request){
         HttpSession session = request.getSession();
         //得到前台传入的taskinfoid
         taskinfo.setTaskinfoId(Integer.valueOf(taskinfoid));
@@ -68,9 +80,11 @@ public class TaskinfoController {
         if (taskinfoList != null) {
             Taskinfo taskinfo1 = taskinfoList.get(0);
             request.getSession().setAttribute("taskinfo1", taskinfo1);
-            return "TaskInfo/TaskInfoinformation";
+            //返回1，表示返回任务清单信息成功
+            return new AjaxResult(1,"返回任务清单信息成功");
         } else {//若为空，则返回AllFail页面
-            return "AllFail";
+            //返回0，表示返回任务清单信息失败
+            return new AjaxResult(0,"返回任务清单信息失败");
         }
     }
 
@@ -81,16 +95,21 @@ public class TaskinfoController {
      */
     //TODO 貌似不用Request.getParmeter 获取不到值
     @RequestMapping(value = "updateTaskInfo",method = RequestMethod.POST)
-    public String updateTaskInfo(Taskinfo taskinfo){
+    public AjaxResult updateTaskInfo(Taskinfo taskinfo,HttpServletRequest request){
         // TODO 前端传ID记得隐藏
         //调用
         taskinfo = taskinfoService.updateTaskinfo(taskinfo);
-
+        int i = taskinfo.getTaskinfoId();
         if (taskinfo!=null)
         {
-            return "AllSuccess";
+            //动态操作
+            DynamicTool d = new DynamicTool(i,"taskinfo","更新了一个任务",request,dynamicService);
+            d.newDynamic();
+            //返回1，表示更新任务清单信息成功
+            return new AjaxResult(1,"更新任务清单信息成功");
         }
-        return null;
+        //返回0，表示更新任务清单信息失败
+        return new AjaxResult(0,"更新任务清单信息失败");
     }
 
     /**
@@ -100,15 +119,18 @@ public class TaskinfoController {
      */
     //TODO 到时候返回一个Map 封装成JSON
     @RequestMapping(value = "taskInfoList")
-    public String TaskInfoList (HttpServletRequest request){
-        //调用querylist方法将所有任务清单取出
-        List<Taskinfo> taskinfoList = taskinfoService.QueryList();
+    @ResponseBody
+    public AjaxResult TaskInfoList (HttpServletRequest request,@RequestParam("pId")int pId){
+        //根据项目id  调用querylist方法将所有任务清单取出
+        List<Taskinfo> taskinfoList = taskinfoService.QueryList(pId);
         if (taskinfoList==null||taskinfoList.size()==0) {
             _LOG.error("读取到的任务清单列表为空");
-            return null;
+            //返回0，表示返回任务清单列表失败
+            return new AjaxResult(0,"返回任务清单列表失败");
         }
         // 以Map格式返回JSOn数据
-        return "TaskInfo/TaskinfoList";
+        //返回0，表示返回任务清单列表成功
+        return new AjaxResult(1,"返回任务清单列表成功",taskinfoList);
     }
 
     /**
@@ -117,13 +139,19 @@ public class TaskinfoController {
      * @return
      */
     @RequestMapping(value = "deleteTaskInfo")
-    public String deleteTaskInfo(String taskinfoid){
+    public AjaxResult deleteTaskInfo(String taskinfoid,HttpServletRequest request){
         //调用deleteteskinfo方法根据页面传回的id删除任务清单
         int i = taskinfoService.deleteTaskinfo(Integer.parseInt(taskinfoid));
+        int m = Integer.parseInt(taskinfoid);
         if(i==1){
-            return "redirect:taskInfoList";
+            //动态操作
+            DynamicTool d = new DynamicTool(m,"taskinfo","删除了一个任务",request,dynamicService);
+            d.newDynamic();
+            //返回1，表示删除任务清单成功
+            return new AjaxResult(1,"删除任务清单成功");
         }else{
-            return "AllFail";
+            //返回0，表示删除任务清单失败
+            return new AjaxResult(0,"删除任务清单失败");
         }
     }
 }

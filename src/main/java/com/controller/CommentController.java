@@ -121,6 +121,8 @@ public class CommentController {
      */
     @RequestMapping(value = "/deleteComment" , method = RequestMethod.GET)
     public String deleteComment(HttpServletRequest request,Model model){
+        User user =  new ObtainSession(request).getUser();
+
         HttpSession session = request.getSession();
 
         //根据ID进行删除

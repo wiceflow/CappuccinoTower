@@ -3,6 +3,7 @@ package com.controller;
 import com.pojo.Team;
 import com.pojo.User;
 import com.service.UserService;
+import com.util.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,22 +37,24 @@ public class UserController {
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public int login(User user, @RequestParam("loginType") int i, HttpServletRequest request) {
+    public AjaxResult login(User user, @RequestParam("loginType") int i, HttpServletRequest request) {
         List<User> userList = userService.selectUser(user, i);
         //账号不存在  返回0 前台AJAX验证账号不存在 [0代表账号不存在，返回页面显示登录失败]
         if (userList == null || userList.get(0).getuId()==null) {
-            return 0;
+            return new AjaxResult(0,"账号不存在");
         } else {
             //获取返回的用户POJO
             User user1 = userList.get(0);
             //对比用户输入的密码是否与数据库存储的密码相同,相同则返回 2 [2代表登录成功，将用户信息存入seesion]
             if (user.getuPassword().equals(user1.getuPassword())) {
                 request.getSession().setAttribute("user", user1);
-                return 2;
+                System.out.println(user1.toString());
+                System.out.println();
+                return new AjaxResult(2,"登陆成功",user1);
             }
             //若用户输入密码与数据库读取的密码不同，则返回 1 [1代表密码错误，返回页面显示登录失败]
             else {
-                return 1;
+                return new AjaxResult(1,"密码错误");
             }
         }
 
@@ -98,5 +101,4 @@ public class UserController {
             System.out.println("错误的操作,用户信息错误,将其赶回登录界面");
         }
     }
-
 }
