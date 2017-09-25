@@ -17,11 +17,6 @@ public class Taskinfo implements Serializable {
     private String taskinfoName;
 
     /**
-     * 任务编号
-     */
-    private Integer taskId;
-
-    /**
      * 任务清单创建者
      */
     private Integer taskinfoUser;
@@ -52,14 +47,6 @@ public class Taskinfo implements Serializable {
 
     public void setTaskinfoName(String taskinfoName) {
         this.taskinfoName = taskinfoName;
-    }
-
-    public Integer getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
     }
 
     public Integer getTaskinfoUser() {
@@ -100,7 +87,6 @@ public class Taskinfo implements Serializable {
         Taskinfo other = (Taskinfo) that;
         return (this.getTaskinfoId() == null ? other.getTaskinfoId() == null : this.getTaskinfoId().equals(other.getTaskinfoId()))
             && (this.getTaskinfoName() == null ? other.getTaskinfoName() == null : this.getTaskinfoName().equals(other.getTaskinfoName()))
-            && (this.getTaskId() == null ? other.getTaskId() == null : this.getTaskId().equals(other.getTaskId()))
             && (this.getTaskinfoUser() == null ? other.getTaskinfoUser() == null : this.getTaskinfoUser().equals(other.getTaskinfoUser()))
             && (this.getpId() == null ? other.getpId() == null : this.getpId().equals(other.getpId()))
             && (this.getTakinfoDescribe() == null ? other.getTakinfoDescribe() == null : this.getTakinfoDescribe().equals(other.getTakinfoDescribe()));
@@ -112,7 +98,6 @@ public class Taskinfo implements Serializable {
         int result = 1;
         result = prime * result + ((getTaskinfoId() == null) ? 0 : getTaskinfoId().hashCode());
         result = prime * result + ((getTaskinfoName() == null) ? 0 : getTaskinfoName().hashCode());
-        result = prime * result + ((getTaskId() == null) ? 0 : getTaskId().hashCode());
         result = prime * result + ((getTaskinfoUser() == null) ? 0 : getTaskinfoUser().hashCode());
         result = prime * result + ((getpId() == null) ? 0 : getpId().hashCode());
         result = prime * result + ((getTakinfoDescribe() == null) ? 0 : getTakinfoDescribe().hashCode());
@@ -127,7 +112,6 @@ public class Taskinfo implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", taskinfoId=").append(taskinfoId);
         sb.append(", taskinfoName=").append(taskinfoName);
-        sb.append(", taskId=").append(taskId);
         sb.append(", taskinfoUser=").append(taskinfoUser);
         sb.append(", pId=").append(pId);
         sb.append(", takinfoDescribe=").append(takinfoDescribe);

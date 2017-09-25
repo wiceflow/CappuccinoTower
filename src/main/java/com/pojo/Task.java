@@ -43,6 +43,11 @@ public class Task implements Serializable {
     private Integer status;
 
     /**
+     * 项目清单id
+     */
+    private Integer taskinfoId;
+
+    /**
      * 任务描述（可为空）
      */
     private String taskDescribe;
@@ -105,6 +110,14 @@ public class Task implements Serializable {
         this.status = status;
     }
 
+    public Integer getTaskinfoId() {
+        return taskinfoId;
+    }
+
+    public void setTaskinfoId(Integer taskinfoId) {
+        this.taskinfoId = taskinfoId;
+    }
+
     public String getTaskDescribe() {
         return taskDescribe;
     }
@@ -132,6 +145,7 @@ public class Task implements Serializable {
             && (this.getTaskUser() == null ? other.getTaskUser() == null : this.getTaskUser().equals(other.getTaskUser()))
             && (this.getTaskAssigner() == null ? other.getTaskAssigner() == null : this.getTaskAssigner().equals(other.getTaskAssigner()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getTaskinfoId() == null ? other.getTaskinfoId() == null : this.getTaskinfoId().equals(other.getTaskinfoId()))
             && (this.getTaskDescribe() == null ? other.getTaskDescribe() == null : this.getTaskDescribe().equals(other.getTaskDescribe()));
     }
 
@@ -146,6 +160,7 @@ public class Task implements Serializable {
         result = prime * result + ((getTaskUser() == null) ? 0 : getTaskUser().hashCode());
         result = prime * result + ((getTaskAssigner() == null) ? 0 : getTaskAssigner().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getTaskinfoId() == null) ? 0 : getTaskinfoId().hashCode());
         result = prime * result + ((getTaskDescribe() == null) ? 0 : getTaskDescribe().hashCode());
         return result;
     }
@@ -163,6 +178,7 @@ public class Task implements Serializable {
         sb.append(", taskUser=").append(taskUser);
         sb.append(", taskAssigner=").append(taskAssigner);
         sb.append(", status=").append(status);
+        sb.append(", taskinfoId=").append(taskinfoId);
         sb.append(", taskDescribe=").append(taskDescribe);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

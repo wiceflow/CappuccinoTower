@@ -15,7 +15,7 @@ public interface FileService {
      * @param file 文件的实体类
      * @return 返回0表示失败，返回1表示成功
      */
-    int addFile(File file);
+    File addFile(File file);
 
 
     /**
@@ -23,7 +23,7 @@ public interface FileService {
      * @param fileId 根据文件ID进行删除
      * @return 返回0表示失败，返回1表示成功
      */
-    int deleteFile(int fileId);
+    void deleteFile(int fileId);
 
     /**
      * 修改一个文件
@@ -39,5 +39,11 @@ public interface FileService {
      * @param fileId 根据文件ID进行查找
      * @return
      */
-    List<File> selectFile(File file,int fileId);
+    List<File> selectFile(String file, int fileId);
+
+    /**
+     * 遍历上传的文件
+     * @return
+     */
+    List<File> QueryList();
 }

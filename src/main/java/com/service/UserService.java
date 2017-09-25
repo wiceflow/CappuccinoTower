@@ -52,5 +52,5 @@ public interface UserService {
      * 遍历整个User表
      * @return
      */
-    List<User> QueryList();
+    List<User> QueryList(int tId);
 }

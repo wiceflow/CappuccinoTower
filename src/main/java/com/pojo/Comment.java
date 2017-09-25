@@ -32,6 +32,26 @@ public class Comment implements Serializable {
      */
     private Date cTime;
 
+    /**
+     * 发起评论者
+     */
+    private String uName;
+
+    /**
+     * 被评论者
+     */
+    private Integer buId;
+
+    /**
+     * 被评论名字
+     */
+    private String buUsername;
+
+    /**
+     * 被评论编号
+     */
+    private Integer bcId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getcId() {
@@ -74,6 +94,38 @@ public class Comment implements Serializable {
         this.cTime = cTime;
     }
 
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
+    }
+
+    public Integer getBuId() {
+        return buId;
+    }
+
+    public void setBuId(Integer buId) {
+        this.buId = buId;
+    }
+
+    public String getBuUsername() {
+        return buUsername;
+    }
+
+    public void setBuUsername(String buUsername) {
+        this.buUsername = buUsername;
+    }
+
+    public Integer getBcId() {
+        return bcId;
+    }
+
+    public void setBcId(Integer bcId) {
+        this.bcId = bcId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -90,7 +142,11 @@ public class Comment implements Serializable {
             && (this.getcContent() == null ? other.getcContent() == null : this.getcContent().equals(other.getcContent()))
             && (this.getuId() == null ? other.getuId() == null : this.getuId().equals(other.getuId()))
             && (this.getTaskId() == null ? other.getTaskId() == null : this.getTaskId().equals(other.getTaskId()))
-            && (this.getcTime() == null ? other.getcTime() == null : this.getcTime().equals(other.getcTime()));
+            && (this.getcTime() == null ? other.getcTime() == null : this.getcTime().equals(other.getcTime()))
+            && (this.getuName() == null ? other.getuName() == null : this.getuName().equals(other.getuName()))
+            && (this.getBuId() == null ? other.getBuId() == null : this.getBuId().equals(other.getBuId()))
+            && (this.getBuUsername() == null ? other.getBuUsername() == null : this.getBuUsername().equals(other.getBuUsername()))
+            && (this.getBcId() == null ? other.getBcId() == null : this.getBcId().equals(other.getBcId()));
     }
 
     @Override
@@ -102,6 +158,10 @@ public class Comment implements Serializable {
         result = prime * result + ((getuId() == null) ? 0 : getuId().hashCode());
         result = prime * result + ((getTaskId() == null) ? 0 : getTaskId().hashCode());
         result = prime * result + ((getcTime() == null) ? 0 : getcTime().hashCode());
+        result = prime * result + ((getuName() == null) ? 0 : getuName().hashCode());
+        result = prime * result + ((getBuId() == null) ? 0 : getBuId().hashCode());
+        result = prime * result + ((getBuUsername() == null) ? 0 : getBuUsername().hashCode());
+        result = prime * result + ((getBcId() == null) ? 0 : getBcId().hashCode());
         return result;
     }
 
@@ -116,6 +176,10 @@ public class Comment implements Serializable {
         sb.append(", uId=").append(uId);
         sb.append(", taskId=").append(taskId);
         sb.append(", cTime=").append(cTime);
+        sb.append(", uName=").append(uName);
+        sb.append(", buId=").append(buId);
+        sb.append(", buUsername=").append(buUsername);
+        sb.append(", bcId=").append(bcId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

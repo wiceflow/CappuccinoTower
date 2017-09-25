@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.pojo.Taskinfo">
     <id column="taskinfo_id" jdbcType="INTEGER" property="taskinfoId" />
     <result column="taskinfo_name" jdbcType="VARCHAR" property="taskinfoName" />
-    <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="taskinfo_user" jdbcType="INTEGER" property="taskinfoUser" />
     <result column="p_id" jdbcType="INTEGER" property="pId" />
   </resultMap>
@@ -70,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    taskinfo_id, taskinfo_name, task_id, taskinfo_user, p_id
+    taskinfo_id, taskinfo_name, taskinfo_user, p_id
   </sql>
   <sql id="Blob_Column_List">
     takinfo_describe
@@ -132,12 +131,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.Taskinfo">
-    insert into taskinfo (taskinfo_id, taskinfo_name, task_id, 
-      taskinfo_user, p_id, takinfo_describe
-      )
-    values (#{taskinfoId,jdbcType=INTEGER}, #{taskinfoName,jdbcType=VARCHAR}, #{taskId,jdbcType=INTEGER}, 
-      #{taskinfoUser,jdbcType=INTEGER}, #{pId,jdbcType=INTEGER}, #{takinfoDescribe,jdbcType=LONGVARCHAR}
-      )
+    <selectKey keyProperty="taskinfoId" order="AFTER" resultType="int">
+    SELECT LAST_INSERT_ID() AS taskinfoId
+    </selectKey>
+    insert into taskinfo (taskinfo_id, taskinfo_name, taskinfo_user, 
+      p_id, takinfo_describe)
+    values (#{taskinfoId,jdbcType=INTEGER}, #{taskinfoName,jdbcType=VARCHAR}, #{taskinfoUser,jdbcType=INTEGER}, 
+      #{pId,jdbcType=INTEGER}, #{takinfoDescribe,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pojo.Taskinfo">
     insert into taskinfo
@@ -147,9 +147,6 @@
       </if>
       <if test="taskinfoName != null">
         taskinfo_name,
-      </if>
-      <if test="taskId != null">
-        task_id,
       </if>
       <if test="taskinfoUser != null">
         taskinfo_user,
@@ -167,9 +164,6 @@
       </if>
       <if test="taskinfoName != null">
         #{taskinfoName,jdbcType=VARCHAR},
-      </if>
-      <if test="taskId != null">
-        #{taskId,jdbcType=INTEGER},
       </if>
       <if test="taskinfoUser != null">
         #{taskinfoUser,jdbcType=INTEGER},
@@ -197,9 +191,6 @@
       <if test="record.taskinfoName != null">
         taskinfo_name = #{record.taskinfoName,jdbcType=VARCHAR},
       </if>
-      <if test="record.taskId != null">
-        task_id = #{record.taskId,jdbcType=INTEGER},
-      </if>
       <if test="record.taskinfoUser != null">
         taskinfo_user = #{record.taskinfoUser,jdbcType=INTEGER},
       </if>
@@ -218,7 +209,6 @@
     update taskinfo
     set taskinfo_id = #{record.taskinfoId,jdbcType=INTEGER},
       taskinfo_name = #{record.taskinfoName,jdbcType=VARCHAR},
-      task_id = #{record.taskId,jdbcType=INTEGER},
       taskinfo_user = #{record.taskinfoUser,jdbcType=INTEGER},
       p_id = #{record.pId,jdbcType=INTEGER},
       takinfo_describe = #{record.takinfoDescribe,jdbcType=LONGVARCHAR}
@@ -230,7 +220,6 @@
     update taskinfo
     set taskinfo_id = #{record.taskinfoId,jdbcType=INTEGER},
       taskinfo_name = #{record.taskinfoName,jdbcType=VARCHAR},
-      task_id = #{record.taskId,jdbcType=INTEGER},
       taskinfo_user = #{record.taskinfoUser,jdbcType=INTEGER},
       p_id = #{record.pId,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -242,9 +231,6 @@
     <set>
       <if test="taskinfoName != null">
         taskinfo_name = #{taskinfoName,jdbcType=VARCHAR},
-      </if>
-      <if test="taskId != null">
-        task_id = #{taskId,jdbcType=INTEGER},
       </if>
       <if test="taskinfoUser != null">
         taskinfo_user = #{taskinfoUser,jdbcType=INTEGER},
@@ -261,7 +247,6 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pojo.Taskinfo">
     update taskinfo
     set taskinfo_name = #{taskinfoName,jdbcType=VARCHAR},
-      task_id = #{taskId,jdbcType=INTEGER},
       taskinfo_user = #{taskinfoUser,jdbcType=INTEGER},
       p_id = #{pId,jdbcType=INTEGER},
       takinfo_describe = #{takinfoDescribe,jdbcType=LONGVARCHAR}
@@ -270,7 +255,6 @@
   <update id="updateByPrimaryKey" parameterType="com.pojo.Taskinfo">
     update taskinfo
     set taskinfo_name = #{taskinfoName,jdbcType=VARCHAR},
-      task_id = #{taskId,jdbcType=INTEGER},
       taskinfo_user = #{taskinfoUser,jdbcType=INTEGER},
       p_id = #{pId,jdbcType=INTEGER}
     where taskinfo_id = #{taskinfoId,jdbcType=INTEGER}

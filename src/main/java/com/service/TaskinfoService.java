@@ -12,9 +12,10 @@ public interface TaskinfoService {
     /**
      * 添加任务信息
      * @param taskinfo 任务信息实体类
+     * @param pId 项目ID
      * @return 返回0代表失败，1代表成功
      */
-    int addTaskinfo(Taskinfo taskinfo);
+    Taskinfo addTaskinfo(Taskinfo taskinfo, int pId);
 
     /**
      * 删除一个任务信息
@@ -28,7 +29,7 @@ public interface TaskinfoService {
      * @param taskinfo 任务信息实体类
      * @return 返回0代表失败，1代表成功
      */
-    int updateTaskinfo(Taskinfo taskinfo);
+    Taskinfo updateTaskinfo(Taskinfo taskinfo);
 
     /**
      * 查询任务信息
@@ -37,4 +38,6 @@ public interface TaskinfoService {
      * @return
      */
     List<Taskinfo> selectTaskinfo(Taskinfo taskinfo,int i);
+
+    List<Taskinfo> QueryList();
 }

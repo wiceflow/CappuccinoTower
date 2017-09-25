@@ -6,6 +6,7 @@ import com.pojo.UserandteamExample;
 import com.service.UserandteamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * [UserandteamtMapper] [UserandteamService]
  */
 @Service
+@Transactional
 public class UserandteamServiceImpl implements UserandteamService {
     // 注入UserandteamMapper依赖 [对数据库UserAndTeam表进行操作的Dao层]
     @Autowired
@@ -31,8 +33,26 @@ public class UserandteamServiceImpl implements UserandteamService {
         return 1;
     }
 
-    public int deleteUserandteam(int utId) {
-        return 0;
+    public int deleteUserandteam(int tId)
+    {
+        try{
+            // 新建UserAndTeam对象,符合查询条件
+            Userandteam userandteam = new Userandteam();
+            userandteam.settId(tId);
+            // 将属于team表的数据全部取出来
+            List<Userandteam> userandteamList =  selectUserandteam(userandteam,1);
+            if (userandteamList==null||userandteamList.size()==0) {
+                System.out.println("Team表对应User无联袂关系");
+            }else {
+                for (int i=0;i<userandteamList.size();i++){
+                    Userandteam u = userandteamList.get(i);
+                    userandteamMapper.deleteByPrimaryKey(u.getUtId());
+                }
+            }
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     public int updateUserandteam(Userandteam userandteam) {
@@ -47,19 +67,52 @@ public class UserandteamServiceImpl implements UserandteamService {
      * @return
      */
     public List<Userandteam> selectUserandteam(Userandteam userandteam, int i) {
-        List<Userandteam> userandteamList=new ArrayList<Userandteam>();
-        Userandteam userandteam1=null;
+        List<Userandteam> userandteamList = new ArrayList<Userandteam>();
+        Userandteam userandteam1 = null;
         //根据uId(用户ID)查找tId（团队编号）
         if(i==0)
         {
             UserandteamExample userandteamExample=new UserandteamExample();
-            //通过uid查找到对象
             userandteamExample.createCriteria().andUIdEqualTo(userandteam.getuId());
-            //找到的对象放到List集合中去
-            userandteamList=userandteamMapper.selectByExample(userandteamExample);
+            userandteamList= userandteamMapper.selectByExample(userandteamExample);
+
             //userandteamList
             if(userandteamList==null&&userandteamList.size()==0){
-                System.out.println("返回了空");
+                System.out.println("没有查询到数据");
+                return null;
+            }else {
+                System.out.println("返回了List集合");
+                return userandteamList;
+            }
+        }
+        if (i==1)
+        {
+            // 定义它的Example类
+            UserandteamExample userandteamExample = new UserandteamExample();
+            // 通过uid查找到对象
+            userandteamExample.createCriteria().andTIdEqualTo(userandteam.gettId());
+            // 查询操作,返回的是一个List
+            userandteamList = userandteamMapper.selectByExample(userandteamExample);
+            if (userandteamList==null&&userandteamList.size()==0){
+                System.out.println("没有查询到数据");
+                return null;
+            }else {
+                // 返回List数组
+                return userandteamList;
+            }
+        }
+        if(i==2)
+        {
+            //根据tid查询用户id
+            UserandteamExample userandteamExample=new UserandteamExample();
+            userandteamExample.createCriteria().andTIdEqualTo(userandteam.gettId());
+            userandteamList= userandteamMapper.selectByExample(userandteamExample);
+
+            System.out.println(userandteamList.get(0).getuId()+"这是用户id");
+
+            //userandteamList
+            if(userandteamList==null&&userandteamList.size()==0){
+                System.out.println("没有查询到数据");
                 return null;
             }else {
                 System.out.println("返回了List集合");

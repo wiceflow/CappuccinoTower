@@ -3,7 +3,6 @@
 <mapper namespace="com.dao.AlldiscusMapper">
   <resultMap id="BaseResultMap" type="com.pojo.Alldiscus">
     <id column="discusall_id" jdbcType="INTEGER" property="discusallId" />
-    <result column="discus_id" jdbcType="INTEGER" property="discusId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +63,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    discusall_id, discus_id
+    discusall_id
   </sql>
   <select id="selectByExample" parameterType="com.pojo.AlldiscusExample" resultMap="BaseResultMap">
     select
@@ -88,12 +87,6 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from alldiscus
-    where discusall_id = #{discusallId,jdbcType=INTEGER}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from alldiscus
     where discusall_id = #{discusallId,jdbcType=INTEGER}
@@ -105,8 +98,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.Alldiscus">
-    insert into alldiscus (discusall_id, discus_id)
-    values (#{discusallId,jdbcType=INTEGER}, #{discusId,jdbcType=INTEGER})
+    <!-- 新增项目的时候返回此次的自增ID -->
+    <selectKey keyProperty="discusallId" order="AFTER" resultType="int">
+      SELECT LAST_INSERT_ID() AS discusallId
+    </selectKey>
+    insert into alldiscus (discusall_id)
+    values (#{discusallId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.pojo.Alldiscus">
     insert into alldiscus
@@ -114,16 +111,10 @@
       <if test="discusallId != null">
         discusall_id,
       </if>
-      <if test="discusId != null">
-        discus_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="discusallId != null">
         #{discusallId,jdbcType=INTEGER},
-      </if>
-      <if test="discusId != null">
-        #{discusId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -139,9 +130,6 @@
       <if test="record.discusallId != null">
         discusall_id = #{record.discusallId,jdbcType=INTEGER},
       </if>
-      <if test="record.discusId != null">
-        discus_id = #{record.discusId,jdbcType=INTEGER},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -149,24 +137,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update alldiscus
-    set discusall_id = #{record.discusallId,jdbcType=INTEGER},
-      discus_id = #{record.discusId,jdbcType=INTEGER}
+    set discusall_id = #{record.discusallId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Alldiscus">
-    update alldiscus
-    <set>
-      <if test="discusId != null">
-        discus_id = #{discusId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where discusall_id = #{discusallId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.pojo.Alldiscus">
-    update alldiscus
-    set discus_id = #{discusId,jdbcType=INTEGER}
-    where discusall_id = #{discusallId,jdbcType=INTEGER}
   </update>
 </mapper>

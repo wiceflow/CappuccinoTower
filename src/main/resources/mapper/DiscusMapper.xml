@@ -4,6 +4,10 @@
   <resultMap id="BaseResultMap" type="com.pojo.Discus">
     <id column="discus_id" jdbcType="INTEGER" property="discusId" />
     <result column="d_topic" jdbcType="VARCHAR" property="dTopic" />
+    <result column="c_id" jdbcType="INTEGER" property="cId" />
+    <result column="discusall_id" jdbcType="INTEGER" property="discusallId" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pojo.Discus">
     <result column="d_content" jdbcType="LONGVARCHAR" property="dContent" />
@@ -67,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    discus_id, d_topic
+    discus_id, d_topic, c_id, discusall_id, u_id, u_name
   </sql>
   <sql id="Blob_Column_List">
     d_content
@@ -129,10 +133,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.Discus">
-    insert into discus (discus_id, d_topic, d_content
-      )
-    values (#{discusId,jdbcType=INTEGER}, #{dTopic,jdbcType=VARCHAR}, #{dContent,jdbcType=LONGVARCHAR}
-      )
+    <!-- 新增项目的时候返回此次的自增ID -->
+    <selectKey keyProperty="discusId" order="AFTER" resultType="int">
+      SELECT LAST_INSERT_ID() AS discusId
+    </selectKey>
+    insert into discus (discus_id, d_topic, c_id, 
+      discusall_id, u_id, u_name, 
+      d_content)
+    values (#{discusId,jdbcType=INTEGER}, #{dTopic,jdbcType=VARCHAR}, #{cId,jdbcType=INTEGER}, 
+      #{discusallId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, 
+      #{dContent,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pojo.Discus">
     insert into discus
@@ -142,6 +152,18 @@
       </if>
       <if test="dTopic != null">
         d_topic,
+      </if>
+      <if test="cId != null">
+        c_id,
+      </if>
+      <if test="discusallId != null">
+        discusall_id,
+      </if>
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="uName != null">
+        u_name,
       </if>
       <if test="dContent != null">
         d_content,
@@ -153,6 +175,18 @@
       </if>
       <if test="dTopic != null">
         #{dTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="cId != null">
+        #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="discusallId != null">
+        #{discusallId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null">
+        #{uName,jdbcType=VARCHAR},
       </if>
       <if test="dContent != null">
         #{dContent,jdbcType=LONGVARCHAR},
@@ -174,6 +208,18 @@
       <if test="record.dTopic != null">
         d_topic = #{record.dTopic,jdbcType=VARCHAR},
       </if>
+      <if test="record.cId != null">
+        c_id = #{record.cId,jdbcType=INTEGER},
+      </if>
+      <if test="record.discusallId != null">
+        discusall_id = #{record.discusallId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uId != null">
+        u_id = #{record.uId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uName != null">
+        u_name = #{record.uName,jdbcType=VARCHAR},
+      </if>
       <if test="record.dContent != null">
         d_content = #{record.dContent,jdbcType=LONGVARCHAR},
       </if>
@@ -186,6 +232,10 @@
     update discus
     set discus_id = #{record.discusId,jdbcType=INTEGER},
       d_topic = #{record.dTopic,jdbcType=VARCHAR},
+      c_id = #{record.cId,jdbcType=INTEGER},
+      discusall_id = #{record.discusallId,jdbcType=INTEGER},
+      u_id = #{record.uId,jdbcType=INTEGER},
+      u_name = #{record.uName,jdbcType=VARCHAR},
       d_content = #{record.dContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -194,7 +244,11 @@
   <update id="updateByExample" parameterType="map">
     update discus
     set discus_id = #{record.discusId,jdbcType=INTEGER},
-      d_topic = #{record.dTopic,jdbcType=VARCHAR}
+      d_topic = #{record.dTopic,jdbcType=VARCHAR},
+      c_id = #{record.cId,jdbcType=INTEGER},
+      discusall_id = #{record.discusallId,jdbcType=INTEGER},
+      u_id = #{record.uId,jdbcType=INTEGER},
+      u_name = #{record.uName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -205,6 +259,18 @@
       <if test="dTopic != null">
         d_topic = #{dTopic,jdbcType=VARCHAR},
       </if>
+      <if test="cId != null">
+        c_id = #{cId,jdbcType=INTEGER},
+      </if>
+      <if test="discusallId != null">
+        discusall_id = #{discusallId,jdbcType=INTEGER},
+      </if>
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null">
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
       <if test="dContent != null">
         d_content = #{dContent,jdbcType=LONGVARCHAR},
       </if>
@@ -214,12 +280,20 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pojo.Discus">
     update discus
     set d_topic = #{dTopic,jdbcType=VARCHAR},
+      c_id = #{cId,jdbcType=INTEGER},
+      discusall_id = #{discusallId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
+      u_name = #{uName,jdbcType=VARCHAR},
       d_content = #{dContent,jdbcType=LONGVARCHAR}
     where discus_id = #{discusId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pojo.Discus">
     update discus
-    set d_topic = #{dTopic,jdbcType=VARCHAR}
+    set d_topic = #{dTopic,jdbcType=VARCHAR},
+      c_id = #{cId,jdbcType=INTEGER},
+      discusall_id = #{discusallId,jdbcType=INTEGER},
+      u_id = #{uId,jdbcType=INTEGER},
+      u_name = #{uName,jdbcType=VARCHAR}
     where discus_id = #{discusId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -40,4 +40,6 @@ public interface FolderService {
      * @return
      */
     List<Folder> selectFolder(Folder folder,int folderId);
+
+    List<Folder> QueryList();
 }

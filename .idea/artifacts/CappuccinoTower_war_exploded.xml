@@ -19,6 +19,7 @@
           <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.5" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.4.RELEASE" />
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.4.RELEASE" />
@@ -32,7 +33,6 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-test:3.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.json:json:20080701" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.5" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.5" />
           <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.2.2" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.3" />
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:7.0.47" />

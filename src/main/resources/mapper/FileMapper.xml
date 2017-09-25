@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.pojo.File">
     <id column="file_id" jdbcType="INTEGER" property="fileId" />
     <result column="file_url" jdbcType="VARCHAR" property="fileUrl" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    file_id, file_url
+    file_id, file_url, file_name
   </sql>
   <select id="selectByExample" parameterType="com.pojo.FileExample" resultMap="BaseResultMap">
     select
@@ -105,8 +106,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.File">
-    insert into file (file_id, file_url)
-    values (#{fileId,jdbcType=INTEGER}, #{fileUrl,jdbcType=VARCHAR})
+    <!-- 新增用户的时候返回此次的自增ID -->
+    <selectKey keyProperty="fileId" order="AFTER" resultType="int">
+      SELECT LAST_INSERT_ID() AS fileId
+    </selectKey>
+    insert into file (file_id, file_url, file_name
+      )
+    values (#{fileId,jdbcType=INTEGER}, #{fileUrl,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pojo.File">
     insert into file
@@ -117,6 +124,9 @@
       <if test="fileUrl != null">
         file_url,
       </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="fileId != null">
@@ -124,6 +134,9 @@
       </if>
       <if test="fileUrl != null">
         #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -142,6 +155,9 @@
       <if test="record.fileUrl != null">
         file_url = #{record.fileUrl,jdbcType=VARCHAR},
       </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -150,7 +166,8 @@
   <update id="updateByExample" parameterType="map">
     update file
     set file_id = #{record.fileId,jdbcType=INTEGER},
-      file_url = #{record.fileUrl,jdbcType=VARCHAR}
+      file_url = #{record.fileUrl,jdbcType=VARCHAR},
+      file_name = #{record.fileName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -161,12 +178,16 @@
       <if test="fileUrl != null">
         file_url = #{fileUrl,jdbcType=VARCHAR},
       </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
     </set>
     where file_id = #{fileId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pojo.File">
     update file
-    set file_url = #{fileUrl,jdbcType=VARCHAR}
+    set file_url = #{fileUrl,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR}
     where file_id = #{fileId,jdbcType=INTEGER}
   </update>
 </mapper>

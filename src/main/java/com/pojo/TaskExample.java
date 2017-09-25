@@ -554,6 +554,66 @@ public class TaskExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andTaskinfoIdIsNull() {
+            addCriterion("taskinfo_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdIsNotNull() {
+            addCriterion("taskinfo_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdEqualTo(Integer value) {
+            addCriterion("taskinfo_id =", value, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdNotEqualTo(Integer value) {
+            addCriterion("taskinfo_id <>", value, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdGreaterThan(Integer value) {
+            addCriterion("taskinfo_id >", value, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("taskinfo_id >=", value, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdLessThan(Integer value) {
+            addCriterion("taskinfo_id <", value, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdLessThanOrEqualTo(Integer value) {
+            addCriterion("taskinfo_id <=", value, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdIn(List<Integer> values) {
+            addCriterion("taskinfo_id in", values, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdNotIn(List<Integer> values) {
+            addCriterion("taskinfo_id not in", values, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdBetween(Integer value1, Integer value2) {
+            addCriterion("taskinfo_id between", value1, value2, "taskinfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskinfoIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("taskinfo_id not between", value1, value2, "taskinfoId");
+            return (Criteria) this;
+        }
     }
 
     /**

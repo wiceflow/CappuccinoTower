@@ -9,6 +9,7 @@
     <result column="task_user" jdbcType="INTEGER" property="taskUser" />
     <result column="task_assigner" jdbcType="INTEGER" property="taskAssigner" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="taskinfo_id" jdbcType="INTEGER" property="taskinfoId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pojo.Task">
     <result column="task_describe" jdbcType="LONGVARCHAR" property="taskDescribe" />
@@ -72,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    task_id, task_name, task_createtime, task_finishtime, task_user, task_assigner, status
+    task_id, task_name, task_createtime, task_finishtime, task_user, task_assigner, status, 
+    taskinfo_id
   </sql>
   <sql id="Blob_Column_List">
     task_describe
@@ -134,12 +136,17 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.Task">
+    <selectKey keyProperty="taskId" order="AFTER" resultType="int">
+    SELECT LAST_INSERT_ID() AS taskId
+    </selectKey>
     insert into task (task_id, task_name, task_createtime, 
       task_finishtime, task_user, task_assigner, 
-      status, task_describe)
+      status, taskinfo_id, task_describe
+      )
     values (#{taskId,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{taskCreatetime,jdbcType=TIMESTAMP}, 
       #{taskFinishtime,jdbcType=TIMESTAMP}, #{taskUser,jdbcType=INTEGER}, #{taskAssigner,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{taskDescribe,jdbcType=LONGVARCHAR})
+      #{status,jdbcType=INTEGER}, #{taskinfoId,jdbcType=INTEGER}, #{taskDescribe,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pojo.Task">
     insert into task
@@ -164,6 +171,9 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="taskinfoId != null">
+        taskinfo_id,
       </if>
       <if test="taskDescribe != null">
         task_describe,
@@ -190,6 +200,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="taskinfoId != null">
+        #{taskinfoId,jdbcType=INTEGER},
       </if>
       <if test="taskDescribe != null">
         #{taskDescribe,jdbcType=LONGVARCHAR},
@@ -226,6 +239,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.taskinfoId != null">
+        taskinfo_id = #{record.taskinfoId,jdbcType=INTEGER},
+      </if>
       <if test="record.taskDescribe != null">
         task_describe = #{record.taskDescribe,jdbcType=LONGVARCHAR},
       </if>
@@ -243,6 +259,7 @@
       task_user = #{record.taskUser,jdbcType=INTEGER},
       task_assigner = #{record.taskAssigner,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER},
+      taskinfo_id = #{record.taskinfoId,jdbcType=INTEGER},
       task_describe = #{record.taskDescribe,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -256,7 +273,8 @@
       task_finishtime = #{record.taskFinishtime,jdbcType=TIMESTAMP},
       task_user = #{record.taskUser,jdbcType=INTEGER},
       task_assigner = #{record.taskAssigner,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      taskinfo_id = #{record.taskinfoId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -282,6 +300,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="taskinfoId != null">
+        taskinfo_id = #{taskinfoId,jdbcType=INTEGER},
+      </if>
       <if test="taskDescribe != null">
         task_describe = #{taskDescribe,jdbcType=LONGVARCHAR},
       </if>
@@ -296,6 +317,7 @@
       task_user = #{taskUser,jdbcType=INTEGER},
       task_assigner = #{taskAssigner,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
+      taskinfo_id = #{taskinfoId,jdbcType=INTEGER},
       task_describe = #{taskDescribe,jdbcType=LONGVARCHAR}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
@@ -306,7 +328,8 @@
       task_finishtime = #{taskFinishtime,jdbcType=TIMESTAMP},
       task_user = #{taskUser,jdbcType=INTEGER},
       task_assigner = #{taskAssigner,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      taskinfo_id = #{taskinfoId,jdbcType=INTEGER}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
 </mapper>

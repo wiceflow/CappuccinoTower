@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.ProjectList;
 import com.pojo.Project;
 import java.util.List;
 
@@ -12,14 +13,14 @@ public interface ProjectService {
      * @param project 项目实体类
      * @return 返回0代表失败，1代表成功
      */
-    int addProject(Project project,List<Integer> uId);
+    Project addProject(Project project, List<Integer> uId);
 
     /**
      * 删除一个项目
-     * @param pId 根据什么来删除 （0代表ID，1代表项目名）
+     * @param project 根据什么来删除 （0代表ID，1代表项目名）
      * @return 返回0代表失败 1代表成功
      */
-    int deleteProject(int pId);
+    int deleteProject(Project project);
 
     /**
      * 更新一个项目
@@ -42,4 +43,9 @@ public interface ProjectService {
      * @return
      */
     List<Project> QueryList(int uId);
+
+    /**
+     * 将一个项目的相关信息全部遍历出来
+     */
+    public ProjectList projectALL(int pId, int uId);
 }

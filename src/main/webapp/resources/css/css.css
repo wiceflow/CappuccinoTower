@@ -1,0 +1,469 @@
+a {
+	text-decoration: none;
+	color: red;
+}
+.ssspan {
+	color: grey;
+}
+.schedulespan {
+	color: grey;
+}
+.jq22 {
+	width: 200px;
+	margin: 0 auto;
+	font-family: arial, SimSun;
+	font-size: 0;
+}
+.jq22 .module_item {
+	width: 100%;
+	margin-bottom: 20px;
+}
+.jq22 .module_item1 {
+	background-color: #1faeff;
+}
+.jq22 .module_item2 {
+	background-color: #ff2e12;
+}
+.jq22 .module_item3 {
+	background-color: #00c13f;
+}
+.jq22 .module_item4 {
+	background-color: #e1b700;
+}
+.jq22 .module_item5 {
+	background-color: #7200ac;
+}
+.jq22 span {
+	display: block;
+	height: 50px;
+	line-height: 50px;
+	font-size: 2rem;
+	text-align: center;
+	color: #fff;
+}
+* {
+	font-family: "微软雅黑"
+}
+#count_a {
+	width: 400px;
+	height: 100px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	border: 10px solid #7F8C8D;
+	-webkit-box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	box-orient: horizontal;
+	font-size: 20px;
+}
+#count_a div {
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-box-flex: 1;
+}
+#count_a1 {
+	background-color: gold;
+}
+#count_a2 {
+	background-color: orangered;
+}
+#count_a3 {
+	background-color: lightgreen;
+}
+a{
+	text-decoration: none;
+}
+
+*{
+	font-family: "微软雅黑";
+}
+
+/*周报总览滑动样式*/
+@import url("https://fonts.googleapis.com/css?family=Roboto:900");
+
+.centered {
+	color: #0abd6a;
+	background-color:#212121;
+	left: 50%;
+	top: 10%;
+	transform: translate(-50%, -50%);
+}
+
+.h-button {
+	background: #212121;
+	padding: 20px;
+	padding-left: 50px;
+	width: 170px;
+	text-align: center;
+	border:solid 1px  #0ABD6A;
+	border-radius: calc(10px);
+	margin-left:555px
+}
+.h-button span {
+	display: inline-block;
+	min-width: 0.3em;
+	text-transform: uppercase;
+	transition: 0.25s cubic-bezier(0.5, -1, 0.5, 2);
+	opacity: 0;
+	transform: translate(0, -20px);
+}
+.h-button:before {
+	content: attr(data-text);
+	position: absolute;
+	width:10px;
+	left: 0;
+	transition: 0.25s cubic-bezier(0.5, -1, 0.5, 2);
+	text-transform: uppercase;
+	letter-spacing: 3.5px;
+	opacity: 1;
+	transform: translate(0, 0px);
+}
+.h-button:hover:before, .h-button:focus:before {
+	opacity: 0;
+	transform: translate(0, 20px);
+}
+.h-button:hover span, .h-button:focus span {
+	opacity: 1;
+	transform: translate(0, 0);
+}
+.h-button:hover span:nth-child(1), .h-button:focus span:nth-child(1) {
+	transition-delay: 0.025s;
+
+}
+.h-button:hover span:nth-child(2), .h-button:focus span:nth-child(2) {
+	transition-delay: 0.05s;
+}
+.h-button:hover span:nth-child(3), .h-button:focus span:nth-child(3) {
+	transition-delay: 0.075s;
+}
+.h-button:hover span:nth-child(4), .h-button:focus span:nth-child(4) {
+	transition-delay: 0.1s;
+}
+.h-button:hover span:nth-child(5), .h-button:focus span:nth-child(5) {
+	transition-delay: 0.125s;
+}
+.h-button:hover span:nth-child(6), .h-button:focus span:nth-child(6) {
+	transition-delay: 0.15s;
+}
+/*周报总览滑动样式*/
+
+
+/*周报-按钮BUTTON的样式*/
+.report_btn{
+	background-color: #212121;
+	cursor: pointer;
+	color: #0abd6a;
+	padding: 2px;
+	font-size: 15px;
+	border-radius: 10px;
+	border: solid 2px #212121;
+	transition: box-shadow 0.5s ease,0.5s ease;
+}
+
+.report_btn:hover {
+	box-shadow: inset 0 0 0 2em #0abd6a;
+	color:black;
+}
+/*周报-按钮BUTTON的样式*/
+
+/*标题滑动*/
+.center {
+	text-align: center;
+	padding: 100px;
+
+}
+.container {
+	color: white;
+	position: relative;
+	display: inline-block;
+	padding-bottom:20px;
+	margin-top: 10px;         /*改这个可以调字在滑条的位置*/
+	margin-bottom: 0px;
+
+}
+.container:before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 70%;
+	z-index: -1;
+	content: '';
+
+
+
+}
+.container:hover::before {
+	border-radius: calc(10px);
+	animation: bg-animation 0.6s 1;
+	animation-fill-mode: forwards;
+	background-color: #0abd6a;  /*划过去的颜色*/
+
+}
+
+@keyframes bg-animation {
+	0% {
+		width: 10%;
+	}
+	100% {
+		width: 100%;
+	}
+}
+
+*{
+	font-family: "微软雅黑"
+}
+a{
+	text-decoration: none;
+	color: deepskyblue;
+}
+
+
+/*个人-按钮BUTTON的样式*/
+.personal_btn{
+	background-color: #212121;
+	cursor: pointer;
+	color: deepskyblue;
+	padding: 2px;
+	font-size: 15px;
+	border-radius: 10px;
+	border: solid 2px deepskyblue;
+	transition: box-shadow 0.5s ease, color 0.5s ease;
+}
+
+.personal_btn:hover {
+	box-shadow: inset 0 0 0 2em deepskyblue;
+	color:black;
+}
+
+/*标题滑动*/
+.center {
+	text-align: center;
+	padding: 100px;
+}
+.container {
+	position: relative;
+	display: inline-block;
+	padding-bottom: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+
+
+}
+.container:before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 100%;
+	z-index: -1;
+	content: '';
+
+
+}
+.container:hover::before {
+	border-radius: calc(10px);
+	animation: bg-animation 0.6s 1;
+	animation-fill-mode: forwards;
+	background-color: deepskyblue;  /*划过去的颜色*/
+
+}
+
+@keyframes bg-animation {
+	0% {
+		width: 10%;
+	}
+	100% {
+		width: 100%;
+	}
+}
+
+
+/*任务&所有项目圆圈下拉框*/
+*{
+	font-family: "微软雅黑"
+}
+
+.back {
+	position: fixed;
+	top: 210px;
+	left: 600px;
+	width: 100px;
+}
+.back ul {
+	display: block;
+	margin-bottom: 0;
+	list-style: none;
+}
+.back ul li {
+	white-space: nowrap;
+}
+.back ul li a {
+	text-decoration: none;
+}
+.back ul.nav-history {
+	padding-left: 36px;
+	padding-top: 25px;
+	pointer-events: none;
+}
+.back ul.nav-history li {
+	margin-bottom: 5px;
+}
+.back ul.nav-history li::after {
+	content: "";
+	position: absolute;
+	left: 12px;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	transform: scale(0.9);
+	transition: all 0.2s ease;
+}
+.back ul.nav-history li:not(:last-child)::before {
+	content: "";
+	position: absolute;
+	left: 17px;
+	margin-top: 10px;
+	width: 2px;
+	height: 28px;
+	background: #E8EAED;
+	transition: all 0.2s ease;
+}
+.back ul.nav-history li.active {
+	pointer-events: none;
+}
+.back ul.nav-history li.active::after {
+	background: #E8EAED;
+}
+.back ul.nav-history li.active a {
+	color: #5A667F;
+}
+.back ul.nav-history li a {
+
+	display: inline-block;
+	opacity: 0;
+	transform: translateY(-10px);
+	transition: all 0.2s ease;
+}
+.back ul.nav-history li a:hover {
+	color: #2770bf;
+}
+.back ul.nav-links {
+	position: absolute;
+	transform: translateY(-10px);
+	margin-top: 20px;
+	padding-left: 12px;
+	opacity: 0;
+	transition: all 0.2s ease;
+}
+.back ul.nav-links li:not(:last-child) {
+	margin-bottom: 5px;
+}
+.back ul.nav-links li a {
+	font-size: 14px;
+	font-weight: 600;
+	color: deepskyblue;
+	transition: color 0.2s ease;
+}
+.back ul.nav-links li a:hover {
+	color:mediumslateblue;
+}
+.back:hover {
+	width: auto;
+}
+.back:hover .menu-back {
+	opacity: 1;
+	transform: translateY(0);
+}
+.back:hover .btn-back div {
+	background: rgba(65, 138, 216, 0.25);
+}
+.back:hover .btn-back div svg path, .back:hover .btn-back div svg polyline {
+	stroke: #418AD8;
+}
+.back:hover .btn-back span {
+	transform: translateX(0);
+	opacity: 1;
+}
+.back:hover ul.nav-history {
+	transform: translateY(0);
+	pointer-events: auto;
+}
+.back:hover ul.nav-history li {
+	margin-bottom: 8px;
+}
+.back:hover ul.nav-history li::after {
+	background: #418AD8;
+	transform: translateY(6px);
+}
+.back:hover ul.nav-history li.active::after {
+	background: #5A667F;
+}
+.back:hover ul.nav-history li a {
+	opacity: 1;
+	transform: translateY(0);
+}
+.back:hover ul.nav-links {
+	position: relative;
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.btn-back {
+	display: inline-block;
+}
+.btn-back div {
+	position: relative;
+	z-index: 1;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: #E8EAED;
+	float: left;
+}
+.btn-back div svg {
+	fill: none;
+	transform: translate(10px, 7px);
+}
+.btn-back div svg path, .btn-back div svg polyline {
+	stroke: #9098A9;
+	stroke-width: 2;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+.btn-back span {
+	display: inline-block;
+	color: deepskyblue;
+	margin-left: 10px;
+	line-height: 34px;
+	opacity: 0;
+	transform: translateX(-20px);
+	transition: all 0.2s ease;
+}
+.btn-back:hover span {
+	color: deepskyblue;
+}
+
+.credit {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	text-decoration: none;
+	font-size: 14px;
+	letter-spacing: 0.04em;
+	color: white;
+	background: #C8CCD4;
+	padding: 6px 18px;
+	line-height: 1.5em;
+	border-radius: 5px;
+	transition: all 0.2s ease;
+}
+.credit:hover {
+	text-decoration: none;
+	background: #9098A9;
+	color: white;
+}
+/*任务&所有项目圆圈下拉框*/

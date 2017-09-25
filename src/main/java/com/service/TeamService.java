@@ -12,9 +12,10 @@ public interface TeamService {
     /**
      * 增加一个小组
      * @param team 小组实体类
+     * @param uId 用户ID
      * @return 返回0代表失败，1代表成功
      */
-    int addTeam(Team team);
+    int addTeam(Team team,int uId);
 
     /**
      * 删除一个小组
@@ -37,4 +38,6 @@ public interface TeamService {
      * @return 返回0代失败，1代表成功
      */
     List<Team> selectTeam(Team team,int i);
+
+    List<Team> Query();
 }

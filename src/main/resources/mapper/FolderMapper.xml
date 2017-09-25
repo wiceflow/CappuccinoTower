@@ -106,6 +106,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.Folder">
+    <selectKey keyProperty="folderId" order="AFTER" resultType="int">
+    SELECT LAST_INSERT_ID() AS folderId
+    </selectKey>
+
     insert into folder (folder_id, folder_name, file_id
       )
     values (#{folderId,jdbcType=INTEGER}, #{folderName,jdbcType=VARCHAR}, #{fileId,jdbcType=INTEGER}

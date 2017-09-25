@@ -3,9 +3,7 @@
 <html>
 <title>登录页面</title>
 <head>
-
-    <meta charset="utf-8"/>
-    <title></title>
+    <title>Tower登录</title>
     <script type="text/javascript" src="resources/js/jquery-3.1.1.js"></script>
     <link rel="stylesheet" href="resources/css/login.css"/>
     <link rel="stylesheet" type="text/css" href="resources/js/jquery-easyui-1.4.5/themes/default/easyui.css">
@@ -41,20 +39,22 @@
             var loginEmail = $("#loginEmail").val();
             var loginPsw = $("#loginPsw").val();
             $.post(
-                '${pageContext.request.contextPath}/User/login',
+                '${pageContext.request.contextPath}/user/login',
                 {
                     uEmail:loginEmail,
                     uPassword:loginPsw,
                     loginType:2
                 },
-                function (date, status) {
-                    if (date==0)
-                        alert("账号错误");
-                    else if (date==1)
+                function (date) {
+                    if (date.errcode==0)
+                        alert("date.info");
+                    else if (date.errcode==1)
                         alert("密码错误");
-                    else if (date==2)
-                        location.href = "usersetting.jsp";
-                }
+                    else if (date.errcode==2) {
+                        alert(date.data.uName+ " 欢迎您");
+                        location.href = "main.jsp";
+                    }
+                },"json"
             )
         }
         function register() {
