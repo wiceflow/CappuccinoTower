@@ -2,8 +2,6 @@ package com.service;
 
 import com.dto.General;
 import com.pojo.Dynamic;
-import com.pojo.Group;
-import com.pojo.User;
 
 import java.util.List;
 

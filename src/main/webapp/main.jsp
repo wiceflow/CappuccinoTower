@@ -29,10 +29,41 @@
                 $("#通知框").hide()
             })
             $(".icon-filter").tooltip()
+            // 第一次进来遍历所有团队
+            $.ajax({
+                type:"POST",
+                url:"/user/queryTeam",
+                dataType:"json",
+                success : function (result) {
+                    alert("成功")
+                    $.each(result.data,function (n,v) {
+                        var op="<option value="+v.tId+">"+v.tName+"</option>"
+                        $("#select1_1").append(op);
+                    })
+
+                },
+                error:function () {
+                    alert("错错错")
+                }
+            })
+            // 切换团队
+            $("#select1_1").change(function () {
+                alert($("#select1_1").val());
+                $.ajax({
+                    type:"POST",
+                    url:"/user/changeTeam",
+                    dataType:"json",
+                    data:{
+                        tId:$("#select1_1").val(),
+                    },
+                    success:function (result) {
+                        alert("切换团队成功");
+                    }
+                })
+            })
         })
 
         function godynamic() {
-            alert($("#select1_1").val());
             $.ajax({
                 type:"Post",
                 url:"/dynamic/DynamicList",
@@ -52,42 +83,36 @@
                     alert("生成动态列表失败11111");
                 }
             })
-
-
         }
 
-        $(document).ready(function () {
-            $("#下拉菜单")
-            $.ajax({
-                type:"POST",
-                url:"/team/TeamByUid",
-                dataType:"json",
-                data:{
-                    uId:${user.uId},
-                },
-                success : function (result) {
-                    $.each(result.data,function (n,v) {
-                        var op="<option value="+v.tId+">"+v.tName+"</option>"
-                        $("#select1_1").append(op);
-                    })
-
-                },
-                error:function () {
-                    alert("错错错")
-                }
-            })
-
-        })
-
-        $("#select1_1").change(function () {
-            alert($("#select1_1").val());
-            $.ajax({
-                type:"POST",
-                url:""
-            })
-        })
     </script>
 
+    <%--跳转到团队界面--%>
+    <script type="text/javascript">
+        function goteam() {
+            $.ajax({
+                type:"Post",
+                url:"/userandteam/judgeUser",
+                dataType:"json",
+                data:{
+                    tId:$('#select1_1').val(),
+                },
+                success:function (result) {
+                    if(result.errcode){
+                        if(result.data.type==1){
+                            location.href = "team/teamformanger.jsp?tId="+result.data.tId+"";
+                        }
+                        if(result.data.type==0){
+                            location.href = "team/teamfornumber.jsp?tId="+result.data.tId+"";
+                        }
+                    }
+                },
+                error:function () {
+                    alert("跳转到团队失败了");
+                }
+            })
+        }
+    </script>
     <style>
         iframe{
             position: absolute;height: 1000px;width: 1100px;
@@ -117,7 +142,7 @@
     		<a href="#" style="color: coral;margin-left: 40px;">项目</a>
             <button onclick=godynamic() style="color: coral;margin-left: 40px;">动态</button>
     		<a href="#" style="color: coral;margin-left: 40px;">周报</a>
-    		<a href="#" style="color: coral;margin-left: 40px;">团队</a>
+    		<button onclick=goteam()>团队</button>
     		<a href="#" style="color: coral;margin-left: 40px;">我自己</a>
     		<a href="#" style="color: coral;margin-left: 40px;">知人</a>
     		<a href="#" style="color: coral;margin-left: 40px;">升级到Pro</a>

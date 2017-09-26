@@ -1,0 +1,13 @@
+
+[class*='icono'] {
+  color: pink;
+  opacity:0.8;
+}
+i {
+  padding: 0px;
+ 
+}
+i:hover {
+  transform: scale(1.5);
+   opacity: 1;
+}

@@ -23,17 +23,8 @@ public class WeeklyServiceImpl implements WeeklyService {
     @Autowired
     WeeklyMapper weeklyMapper;
 
-    public int addWeekly(Weekly weekly, int i) {
-        TimeGetTrans timeGetTrans = new TimeGetTrans();
-        weekly.setwTime(timeGetTrans.getTime());
-        if (i == 0) {
-            int wId = weeklyMapper.insert(weekly);
-            if (wId != 0) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
+    public int addWeekly(Weekly weekly) {
+        weeklyMapper.insert(weekly);
         return weekly.getWeeklyId();
     }
 
@@ -56,17 +47,28 @@ public class WeeklyServiceImpl implements WeeklyService {
         }
     }
 
-    public List<Weekly> selsectWeekly(Weekly weekly, int i) {
+    public List<Weekly> selectWeekly(Weekly weekly, int i) {
         //根据日期查询周报
         if(i==0){
             WeeklyExample weeklyExample = new WeeklyExample();
             //前台传入日期需大于等于所在周的周一，小于下一周周一的时间
             weeklyExample.createCriteria().andWTimeGreaterThanOrEqualTo(
                     DateHelper.getMonday(weekly.getwTime())).andWTimeLessThan(
-                    DateHelper.getNextMonday(weekly.getwTime()));
+                    DateHelper.getNextMonday(weekly.getwTime())).andTIdEqualTo(weekly.gettId());
             List<Weekly> weeklies = weeklyMapper.selectByExample(weeklyExample);
             if(weeklies!=null||weeklies.size()!=0){
                 return weeklies;
+            }else{
+                return null;
+            }
+        }
+        //根据团队id查询当前团队是否有周报
+        else if(i==1){
+            WeeklyExample weeklyExample = new WeeklyExample();
+            weeklyExample.createCriteria().andTIdEqualTo(weekly.gettId());
+            List<Weekly> weeklies1 = weeklyMapper.selectByExample(weeklyExample);
+            if(weeklies1!=null||weeklies1.size()!=0){
+                return weeklies1;
             }else{
                 return null;
             }

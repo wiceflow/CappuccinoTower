@@ -2,6 +2,7 @@ package com.controller;
 
 import com.pojo.Team;
 import com.pojo.User;
+import com.service.TeamService;
 import com.service.UserService;
 import com.util.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +27,9 @@ public class UserController {
     //注入依赖[UserService]
     @Autowired
     private UserService userService;
-
+    //注入依赖[TeamService]
+    @Autowired
+    private TeamService teamService;
 
     /**
      * 这里不用 [User] 做返回值的原因是，怕就算密码错误返回了一个JSON到前台比人还是可以查看到整个用户信息
@@ -48,8 +52,11 @@ public class UserController {
             //对比用户输入的密码是否与数据库存储的密码相同,相同则返回 2 [2代表登录成功，将用户信息存入seesion]
             if (user.getuPassword().equals(user1.getuPassword())) {
                 request.getSession().setAttribute("user", user1);
-                System.out.println(user1.toString());
-                System.out.println();
+                List<Team> teamList = teamService.selectTeam(user1.getuId());
+                for (Team t : teamList){
+                    System.out.println(t.toString());
+                }
+                request.getSession().setAttribute("team",teamList.get(0));
                 return new AjaxResult(2,"登陆成功",user1);
             }
             //若用户输入密码与数据库读取的密码不同，则返回 1 [1代表密码错误，返回页面显示登录失败]
@@ -101,4 +108,41 @@ public class UserController {
             System.out.println("错误的操作,用户信息错误,将其赶回登录界面");
         }
     }
+
+    /**
+     * 获取所有团队
+     * @return
+     */
+    @RequestMapping(value = "queryTeam", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult queryTeam(){
+        List<Team> teamList = teamService.selectAll();
+        return new AjaxResult(1,"获取全部团队成功",teamList);
+    }
+
+    /**
+     * 变换团队
+     * @param tId
+     * @param request
+     */
+    @RequestMapping(value = "changeTeam", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult changeTeam(@RequestParam("tId")int tId,HttpServletRequest request){
+        System.out.println("进入了changeTeam------>Controller");
+        List<Team> teamList = teamService.selectAll();
+        int i=0;
+        for (Team team : teamList){
+            if (team.gettId()==tId){
+                request.getSession().setAttribute("team",team);
+                teamList.add(0,teamList.remove(i));
+                System.out.println(team.toString());
+                return new AjaxResult(1,"成功");
+            }
+            i++;
+        }
+        teamService.backAll(teamList);
+
+        return new AjaxResult(0,"失败");
+    }
+
 }

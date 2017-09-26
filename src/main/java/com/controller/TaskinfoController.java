@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -43,12 +45,12 @@ public class TaskinfoController {
      * @return
      */
     @RequestMapping(value = "addTaskInfo")
-    public AjaxResult addTaskInfo(Taskinfo taskinfo, HttpServletRequest request){
-        int pId = new ObtainSession(request).getProject().getpId();
+    @ResponseBody
+    public AjaxResult addTaskInfo(@RequestParam("pId")int pId, Taskinfo taskinfo, HttpServletRequest request){
+        //从session中取出user 的 id
+        taskinfo.setTaskinfoUser(new ObtainSession(request).getUser().getuId());
         //调用addTaskinfo方法   --> 返回了任务清单的ID
         taskinfo = taskinfoService.addTaskinfo(taskinfo,pId);
-        //TODO 将刚创建的任务清单对象存入session中
-        request.getSession().setAttribute("taskinfo",taskinfo);
         int i = taskinfo.getTaskinfoId();
         if(taskinfo==null){
             _LOG.error("向数据库插入数据失败");
@@ -57,7 +59,7 @@ public class TaskinfoController {
         //动态操作
         DynamicTool d = new DynamicTool(i,"taskinfo","新建了一个任务清单",request,dynamicService);
         d.newDynamic();
-        return new AjaxResult(1,"新增任务清单成功");
+        return new AjaxResult(1,"新增任务清单成功",taskinfo);
     }
 
     /**
@@ -117,9 +119,10 @@ public class TaskinfoController {
      */
     //TODO 到时候返回一个Map 封装成JSON
     @RequestMapping(value = "taskInfoList")
-    public AjaxResult TaskInfoList (HttpServletRequest request){
-        //调用querylist方法将所有任务清单取出
-        List<Taskinfo> taskinfoList = taskinfoService.QueryList();
+    @ResponseBody
+    public AjaxResult TaskInfoList (HttpServletRequest request,@RequestParam("pId")int pId){
+        //根据项目id  调用querylist方法将所有任务清单取出
+        List<Taskinfo> taskinfoList = taskinfoService.QueryList(pId);
         if (taskinfoList==null||taskinfoList.size()==0) {
             _LOG.error("读取到的任务清单列表为空");
             //返回0，表示返回任务清单列表失败
@@ -127,7 +130,7 @@ public class TaskinfoController {
         }
         // 以Map格式返回JSOn数据
         //返回0，表示返回任务清单列表成功
-        return new AjaxResult(1,"返回任务清单列表成功");
+        return new AjaxResult(1,"返回任务清单列表成功",taskinfoList);
     }
 
     /**

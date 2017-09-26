@@ -5,12 +5,13 @@ import com.service.DynamicService;
 import com.service.FolderService;
 import com.util.AjaxResult;
 import com.util.DynamicTool;
-import org.json.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -30,9 +31,10 @@ public class FolderController {
     private DynamicService dynamicService;
 
     @RequestMapping(value = "AddFolder",method = RequestMethod.POST)
-    public AjaxResult AddFolder(Folder folder, HttpServletRequest request){
+    @ResponseBody
+    public AjaxResult AddFolder(Folder folder, HttpServletRequest request, @RequestParam("pId")int pId){
         try{
-            int folderid = folderService.addFolder(folder);
+            int folderid = folderService.addFolder(folder,pId);
             request.getSession().setAttribute("folderid",folderid);
             int i = folderid;
             //动态操作
@@ -50,7 +52,7 @@ public class FolderController {
 
     @RequestMapping(value = "FolderList",method = RequestMethod.GET)
     public AjaxResult FolderList(HttpServletRequest request){
-        List<Folder> folderList = folderService.QueryList();
+        List<Folder> folderList = folderService.QueryList(1);
         request.getSession().setAttribute("folderList",folderList);
         return new AjaxResult(1,"取出文件夹列表成功");
     }

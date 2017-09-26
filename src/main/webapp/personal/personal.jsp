@@ -18,6 +18,24 @@
     <script type="text/javascript" src="../resources/js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
 
     <script type="text/javascript">
+        /**
+         * 获取url中指定变量的值
+         * @param paramName [String]变量名
+         **/
+        function getParam(paramName) {
+            // 第二个是可选参数：i表示匹配时大小写不敏感、g表示匹配到一次就停止、m表示多次匹配
+            var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)","i");
+            // substr(1)表示从下标1开始截取字符串，相当于删除第一个字符
+            var result = window.location.search.substr(1).match(reg);
+            if(result != null) {
+                // 中文解码
+                return decodeURI(result[2]);
+            } else {
+                return null;
+            }
+        }
+
+
         $(document).ready(function() {
 
             $("#writereport_hide").hide()
@@ -154,6 +172,35 @@
                 $("#personal_a5").css("color", "deepskyblue")
             });
         });
+
+        //添加周报
+        function addWeekly() {
+            $.ajax({
+                type:"Post",
+                url:"/weekly/addWeekly",
+                dataType:"json",
+                data:{
+                    wTime:getParam("wTime"),
+                    wSummary:$("#text1").val(),
+                    wChallenge:$("#text2").val(),
+                    wTarget:$("#text3").val(),
+                    wMethod:$("#text4").val(),
+                },
+                success:function (result) {
+                    if(result.errcode==1){
+                        alert("添加周报成功")
+                        location.href="../weekly/weekly.jsp";
+                    }else if(result.errcode==2){
+                        alert("周报已存在");
+                    }else if(result.errcode==0){
+                        alert("添加失败");
+                    }
+                },
+                error:function (result) {
+                  alert("啊啊啊");
+                }
+            })
+        }
     </script>
 </head>
 
@@ -232,18 +279,18 @@
     </div>
 
     <p style="color: lightgrey;font-weight: bold;">本周工作成果总结，说说你对自己点赞或失望的地方。</p>
-    <textarea placeholder="我这周表现很棒" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size: 15px;"></textarea>
+    <textarea id="text1" placeholder="我这周表现很棒" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size: 15px;"></textarea>
     <p style="color:lightgrey;font-weight: bold;	">有遇到挑战或者困难么？希望团队怎么帮助你？</p>
-    <textarea placeholder="没有困难" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size: 15px;"></textarea>
+    <textarea id="text2" placeholder="没有困难" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size: 15px;"></textarea>
     <p style="color: lightgrey;	font-weight: bold;">下周的工作目标是什么？只许说一个。</p>
-    <textarea placeholder="晋级总经理" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size: 15px;"></textarea>
+    <textarea id="text3" placeholder="晋级总经理" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size: 15px;"></textarea>
     <p style="color: lightgrey;font-weight: bold;">你觉得采取哪些措施，会对你提升工作效率有帮助？</p>
-    <textarea placeholder="加班" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size:15px;"></textarea>
+    <textarea id="text4" placeholder="加班" style="color: deepskyblue; background-color: #212121; resize:none;border-radius: calc(5px); height:25px;width: 400px;font-size:15px;"></textarea>
 
     <br>
     <br>
 
-    <button class="personal_btn">发布周报</button>
+    <button id="ReleaseWeekly" class="personal_btn" onclick="addWeekly()">发布周报</button>
     <button class="personal_btn">取消</button>
     <div class="menu-sep" style="margin-left: 0px;margin-top: 20px;margin-bottom: 20px;"></div>
     <img src="img/fzl4.jpg" height="50px" />

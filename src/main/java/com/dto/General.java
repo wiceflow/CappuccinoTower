@@ -17,6 +17,15 @@ public class General {
     private String tName; //团队名
     private Date date; //日期
     private String action; //操作
+    private Date wTime; //周报时间
+
+    public Date getwTime() {
+        return wTime;
+    }
+
+    public void setwTime(Date wTime) {
+        this.wTime = wTime;
+    }
 
     public String getAction() {
         return action;

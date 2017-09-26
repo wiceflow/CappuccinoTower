@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dao.TatalfileMapper">
-  <resultMap id="BaseResultMap" type="com.pojo.Tatalfile">
-    <id column="totalfile_id" jdbcType="INTEGER" property="totalfileId" />
-    <result column="folder_id" jdbcType="INTEGER" property="folderId" />
-    <result column="file_id" jdbcType="INTEGER" property="fileId" />
+<mapper namespace="com.dao.GroupofteamMapper">
+  <resultMap id="BaseResultMap" type="com.pojo.Groupofteam">
+    <id column="g_id" jdbcType="INTEGER" property="gId" />
+    <result column="t_id" jdbcType="INTEGER" property="tId" />
+    <result column="g_name" jdbcType="VARCHAR" property="gName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    totalfile_id, folder_id, file_id
+    g_id, t_id, g_name
   </sql>
-  <select id="selectByExample" parameterType="com.pojo.TatalfileExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pojo.GroupofteamExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tatalfile
+    from groupofteam
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,67 +92,71 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tatalfile
-    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
+    from groupofteam
+    where g_id = #{gId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tatalfile
-    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
+    delete from groupofteam
+    where g_id = #{gId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pojo.TatalfileExample">
-    delete from tatalfile
+  <delete id="deleteByExample" parameterType="com.pojo.GroupofteamExample">
+    delete from groupofteam
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pojo.Tatalfile">
-    insert into tatalfile (totalfile_id, folder_id, file_id
+  <insert id="insert" parameterType="com.pojo.Groupofteam">
+    <!-- 新增项目的时候返回此次的自增ID -->
+    <selectKey keyProperty="gId" order="AFTER" resultType="int">
+      SELECT LAST_INSERT_ID() AS gId
+    </selectKey>
+    insert into groupofteam (g_id, t_id, g_name
       )
-    values (#{totalfileId,jdbcType=INTEGER}, #{folderId,jdbcType=INTEGER}, #{fileId,jdbcType=INTEGER}
+    values (#{gId,jdbcType=INTEGER}, #{tId,jdbcType=INTEGER}, #{gName,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.pojo.Tatalfile">
-    insert into tatalfile
+  <insert id="insertSelective" parameterType="com.pojo.Groupofteam">
+    insert into groupofteam
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="totalfileId != null">
-        totalfile_id,
+      <if test="gId != null">
+        g_id,
       </if>
-      <if test="folderId != null">
-        folder_id,
+      <if test="tId != null">
+        t_id,
       </if>
-      <if test="fileId != null">
-        file_id,
+      <if test="gName != null">
+        g_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="totalfileId != null">
-        #{totalfileId,jdbcType=INTEGER},
+      <if test="gId != null">
+        #{gId,jdbcType=INTEGER},
       </if>
-      <if test="folderId != null">
-        #{folderId,jdbcType=INTEGER},
+      <if test="tId != null">
+        #{tId,jdbcType=INTEGER},
       </if>
-      <if test="fileId != null">
-        #{fileId,jdbcType=INTEGER},
+      <if test="gName != null">
+        #{gName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pojo.TatalfileExample" resultType="java.lang.Long">
-    select count(*) from tatalfile
+  <select id="countByExample" parameterType="com.pojo.GroupofteamExample" resultType="java.lang.Long">
+    select count(*) from groupofteam
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tatalfile
+    update groupofteam
     <set>
-      <if test="record.totalfileId != null">
-        totalfile_id = #{record.totalfileId,jdbcType=INTEGER},
+      <if test="record.gId != null">
+        g_id = #{record.gId,jdbcType=INTEGER},
       </if>
-      <if test="record.folderId != null">
-        folder_id = #{record.folderId,jdbcType=INTEGER},
+      <if test="record.tId != null">
+        t_id = #{record.tId,jdbcType=INTEGER},
       </if>
-      <if test="record.fileId != null">
-        file_id = #{record.fileId,jdbcType=INTEGER},
+      <if test="record.gName != null">
+        g_name = #{record.gName,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -160,30 +164,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tatalfile
-    set totalfile_id = #{record.totalfileId,jdbcType=INTEGER},
-      folder_id = #{record.folderId,jdbcType=INTEGER},
-      file_id = #{record.fileId,jdbcType=INTEGER}
+    update groupofteam
+    set g_id = #{record.gId,jdbcType=INTEGER},
+      t_id = #{record.tId,jdbcType=INTEGER},
+      g_name = #{record.gName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Tatalfile">
-    update tatalfile
+  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Groupofteam">
+    update groupofteam
     <set>
-      <if test="folderId != null">
-        folder_id = #{folderId,jdbcType=INTEGER},
+      <if test="tId != null">
+        t_id = #{tId,jdbcType=INTEGER},
       </if>
-      <if test="fileId != null">
-        file_id = #{fileId,jdbcType=INTEGER},
+      <if test="gName != null">
+        g_name = #{gName,jdbcType=VARCHAR},
       </if>
     </set>
-    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
+    where g_id = #{gId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pojo.Tatalfile">
-    update tatalfile
-    set folder_id = #{folderId,jdbcType=INTEGER},
-      file_id = #{fileId,jdbcType=INTEGER}
-    where totalfile_id = #{totalfileId,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.pojo.Groupofteam">
+    update groupofteam
+    set t_id = #{tId,jdbcType=INTEGER},
+      g_name = #{gName,jdbcType=VARCHAR}
+    where g_id = #{gId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -58,6 +58,10 @@ public class DynamicServiceImpl implements DynamicService {
     @Autowired
     TeamMapper teamMapper;
 
+    //注入周报表
+    @Autowired
+    WeeklyMapper weeklyMapper;
+
 
     /**
      * 新增一条动态信息
@@ -66,7 +70,6 @@ public class DynamicServiceImpl implements DynamicService {
      */
     public int addDynamic(Dynamic dynamic) {
         try{
-            System.out.println(dynamic.toString());
             dynamicMapper.insert(dynamic);
             return 1;
         }catch (Exception e){
@@ -151,6 +154,11 @@ public class DynamicServiceImpl implements DynamicService {
                     Team team = teamMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
                     general.settName(team.gettName());
                     generalList.add(general);
+                }else if(table.equals("weekly")){
+                    //若对weekly表进行操作，则根据beOperated查询weekly
+                    Weekly weekly = weeklyMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
+                    general.setwTime(weekly.getwTime());
+                    generalList.add(general);
                 }
             }
             return generalList;
@@ -202,9 +210,13 @@ public class DynamicServiceImpl implements DynamicService {
                     Team team = teamMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
                     general.settName(team.gettName());
                     generalList.add(general);
+                }else if(table.equals("weekly")){
+                    //若对weekly表进行操作，则根据beOperated查询weekly
+                    Weekly weekly = weeklyMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
+                    general.setwTime(weekly.getwTime());
+                    generalList.add(general);
                 }
             }
-            System.out.println(generalList+"---------列表");
             return generalList;
         }
         return null;
@@ -259,6 +271,11 @@ public class DynamicServiceImpl implements DynamicService {
                 //若对team表进行操作，则根据beOperated查询team
                 Team team = teamMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
                 general.settName(team.gettName());
+                generalList.add(general);
+            }else if(table.equals("weekly")){
+                //若对weekly表进行操作，则根据beOperated查询weekly
+                Weekly weekly = weeklyMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
+                general.setwTime(weekly.getwTime());
                 generalList.add(general);
             }
         }

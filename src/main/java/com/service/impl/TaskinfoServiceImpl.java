@@ -115,10 +115,10 @@ public class TaskinfoServiceImpl implements TaskinfoService {
      *
      * @return
      */
-    public List<Taskinfo> QueryList() {
-
+    public List<Taskinfo> QueryList(int pId) {
+        //根据项目Id，对任务清单进行遍历
         TaskinfoExample taskinfoExample = new TaskinfoExample();
-        taskinfoExample.setDistinct(false);
+        taskinfoExample.createCriteria().andPIdEqualTo(pId);
         List<Taskinfo> list = taskinfoMapper.selectByExample(taskinfoExample);
         if (list == null || list.size() == 0) {
             return null;

@@ -39,14 +39,10 @@ public class TaskController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "AddTask",method = RequestMethod.POST)
-    // aa用来判断是从清单里添加还是直接添加的任务  aa=1是从清单里创建任务   aa=0是直接创建任务
+    @RequestMapping(value = "AddTask")
     // TODO 优化参数  重设返回值
-    public AjaxResult addTask(Task task, HttpServletRequest request, String taskinfoid, int aa){
-        if(aa==1)
-        {
-            task.setTaskinfoId(Integer.valueOf(taskinfoid));
-        }
+    public AjaxResult addTask(Task task, HttpServletRequest request){
+
         // 返回此次新增任务的ID
         int i = taskService.addTask(task);
         if (i==0){

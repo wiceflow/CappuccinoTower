@@ -44,8 +44,10 @@ public class ObtainSession {
     }
     public Team getTeam(){
         team = (Team) session.getAttribute("team");
-        if (team==null)
+        if (team==null) {
             _LOG.error("从session中获取Team对象出错,为空");
+            return null;
+        }
         return this.team;
     }
     public Project getProject(){

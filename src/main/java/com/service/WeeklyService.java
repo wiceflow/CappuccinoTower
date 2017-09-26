@@ -12,10 +12,9 @@ public interface WeeklyService {
     /**
      * 增加一个周报
      * @param weekly 周报实体类
-     * @param i 周报ID
      * @return 返回1代表成功，0代表失败
      */
-    int addWeekly(Weekly weekly,int i);
+    int addWeekly(Weekly weekly);
 
 
     /**
@@ -38,7 +37,7 @@ public interface WeeklyService {
      * @param i 根据什么查询
      * @return 返回1代表成功，0代表失败
      */
-    List<Weekly> selsectWeekly(Weekly weekly,int i);
+    List<Weekly> selectWeekly(Weekly weekly,int i);
 
     List<Weekly> Query();
 }

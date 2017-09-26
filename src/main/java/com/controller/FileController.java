@@ -4,6 +4,7 @@ import com.service.DynamicService;
 import com.service.FileService;
 import com.util.AjaxResult;
 import com.util.DynamicTool;
+import com.util.ObtainSession;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,10 +49,15 @@ public class FileController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "uploadfile", method = RequestMethod.POST)
-    public AjaxResult doUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
-
-        if (file.isEmpty()) {
+    @RequestMapping(value = "uploadfile")
+    @ResponseBody
+    public AjaxResult doUpload(@RequestParam(value = "file",required = false) MultipartFile file, HttpServletRequest request) throws IOException {
+        System.out.println("进入上传文件的conlller");
+        int pId=new ObtainSession(request).getProject().getpId();
+        System.out.println("得到项目id"+pId);
+        if (!file.isEmpty()) {
+            System.out.println("进入了file");
+            //获取文件名
             String fileName = file.getOriginalFilename();
             // 获取存放路径
             String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/";
@@ -58,7 +65,7 @@ public class FileController {
             file1.setFileUrl(filePath);
             file1.setFileName(fileName);
             // 将文件数据存入数据库
-            file1 = fileService.addFile(file1);
+            file1 = fileService.addFile(file1,pId);
             if(file1!=null){
                 _LOG.info("FileController中把文件存入数据库成功！");
                 //动态-->将操作信息存入动态表
@@ -75,7 +82,7 @@ public class FileController {
                 throw new IOException();
             }
             //返回1，表示上传成功
-            return new AjaxResult(1,"上传成功");
+            return new AjaxResult(1,"上传成功",file1);
         }
         //返回0，表示上传失败
         return new AjaxResult(0,"上传失败");
@@ -89,7 +96,7 @@ public class FileController {
     @RequestMapping(value = "listfile")
     public AjaxResult listfile(HttpServletRequest request){
         // 返回所有的file
-        List<com.pojo.File> fileList = fileService.QueryList();
+        List<com.pojo.File> fileList = fileService.QueryList(1);
         if (fileList==null||fileList.size()==0){
             _LOG.error("取出文件列表时候为空");
             throw new NullPointerException();

@@ -2,8 +2,9 @@ package com.service.impl;
 
 import com.dao.DiscusMapper;
 import com.dao.ProjectMapper;
-import com.dao.TatalfileMapper;
+
 import com.dao.TeamMapper;
+import com.dao.TotalfileMapper;
 import com.dto.ProjectList;
 import com.pojo.*;
 import com.service.*;
@@ -34,7 +35,7 @@ public class ProjectServiceImpl implements ProjectService {
     DiscusMapper discusMapper;
     // 注入TatalfileMapper依赖 [对数据库TatalfileMapper表进行操作的Dao层]
     @Autowired
-    TatalfileMapper tatalfileMapper;
+    TotalfileMapper totalfileMapper;
     // 注入TeamService依赖
     @Autowired
     TeamService teamService;
@@ -102,7 +103,7 @@ public class ProjectServiceImpl implements ProjectService {
             }
             // 如果文件不为空，则删除文件总表
             if (project.getfTotalid()!=null){
-                tatalfileMapper.deleteByPrimaryKey(project.getfTotalid());
+                totalfileMapper.deleteByPrimaryKey(project.getfTotalid());
             }
             return 1;
         } catch (Exception e) {

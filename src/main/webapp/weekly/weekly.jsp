@@ -29,6 +29,24 @@
     <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript">
         /**
+         * 获取url中指定变量的值
+         * @param paramName [String]变量名
+         **/
+        function getParam(paramName) {
+            // 第二个是可选参数：i表示匹配时大小写不敏感、g表示匹配到一次就停止、m表示多次匹配
+            var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)","i");
+            // substr(1)表示从下标1开始截取字符串，相当于删除第一个字符
+            var result = window.location.search.substr(1).match(reg);
+            if(result != null) {
+                // 中文解码
+                return decodeURI(result[2]);
+            } else {
+                return null;
+            }
+        }
+
+
+        /**
          * 把毫秒级时间转换成字符串,保留时分秒
          * 格式：yyyy年MM月dd日 hh点mm分ss秒
          * @param date
@@ -58,7 +76,7 @@
             return dateStr.toLocaleString();
         }
         $(document).ready(function(){
-
+            //页面加载时显示当前日期所在周
             $.ajax({
                 type:"Post",
                 url:"/weekly/weekByday",
@@ -74,6 +92,44 @@
                 },
                 error:function (result) {
                     alert("查询失败！！！！");
+                }
+            })
+
+            //页面加载完成，显示当前日期所在周的周报
+            var a = $("#time1").val();
+            $.ajax({
+                type:"POST",
+                url:"/weekly/selectWeekly",
+                dataType:"json",
+                data:{
+                    wTime:a,
+                },
+                success:function (result) {
+                    if(result.errcode==1){
+                        //每次点击日期后清空
+                        $("#aa1").empty();
+                        $("#aa2").empty();
+                        $("#aa3").empty();
+                        $("#aa4").empty();
+                        {
+                            //在指定问题后输出周报内容
+                            $("#aa1").append(result.data.wSummary),
+                                $("#aa2").append(result.data.wChallenge),
+                                $("#aa3").append(result.data.wTarget),
+                                $("#aa4").append(result.data.wMethod)
+
+                        }
+                    }else if(result.errcode==0){
+                        $("#aa1").empty();
+                        $("#aa2").empty();
+                        $("#aa3").empty();
+                        $("#aa4").empty();
+                    }else if(result.errcode==2){
+                        alert("该团队没有创建周报");
+                    }
+                },
+                error:function (result) {
+                    alert("周报不存在");
                 }
             })
             $('#report_setting').hide()
@@ -141,6 +197,7 @@
 
         })
 
+        //选择日期，显示该日期所在周的周报
             function aaa() {
                 var a = $("#time1").val();
                 $.ajax({
@@ -165,6 +222,13 @@
                                     $("#aa4").append(result.data.wMethod)
 
                             }
+                        }else if(result.errcode==0){
+                            $("#aa1").empty();
+                            $("#aa2").empty();
+                            $("#aa3").empty();
+                            $("#aa4").empty();
+                        }else if(result.errcode==2){
+                            alert("该团队没有创建周报");
                         }
                     },
                     error:function (result) {
@@ -172,6 +236,7 @@
                     }
                 })
 
+                //根据所选日期查询该日期所在周
                 $.ajax({
                     type:"Post",
                     url:"/weekly/weekByday",
@@ -193,6 +258,7 @@
                 })
             }
 
+            //将所选日期的周报显示在输入框中
             function bbb() {
                 var a = $("#time1").val();
             $.ajax({
@@ -217,6 +283,8 @@
                                 $("#tx4").append(result.data.wMethod)
 
                         }
+                    }else if(result.errcode==2){
+                        alert("该团队没有创建周报");
                     }
                 },
                 error:function (result) {
@@ -225,6 +293,7 @@
             })
             }
 
+            //点击更新周报后，将更新内容传入后台进行更新
             function ccc() {
                 $.ajax({
                     type:"Post",
@@ -248,6 +317,11 @@
                 })
             }
 
+            //跳转至添加周报页面
+            function goaddweekly() {
+                var a=$("#time1").val();
+                location.href="../personal/personal.jsp?wTime=" + a ;
+            }
 
     </script>
 </head>
@@ -289,7 +363,7 @@
 
 <div style="text-align: right;margin-top: -180px;">
 
-    <a href="/personal/personal.jsp" class="report_btn">写周报</a>
+    <a onclick="goaddweekly()" class="report_btn">写周报</a>
 
 </div>
 <div class="menu-sep" style="margin-top: 130px;"></div>

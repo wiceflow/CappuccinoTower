@@ -1,8 +1,8 @@
 package com.service.impl;
 
+import com.dao.ProjectMapper;
 import com.dao.TeamMapper;
-import com.pojo.Team;
-import com.pojo.Userandteam;
+import com.pojo.*;
 import com.service.TeamService;
 import com.service.UserandteamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,19 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     private UserandteamService userandteamService;
 
+    //注入ProjectMapper依赖
+    @Autowired
+    ProjectMapper projectMapper;
+
+    private static List<Team> teamList = new ArrayList<Team>();
+    public static List<Team> getTeamList() {
+        return teamList;
+    }
+    public static void setTeamList(List<Team> teamList) {
+        TeamServiceImpl.teamList = teamList;
+    }
+
+
     /**
      * 新增一个团队表
      * @param team 团队实体类
@@ -42,6 +55,10 @@ public class TeamServiceImpl implements TeamService {
         u.setType(1);
         // 插入新的用户与团队关系
         userandteamService.addUserandteam(u);
+        // 将新增的团队加入全局变量中
+        List<Team> t = getTeamList();
+        t.add(team);
+        setTeamList(t);
         return team.gettId();
     }
 
@@ -79,7 +96,72 @@ public class TeamServiceImpl implements TeamService {
         return null;
     }
 
+
+    /**
+     * 用户登录 根据用户ID查找出他所属的所有团队
+     * @param uId
+     * @return
+     */
+    public List<Team> selectTeam(int uId){
+        // 定义团队列表
+        List<Team> teamList = new ArrayList<Team>();
+
+        Userandteam u = new Userandteam();
+        u.setuId(uId);
+        List<Userandteam> userandteamList = userandteamService.selectUserandteam(u,0);
+        if (userandteamList==null||userandteamList.size()==0){
+            System.out.println("该用户没有团队");
+            return null;
+        }
+        // 循环遍历所有userandTeam联袂关系 查取所有团队
+        for (Userandteam ut : userandteamList){
+            Team team = teamMapper.selectByPrimaryKey(ut.gettId());
+            teamList.add(team);
+            System.out.println(team.toString());
+        }
+        // 将用户对应的团队列表保存起来
+        setTeamList(teamList);
+        return teamList;
+    }
+
+
+
     public List<Team> Query() {
+
+        return null;
+    }
+
+    /**
+     * 获取全部存在的团队信息
+     * @return
+     */
+    public List<Team> selectAll(){
+        return getTeamList();
+    }
+
+    /**
+     * 设置TeamList
+     * @param a
+     */
+    public void backAll(List<Team> a){
+        TeamServiceImpl.setTeamList(a);
+    }
+
+
+    /**
+     * 根据团队id查找所做的项目
+     * @param tId
+     * @return
+     */
+    public List<Project> ProjectByTid(int tId){
+        System.out.println("进入了ProjectByTid------>Service");
+        ProjectExample projectExample=new ProjectExample();
+        projectExample.createCriteria().andTIdEqualTo(tId);
+        //select * from project where tId=?
+        List<Project> projectList = projectMapper.selectByExample(projectExample);
+        if(projectList!=null&&projectList.size()!=0){
+            return projectList;
+        }
         return null;
     }
 }

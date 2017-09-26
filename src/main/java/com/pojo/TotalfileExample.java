@@ -3,7 +3,7 @@ package com.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupExample {
+public class TotalfileExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -14,7 +14,7 @@ public class GroupExample {
 
     private Integer offset;
 
-    public GroupExample() {
+    public TotalfileExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -124,123 +124,63 @@ public class GroupExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andGIdIsNull() {
-            addCriterion("g_id is null");
+        public Criteria andTotalfileIdIsNull() {
+            addCriterion("totalfile_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andGIdIsNotNull() {
-            addCriterion("g_id is not null");
+        public Criteria andTotalfileIdIsNotNull() {
+            addCriterion("totalfile_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGIdEqualTo(Integer value) {
-            addCriterion("g_id =", value, "gId");
+        public Criteria andTotalfileIdEqualTo(Integer value) {
+            addCriterion("totalfile_id =", value, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdNotEqualTo(Integer value) {
-            addCriterion("g_id <>", value, "gId");
+        public Criteria andTotalfileIdNotEqualTo(Integer value) {
+            addCriterion("totalfile_id <>", value, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdGreaterThan(Integer value) {
-            addCriterion("g_id >", value, "gId");
+        public Criteria andTotalfileIdGreaterThan(Integer value) {
+            addCriterion("totalfile_id >", value, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("g_id >=", value, "gId");
+        public Criteria andTotalfileIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("totalfile_id >=", value, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdLessThan(Integer value) {
-            addCriterion("g_id <", value, "gId");
+        public Criteria andTotalfileIdLessThan(Integer value) {
+            addCriterion("totalfile_id <", value, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdLessThanOrEqualTo(Integer value) {
-            addCriterion("g_id <=", value, "gId");
+        public Criteria andTotalfileIdLessThanOrEqualTo(Integer value) {
+            addCriterion("totalfile_id <=", value, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdIn(List<Integer> values) {
-            addCriterion("g_id in", values, "gId");
+        public Criteria andTotalfileIdIn(List<Integer> values) {
+            addCriterion("totalfile_id in", values, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdNotIn(List<Integer> values) {
-            addCriterion("g_id not in", values, "gId");
+        public Criteria andTotalfileIdNotIn(List<Integer> values) {
+            addCriterion("totalfile_id not in", values, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdBetween(Integer value1, Integer value2) {
-            addCriterion("g_id between", value1, value2, "gId");
+        public Criteria andTotalfileIdBetween(Integer value1, Integer value2) {
+            addCriterion("totalfile_id between", value1, value2, "totalfileId");
             return (Criteria) this;
         }
 
-        public Criteria andGIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("g_id not between", value1, value2, "gId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdIsNull() {
-            addCriterion("t_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdIsNotNull() {
-            addCriterion("t_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdEqualTo(Integer value) {
-            addCriterion("t_id =", value, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdNotEqualTo(Integer value) {
-            addCriterion("t_id <>", value, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdGreaterThan(Integer value) {
-            addCriterion("t_id >", value, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("t_id >=", value, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdLessThan(Integer value) {
-            addCriterion("t_id <", value, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdLessThanOrEqualTo(Integer value) {
-            addCriterion("t_id <=", value, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdIn(List<Integer> values) {
-            addCriterion("t_id in", values, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdNotIn(List<Integer> values) {
-            addCriterion("t_id not in", values, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdBetween(Integer value1, Integer value2) {
-            addCriterion("t_id between", value1, value2, "tId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("t_id not between", value1, value2, "tId");
+        public Criteria andTotalfileIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("totalfile_id not between", value1, value2, "totalfileId");
             return (Criteria) this;
         }
     }

@@ -1,0 +1,15 @@
+
+[class*='icono'] {
+  color: #EEEEEE;
+  opacity: 0.6;
+}
+i {
+  padding: 10px;
+ 
+}
+i:hover {
+  transform: scale(1.5);
+}
+i:hover i {
+  opacity: 0.8;
+}
