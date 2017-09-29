@@ -399,8 +399,7 @@
                     if(result.errcode==1) {
                         $.each(result.data, function (n, v) {
                             if (v.type == 0) {
-                                $("#file_folderdiv").append("<i class='icono-folder' " +
-                                    "id='file_folder" + v.fileId + "' style='cursor: pointer;margin-left: 10px;'></i>" +
+                                $("#file_folderdiv").append("<i  "+ v.fileId + " class='icono-file'  style='cursor: pointer;margin-left: 10px;'></i>" +
                                     "<span style='color: white;' id='" + v.fileId + "'>" + v.fileName + "</span>");
                             }
                             if (v.type == 1) {
@@ -464,7 +463,16 @@
                 contentType: false,  //必须false才会自动加上正确的Content-Type
                 processData: false, //必须false才会避开jQuery对 formdata 的默认处理
                 success: function (result) {
-                    alert(result.errcode);
+//                    window.location.reload();
+                    $("#file_folderdiv").show();
+                    $("#filediv").fadeIn();
+                    $("#taskdiv").hide();
+                    $("#discussdiv").hide();
+                    $("#schedulediv").hide();
+                    $("#countdiv").hide();
+                    $("#memberdiv").hide();
+                    $("#upfile").hide();
+
                 },
                 error: function () {
                     alert("上传失败");
@@ -1010,6 +1018,7 @@
             </form>
             <button class="ps_btn" onclick="closefile()">取消</button>
         </div>
+
         
         <%--创建文件夹模块--%>
         <div id="creatfolder" style="margin-left: 210px;margin-top:10px;width: 960px;" hidden>
