@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Created by chen on 2017/8/29.
  */
-public interface TatalfileService {
 
+public interface TatalfileService {
     /**
      * 增加一个文件总表
      * @param tatalfile 文件总表实体类

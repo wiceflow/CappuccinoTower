@@ -6,9 +6,9 @@
     <title>Tower登录</title>
     <script type="text/javascript" src="resources/js/jquery-3.1.1.js"></script>
     <link rel="stylesheet" href="resources/css/login.css"/>
-    <link rel="stylesheet" type="text/css" href="resources/js/jquery-easyui-1.4.5/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="resources/js/jquery-easyui-1.4.5/themes/icon.css">
-    <script type="text/javascript" src="resources/js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
+    <%--<link rel="stylesheet" type="text/css" href="resources/js/jquery-easyui-1.4.5/themes/default/easyui.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="resources/js/jquery-easyui-1.4.5/themes/icon.css">--%>
+    <%--<script type="text/javascript" src="resources/js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>--%>
     <%--将注释转换成中文--%>
     <script type="text/javascript" src="resources/js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
 
@@ -31,8 +31,8 @@
                 });
             });
             $("#a2").hide()
-            $("#a1").hover(function () {
-                $("#a2").fadeIn()
+            $("#a1").hover(function(){
+                $("#a2").fadeToggle()
             })
         })
         function login() {
@@ -63,7 +63,7 @@
     </script>
 
 </head>
-<body style="background-color: black;text-align: center;">
+<body style="background-color: #212121;text-align: center;">
 <div style="text-align: center;color:coral;font-size:80px;font-family: '微软雅黑';margin-top: 50px;">
     <b>Power</b>
 </div>
@@ -76,7 +76,7 @@
                            data-options="required:true,validType:'email'"
                            value="请输入登录邮箱"
                            id="loginEmail"
-                           style="height: 30px;width: 300px;color:darkgrey;font-weight: bold;">
+                           style="height: 30px;width: 300px;background-color:#212121;color:coral;font-size:15px;font-weight: bolder;border-radius: 5px">
                 </td>
             </tr>
 
@@ -86,7 +86,7 @@
                            data-options="required:true"
                            value="请输入密码"
                            id="loginPsw"
-                           style="height: 30px;width: 300px;color: darkgrey;font-weight: bold;">
+                           style="height: 30px;width: 300px;background-color:#212121;color:coral;font-size:15px;font-weight: bolder;border-radius: 5px">
                 </td>
             </tr>
 
@@ -98,8 +98,10 @@
     <a href="#" class="button" style="color: black;margin-bottom: 20px;" onclick="login()"><b>登录</b></a>
 </div>
 <p style="color: grey;text-align: center;margin-top: 20px;">
-    <a id="a2" href="#" style="color: grey;" onclick="register()">立即注册→</a></br>
-    <span id="a1">没有power账户？</span>
+    <span id="a1" style="font-size: 20px" >
+    <a id="a2" href="#" style="font-size:20px;color: grey;" onclick="register()">立即注册→</a></br>
+    没有power账户?
+        </span>
 
 </p>
 <div>

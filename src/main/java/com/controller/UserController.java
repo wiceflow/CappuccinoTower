@@ -1,9 +1,7 @@
 package com.controller;
 
-import com.pojo.Team;
-import com.pojo.User;
-import com.service.TeamService;
-import com.service.UserService;
+import com.pojo.*;
+import com.service.*;
 import com.util.AjaxResult;
 import com.util.ObtainSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,15 @@ public class UserController {
     //注入依赖[TeamService]
     @Autowired
     private TeamService teamService;
+    //注入依赖[ProjectService]
+    @Autowired
+    private ProjectService projectService;
+    //注入依赖[UserandteamService]
+    @Autowired
+    private UserandteamService userandteamService;
+    //注入依赖[UserandprojectService]
+    @Autowired
+    private UserandprojectService userandprojectService;
 
     /**
      * 这里不用 [User] 做返回值的原因是，怕就算密码错误返回了一个JSON到前台比人还是可以查看到整个用户信息
@@ -86,6 +93,14 @@ public class UserController {
         return "/login";
     }
 
+    /**
+     * 更新用户信息
+     * @param uName 用户名
+     * @param uEmail 用户邮箱
+     * @param uPassword 用户密码
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "update")
     @ResponseBody
     public AjaxResult update(@RequestParam("uName")String uName,
@@ -141,6 +156,11 @@ public class UserController {
         return new AjaxResult(0,"失败");
     }
 
+    /**
+     * 根据用户ID查询用户
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "selectUser")
     @ResponseBody
     public AjaxResult selectUser(HttpServletRequest request){
@@ -149,7 +169,6 @@ public class UserController {
         user.setuId(uId);
         List<User> userList = userService.selectUser(user, 0);
         if(userList!=null||userList.size()!=0){
-            System.out.println(userList.get(0)+"/*/*/*/*/**/");
             return new AjaxResult(1,"查询用户成功",userList.get(0));
         }else{
             return new AjaxResult(0,"查询用户失败");

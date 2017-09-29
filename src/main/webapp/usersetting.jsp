@@ -36,7 +36,7 @@
             <td><input type="password" name="uPassword"/></td>
         </tr>
         <tr>
-            <<input type="submit" name="submit" value="保存"/>
+            <<input  type="submit" name="submit" value="保存"/>
         </tr>
     </table>
 </form>

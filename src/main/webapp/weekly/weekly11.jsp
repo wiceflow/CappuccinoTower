@@ -258,16 +258,9 @@
     String today = dft.format(date.getTime());  // today即为当前时间
 %>
 <div style="margin: 30px;">
-    <a id="inreport_index" aria-label='word' class='h-button centered' data-text='周报总览' href='#'
-       style="text-align: center; font-size: 30px;">
-        <span>R</span>
-        <span>e</span>
-        <span>p</span>
-        <span>o</span>
-        <span>r</span>
-        <span>t</span>
-
-    </a>
+    <div  href='#' style="text-align: center;font-size: 30px;color: #0ABD6A">
+        周报总览
+    </div>
     <p style="text-align: center;font-size: 30px;color: #0abd6a;font-weight: bold;">
         <a href="#" class="report_btn" style="font-weight: bold;font-size: 30px;">
         </a>
@@ -292,8 +285,9 @@
     <br><br>
     <%--<a href="#" class="report_btn" style="margin-left: 60px;font-weight: bold;">邓超</a>--%>
     <div style="margin-left: 250px;margin-top: -110px;margin-bottom: 10px;">
-        <div class="container">
-            <h3 style="color:pink;">本周周报</h3></div>
+        <div>
+            <h3 style="color:white;font-style:30px;">本周周报</h3></div>
+        <br>
         <div id="weekly1_1_content">
             <div id="p1" style="font-weight: bold;color: #0ABD6A;"><span>"本周工作成果总结，说说你对自己点赞或失望的地方。"</span><br>
                 <span style="color: grey;" id="aa1"></span>

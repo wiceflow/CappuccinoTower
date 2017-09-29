@@ -2,6 +2,8 @@ package com.service;
 
 import com.pojo.Userandproject;
 
+import java.util.List;
+
 /**
  * Created by BF on 2017/9/6.
  * 对应 用户与项目表 的接口
@@ -20,4 +22,6 @@ public interface UserandprojectService {
      * @param upId 根据ID来删除
      */
     void deleteUserandproject(int upId);
+
+    List<Userandproject> selectUserByProject(int pId);
 }

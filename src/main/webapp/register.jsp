@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>注册</title>
     <link rel="stylesheet" href="../resources/css/register.css"/>
     <script type="text/javascript" src="../resources/js/jquery-3.1.1.js"></script>
     <script type="text/javascript">
@@ -140,7 +140,7 @@
         })
     </script>
 </head>
-<body style="background-color:white;text-align: center;">
+<body style="background-color:#212121;text-align: center;">
 <div>
     <div style="text-align: center;color:pink;font-size:80px;font-family: '微软雅黑';margin-top: 50px;">
         <b>Power</b>
@@ -154,7 +154,7 @@
                            class="easyui-textbox"
                            data-options="required:true"
                            value="请输入团队名称"
-                           style="height: 30px;width: 300px;"
+                           style="height: 30px;width: 300px;background-color:#212121;font-size:15px;border-radius: 5px;color: pink;font-weight:bolder "
                     >
                 </td>
             </tr>
@@ -165,7 +165,7 @@
                            data-options="required:true"
                            id="td2"
                            value="请输入你的名字"
-                           style="height: 30px;width: 300px;font-weight: bold;">
+                           style="border-radius: 5px;height: 30px;width: 300px;font-size:15px;color:pink;background-color:#212121;font-weight: bold;">
                     <span id="td21" style="position: absolute"></span>
                 </td>
 
@@ -176,8 +176,8 @@
                     <input name="email" class="easyui-textbox"
                            data-options="required:true,validType:'email'"
                            id="td3"
-                           value="请输入有效邮箱，例如：510024166@qq.com"
-                           style="height: 30px;width: 300px;color:darkgrey;font-weight: bold;">
+                           value="请输入有效邮箱，例：510024166@qq.com"
+                           style="border-radius: 5px;height: 30px;width: 300px;font-size:15px;color:pink;background-color:#212121;font-weight: bold;">
                     <span id="td31" style="position: absolute"></span>
                 </td>
 
@@ -189,7 +189,7 @@
                            data-options="required:true"
                            id="td4"
                            value="请设置密码(至少包含6个字符)"
-                           style="height: 30px;width: 300px;color: darkgrey;font-weight: bold;">
+                           style="border-radius: 5px;height: 30px;width: 300px;font-size:15px;color: pink;background-color:#212121;font-weight: bold;">
                     <span id="td41" style="position: absolute"></span>
                 </td>
 
@@ -203,23 +203,10 @@
         <a href="#" class="button" style="color: black;margin-bottom: 20px;" onclick="register2()"><b>完成注册</b></a>
     </div>
     <p style="color: grey;text-align: center;margin-top: 20px;" id="a3">
-        <a id="a2" href="login.jsp" style="color: grey;">直接登录→</a>
+        <a  id="a2" href="login.jsp" style="font-size:20px;color: grey;">直接登录→</a>
         </br>
-        <span id="a1">已有power账户？</span></p>
-    <p style="margin-top: 200px;text-align: center;font-family:tahoma;font-size: 15px;">
-        <span style="color: lightskyblue;">C</span>
-        <span style="color: plum;">a</span>
-        <span style="color: lightskyblue;">p</span>
-        <span style="color: plum;">p</span>
-        <span style="color: lightskyblue;">u</span>
-        <span style="color: plum;">c</span>
-        <span style="color: lightskyblue;">c</span>
-        <span style="color: plum;">i</span>
-        <span style="color: lightskyblue;">n</span>
-        <span style="color: plum;">o</span>
-        <span style="color: orangered;">®</span>
+        <span style="font-size: 20px" id="a1">已有power账户？</span></p>
 
-    </p>
 </div>
 </body>
 </html>

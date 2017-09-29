@@ -2,11 +2,14 @@ package com.service.impl;
 
 import com.dao.UserandprojectMapper;
 import com.pojo.Userandproject;
+import com.pojo.UserandprojectExample;
 import com.service.UserandprojectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by BF on 2017/9/6.
@@ -41,5 +44,12 @@ public class UserandprojectServiceImpl implements UserandprojectService{
      */
     public void deleteUserandproject(int upId) {
 
+    }
+
+    public List<Userandproject> selectUserByProject(int pId) {
+        UserandprojectExample userandprojectExample = new UserandprojectExample();
+        userandprojectExample.createCriteria().andPIdEqualTo(pId);
+        List<Userandproject> userandprojects = userandprojectMapper.selectByExample(userandprojectExample);
+        return userandprojects;
     }
 }

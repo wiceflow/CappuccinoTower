@@ -263,6 +263,5 @@ public class ProjectController {
             return new AjaxResult(1,"成功",project);
         }
         return new AjaxResult(0,"失败");
-
     }
 }

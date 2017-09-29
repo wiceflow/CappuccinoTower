@@ -57,11 +57,11 @@
                     $.each(result.data,function (n,v) {
                         $("#topic").html(v.tName);
                         if(v.type==1){
-                            $("#query1").append("<a><a href='../user/userfromteam.jsp?uId="+v.uId+"'>"+v.uName+"</a>" +
+                            $("#query1").append("<a ><a  href='../user/userfromteam.jsp?uId="+v.uId+"'>"+v.uName+"</a>" +
                                 "超级管理员</a>" +
                                 "<a style='margin-left:730px;'>"+v.uEmail+"</a><br>")
                         }else{
-                            $("#query1").append("<a><a href='../user/userfromteam.jsp?uId="+v.uId+"'>"+v.uName+"</a>" +
+                            $("#query1").append("<a><button class='team_btn' style='' href='../user/userfromteam.jsp?uId="+v.uId+"'>"+v.uName+"</button>" +
                                 "</a>" +
                                 "<a style='margin-left:800px;'>"+v.uEmail+"</a><br>")
                         }
@@ -152,7 +152,7 @@
                                 "超级管理员</a>" +
                                 "<a style='margin-left:730px;'>"+v.uEmail+"</a><br>")
                         }else{
-                            $("#query1").append("<a><a href='../user/userfromteam.jsp?uId="+v.uId+"'>"+v.uName+"</a>" +
+                            $("#query1").append("<a><button class='team_btn' href='../user/userfromteam.jsp?uId="+v.uId+"'>"+v.uName+"</button>" +
                                 "</a>" +
                                 "<a style='margin-left:800px;'>"+v.uEmail+"</a><br>")
                         }
@@ -168,7 +168,7 @@
 </head>
 
 <body style="background-color: #212121;">
-<div style="margin: 90px;">
+<div style="margin-left: 80px;">
     <div class="container">
         <a style="font-size: 35px;">卡布奇诺</a>
     </div>
@@ -177,11 +177,11 @@
         <button class="team_btn" id="inteam_team" onclick="selectteam()">所有成员</button>
     </a>
 
-    <div class="menu-sep" style="margin-left: 0px;margin-top: 20px;margin-bottom: 20px;width: 1000px;"></div>
+    <div class="menu-sep" style="margin-left: 0px;margin-top: 20px;margin-bottom: 80px;width: 1000px;"></div>
 </div>
 
 <%--遍历组员--%>
-<div id="query" >
+<div id="query"  >
     <div id="query1" style="color: slateblue;font-weight: bold; margin-left: 80px;margin-top: -60px;margin-bottom: 10px;"></div>
 </div>
 <%--遍历分组成员--%>

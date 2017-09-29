@@ -192,7 +192,6 @@
                             $("#checkboxuser").append("<input type='checkbox' id='checkbox-2-"+v.uId+"' value='"+v.uId+"' name='uId'>" +
                                 "<label for='checkbox-2-"+v.uId+"' style='height: 10px;width: 50px;text-align: left;font-weight: bold;font-size: 18px;'>"+v.uName+"</label>")
                         }
-
                     })
                 },
                 error:function () {
