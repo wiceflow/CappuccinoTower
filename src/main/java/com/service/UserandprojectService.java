@@ -1,5 +1,6 @@
 package com.service;
 
+import com.pojo.User;
 import com.pojo.Userandproject;
 
 import java.util.List;
@@ -23,5 +24,6 @@ public interface UserandprojectService {
      */
     void deleteUserandproject(int upId);
 
-    List<Userandproject> selectUserByProject(int pId);
+    List<User> QueryAl(int pId);
+
 }

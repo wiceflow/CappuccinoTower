@@ -11,22 +11,22 @@
 
 <head>
     <title>星标项目1</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="../resources/css/jquery.dad.css" />
-    <link rel="stylesheet" href="../resources/css/program_css.css" />
-    <link rel="stylesheet" href="../resources/css/program_xq_navbar.css" />
-    <link rel="stylesheet" href="../resources/css/program_xq.css" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../resources/css/jquery.dad.css"/>
+    <link rel="stylesheet" href="../resources/css/program_css.css"/>
+    <link rel="stylesheet" href="../resources/css/program_xq_navbar.css"/>
+    <link rel="stylesheet" href="../resources/css/program_xq.css"/>
     <link rel="stylesheet" href="../resources/css/program_icono.min.css "/>
-    <link rel="stylesheet" href="../resources/css/program_style.css" />
+    <link rel="stylesheet" href="../resources/css/program_style.css"/>
     <link rel="shortcut icon" href="../resources/demo/favicon.png">
     <link rel="apple-touch-icon image_src" href="../resources/demo/favicon.png">
     <link rel="author" href="../resources/humans.txt">
     <link rel="stylesheet" href="../resources/demo/highlight-9.5.0.min.css">
     <link rel="stylesheet" href="../resources/program_dist/css/checkbix.min.css">
     <link rel="stylesheet" href="../resources/demo/demo.css">
-    <link rel="stylesheet" href="../resources/css/program_checked.min.css" />
-    <link rel="stylesheet" href="../resources/css/program_jquery.notebook.css" />
+    <link rel="stylesheet" href="../resources/css/program_checked.min.css"/>
+    <link rel="stylesheet" href="../resources/css/program_jquery.notebook.css"/>
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../resources/js/jquery-easyui-1.4.5/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="../resources/js/jquery-easyui-1.4.5/themes/icon.css">
@@ -39,6 +39,8 @@
     <script type="text/javascript" src="../resources/js/jquery.dad.min.js"></script>
     <script src="../resources/js/jquery.min.js" type="text/javascript"></script>
     <script src="../resources/js/xq_navbar.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/My97DatePicker/WdatePicker.js"></script>
+
     <script type="text/javascript">
         $(document).on('ready', function onReady() {
             var checkbox = $('#checkbox'),
@@ -49,7 +51,7 @@
                 timeout;
             radio.attr('checked', 'checked');
             checkbox.attr('checked', 'checked');
-            checkbox.bind('click', function(e) {
+            checkbox.bind('click', function (e) {
                 e.preventDefault();
             });
             select.change(function onChange(e, a, b) {
@@ -57,7 +59,7 @@
                 clearTimeout(timeout);
                 radio.attr('class', '');
                 checkbox.attr('class', '');
-                var timeout = setTimeout(function() {
+                var timeout = setTimeout(function () {
                     radioLabel.text(selected.toString());
                     checkboxLabel.text(selected.toString());
                     radio.attr('class', 'checked-' + selected.toString().toLowerCase());
@@ -67,8 +69,50 @@
         });
     </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#infile").click(function() {
+        /**
+         * 把毫秒级时间转换成字符串
+         * 格式：yyyy年MM月dd日
+         * @param date
+         * @returns {string}
+         */
+        function dateFormat(date) {
+            var dateStr = new Date(date);
+            // 重写toString方法
+            Date.prototype.toLocaleString = function () {
+                return this.getFullYear() + "年" + (this.getMonth() + 1) + "月" + this.getDate() + "日";
+            };
+            return dateStr.toLocaleString();
+        }
+        // 任务栏
+        function aaab() {
+            $("#taskadd").empty();
+            $.ajax({
+                type: "Post",
+                url: "/Task/TaskList",
+                dataType: "json",
+                success: function (result) {
+                    $.each(result.data, function (n, v) {
+                        $("#taskadd").append(
+                            "<a name='" + v.taskId + "' href='#'style='color: pink;margin-left: 10px;'onclick='queryTask(name)'>" + v.taskName + "</a><br>"
+                        )
+                    })
+                },
+                error: function () {
+                    alert("遍历所有任务失败")
+                }
+            })
+            $("#task_detail").hide()
+            $("#task_alltask").show()
+            $("#filediv").hide()
+            $("#taskdiv").fadeIn()
+            $("#discussdiv").hide()
+            $("#schedulediv").hide()
+            $("#countdiv").hide()
+            $("#memberdiv").hide()
+            $("#task_ed").hide()
+        }
+        $(document).ready(function () {
+            $("#infile").click(function () {
                 $("#filediv").fadeIn()
                 $("#taskdiv").hide()
                 $("#discussdiv").hide()
@@ -77,15 +121,7 @@
                 $("#memberdiv").hide()
 
             })
-            $("#intask").click(function() {
-                $("#filediv").hide()
-                $("#taskdiv").fadeIn()
-                $("#discussdiv").hide()
-                $("#schedulediv").hide()
-                $("#countdiv").hide()
-                $("#memberdiv").hide()
-            })
-            $("#indiscuss").click(function() {
+            $("#indiscuss").click(function () {
                 $("#filediv").hide()
                 $("#taskdiv").hide()
                 $("#discussdiv").fadeIn()
@@ -93,7 +129,7 @@
                 $("#countdiv").hide()
                 $("#memberdiv").hide()
             })
-            $("#inschedule").click(function() {
+            $("#inschedule").click(function () {
                 $("#filediv").hide()
                 $("#taskdiv").hide()
                 $("#discussdiv").hide()
@@ -101,7 +137,7 @@
                 $("#countdiv").hide()
                 $("#memberdiv").hide()
             })
-            $("#incount").click(function() {
+            $("#incount").click(function () {
                 $("#filediv").hide()
                 $("#taskdiv").hide()
                 $("#discussdiv").hide()
@@ -109,7 +145,7 @@
                 $("#countdiv").fadeIn()
                 $("#memberdiv").hide()
             })
-            $("#inmember").click(function() {
+            $("#inmember").click(function () {
                 $("#filediv").hide()
                 $("#taskdiv").hide()
                 $("#discussdiv").hide()
@@ -125,24 +161,24 @@
             $("#taskdiv").show()
             $("#addschedulediv").hide()
             $("#schedulediv").hide()
-            $("#inaddschedule").click(function() {
+            $("#inaddschedule").click(function () {
                 $("#addschedulediv").show()
                 $("#allschedulediv").hide()
             })
-            $("#backschedule1").click(function() {
+            $("#backschedule1").click(function () {
                 $("#addschedulediv").hide()
                 $("#allschedulediv").show()
             })
-            $("#addschedule_sure").click(function() {
+            $("#addschedule_sure").click(function () {
                 $("#addschedulediv").hide()
                 $("#allschedulediv").show()
             })
-            $("#addschedule_cancel").click(function() {
+            $("#addschedule_cancel").click(function () {
                 $("#addschedulediv").hide()
                 $("#allschedulediv").show()
             })
             $("#addtaskdiv").hide()
-            $("#inaddtask1").click(function() {
+            $("#inaddtask1").click(function () {
                 $("#addtaskdiv").slideToggle()
                 $("#task_detail").hide()
                 $("#task_ed").hide()
@@ -150,22 +186,40 @@
                 $("#list_ed").hide()
                 $("#task_alltask").show()
             })
-            $("#inaddtask2").click(function() {
+            $("#inaddtask2").click(function () {
+                $.ajax({
+                    type: "Post",
+                    url: "/project/projecter",
+                    dataType: "json",
+                    success: function (result) {
+                        // 先清空
+                        $("#people2").empty();
+                        $.each(result.data, function (n, v) {
+                            $("#people2").append(
+                                "<input type='radio' name='qq' class='checked-boom' checked='true' value='" + v.uId + "'/>" +
+                                "<span style='color: pink;font-size: 15px;'>" + v.uName + "</span>&nbsp;"
+                            )
+                        })
+                    },
+                    error: function () {
+                        alert("遍历项目成员失败")
+                    }
+                })
                 $("#addtaskdiv").slideToggle()
                 $("#task_detail").hide()
                 $("#task_ed").hide()
                 $("#list_detail").hide()
                 $("#list_ed").hide()
-                $("#task_alltask").show()
+                $("#task_alltask").slideToggle()
             })
-            $("#addtask_sure").click(function() {
+
+            $("#addtask_cancel").click(function () {
                 $("#addtaskdiv").slideToggle()
-            })
-            $("#addtask_cancel").click(function() {
-                $("#addtaskdiv").slideToggle()
+                $("#task_alltask").slideToggle()
+
             })
             $("#addlistdiv").hide()
-            $("#inaddlist").click(function() {
+            $("#inaddlist").click(function () {
                 $("#addlistdiv").slideToggle()
                 $("#task_detail").hide()
                 $("#task_ed").hide()
@@ -173,38 +227,38 @@
                 $("#list_ed").hide()
                 $("#task_alltask").show()
             })
-            $("#addlist_sure").click(function() {
+            $("#addlist_sure").click(function () {
                 $("#addlistdiv").slideToggle()
             })
-            $("#addlist_cancel").click(function() {
+            $("#addlist_cancel").click(function () {
                 $("#addlistdiv").slideToggle()
             })
             $("#adddiscussdiv").hide()
-            $("#inadddiscuss1").click(function() {
+            $("#inadddiscuss1").click(function () {
                 $("#adddiscussdiv").slideToggle()
             })
-            $("#inadddiscuss2").click(function() {
+            $("#inadddiscuss2").click(function () {
                 $("#adddiscussdiv").slideToggle()
             })
-            $("#adddiscuss_sure").click(function() {
+            $("#adddiscuss_sure").click(function () {
                 $("#adddiscussdiv").slideToggle()
             })
-            $("#adddiscuss_cancel").click(function() {
+            $("#adddiscuss_cancel").click(function () {
                 $("#adddiscussdiv").slideToggle()
             })
             $(".discuss1hide").hide()
-            $(".discuss1").click(function() {
+            $(".discuss1").click(function () {
                 $(".discuss1hide").slideToggle()
             })
             $("#discuss1div").hide();
-            $("#indiscuss1com").click(function() {
+            $("#indiscuss1com").click(function () {
                 $("#discuss1div").slideToggle();
             })
-            $("#discuss1com_sure").click(function() {
+            $("#discuss1com_sure").click(function () {
                 $("#discuss1div").hide();
                 $("#discuss_newcom").show()
             })
-            $("#discuss1com_cancel").click(function() {
+            $("#discuss1com_cancel").click(function () {
                 $("#discuss1div").slideToggle();
             })
             $("#discuss_newcom").hide()
@@ -214,60 +268,60 @@
             $("#file_filediv1").hide()
             $("#file_filediv2").hide()
             $("#file_allfile").hide()
-            $(".infolderdiv").click(function() {
+            $(".infolderdiv").click(function () {
                 $("#file_filediv1").hide()
                 $("#file_filediv2").hide()
                 $("#file_folderdiv").show()
                 $("#file_allfile").hide()
             })
-            $("#inallfile").click(function() {
+            $("#inallfile").click(function () {
                 $("#file_filediv1").hide()
                 $("#file_filediv2").hide()
                 $("#file_folderdiv").hide()
                 $("#file_allfile").show()
             })
-            $("#file_folder1").click(function() {
+            $("#file_folder1").click(function () {
                 $("#file_filediv1").show()
                 $("#file_filediv2").hide()
                 $("#file_folderdiv").hide()
                 $("#file_allfile").hide()
             })
-            $("#file_folder2").click(function() {
+            $("#file_folder2").click(function () {
                 $("#file_filediv1").hide()
                 $("#file_filediv2").show()
                 $("#file_folderdiv").hide()
                 $("#file_allfile").hide()
             })
             $("#edschedule1").hide()
-            $("#inedschedule1").click(function() {
+            $("#inedschedule1").click(function () {
                 $("#edschedule1").show()
                 $("#allschedulediv").hide()
             })
-            $("#backschedule2").click(function() {
+            $("#backschedule2").click(function () {
                 $("#edschedule1").hide()
                 $("#allschedulediv").show()
             })
-            $("#edschedule1_sure").click(function() {
+            $("#edschedule1_sure").click(function () {
                 $("#edschedule1").hide()
                 $("#allschedulediv").show()
             })
-            $("#edschedule1_cancel").click(function() {
+            $("#edschedule1_cancel").click(function () {
                 $("#edschedule1").hide()
                 $("#allschedulediv").show()
             })
             $("#countdiv2").hide()
             $("#countdiv3").hide()
-            $("#incountdiv1").click(function() {
+            $("#incountdiv1").click(function () {
                 $("#countdiv1").fadeIn()
                 $("#countdiv2").hide()
                 $("#countdiv3").hide()
             })
-            $("#incountdiv2").click(function() {
+            $("#incountdiv2").click(function () {
                 $("#countdiv1").hide()
                 $("#countdiv2").fadeIn()
                 $("#countdiv3").hide()
             })
-            $("#incountdiv3").click(function() {
+            $("#incountdiv3").click(function () {
                 $("#countdiv1").hide()
                 $("#countdiv2").hide()
                 $("#countdiv3").fadeIn()
@@ -275,18 +329,135 @@
             $("#countdiv").hide()
             $("#memberdiv").hide()
             $("#edmember").hide()
-            $("#member_ed").click(function() {
+            $("#member_ed").click(function () {
                 $("#allmember").hide()
                 $("#edmember").show()
             })
-            $("#member_save").click(function() {
+            $("#member_save").click(function () {
                 $("#allmember").show()
                 $("#edmember").hide()
             })
-            $("#member_quit").click(function() {
+            $("#member_quit").click(function () {
                 alert("你确定要退出吗")
             })
         })
+        // 查询选中任务
+        function queryTask(a) {
+            $.ajax({
+                type: "Post",
+                url: "/Task/TaskListInfor",
+                dataType: "json",
+                data: {
+                    taskId: a,
+                    type: 0
+                },
+                success: function (result) {
+                    $("#taskname2").text(result.data.taskName);
+                    $("#taskdes").text(result.data.taskDescribe);
+                    $("#creatName").text(result.data.taskUser);
+                    $("#betaskdo").text(result.data.taskAssigner);
+                    $("#creattask").text(dateFormat(result.data.taskCreatetime));
+                    // 目前下面这个有错
+                    if(result.data.taskFinishtime!=null){
+                        $("#downtask").append(dateFormat(result.data.taskFinishtime));
+                    }
+//                    $("#downtask").append(dateFormat(result.data.taskFinishtime));
+                    $("#task_del").attr("name", result.data.taskId);
+                    $("#task_ined").attr("name", result.data.taskId);
+                    $("#taskname").val(result.data.taskName);
+                },
+                error: function () {
+                    alert("显示任务失败")
+                }
+            })
+            $("#task_detail").show()
+            $("#task_alltask").hide()
+
+        }
+        // 编辑任务的时候遍历项目成员
+        function cTask1() {
+            $.ajax({
+                type: "Post",
+                url: "/project/projecter",
+                dataType: "json",
+                success: function (result) {
+                    // 先清空
+                    $("#people1").empty();
+                    $.each(result.data, function (n, v) {
+                        $("#people1").append(
+                            "<input type='radio' name='q' class='checked-boom' checked='true' value='" + v.uId + "'/>" +
+                            "<span style='color: pink;font-size: 15px;'>" + v.uName + "</span>&nbsp;"
+                        )
+                    })
+                },
+                error: function () {
+                    alert("遍历项目成员失败")
+                }
+            })
+        }
+        // 修改任务
+        function cTask2() {
+            $.ajax({
+                type: "Post",
+                url: "/Task/UpdateTask",
+                dataType: "json",
+                data: {
+                    taskId: $("#task_del").attr("name"),
+                    taskName: $("#taskname").val(),
+                    taskAssigner:$("input[name='q']:checked").val(),
+                    taskUser: $("#creatName").text(),
+                    endTime:$("#time2").val()
+                },
+                success: function (result) {
+                    queryTask($("#creatName").text());
+                },
+                error: function () {
+                    alert("删除任务失败")
+                }
+            })
+        }
+        // 删除任务
+        function delTask() {
+            var idd = $("#task_del").attr("name");
+            $.ajax({
+                type: "Post",
+                url: "/Task/TaskDelete",
+                dataType: "json",
+                data: {
+                    taskId: idd,
+                },
+                success: function (result) {
+                    alert(result.info);
+                    aaab();
+                },
+                error: function () {
+                    alert("删除任务失败")
+                }
+            })
+        }
+        // 新增任务
+        function newTask2() {
+            $.ajax({
+                type: "Post",
+                url: "/Task/AddTask",
+                dataType: "json",
+                data: {
+                    taskName: $("#newtaskname").val(),
+                    taskAssigner:$("input[name='qq']:checked").val(),
+                    taskDescribe:$("#taskmiao").val(),
+                    endTime:$("#time1").val()
+                },
+                success: function (result) {
+                    alert(result.info);
+                },
+                error: function () {
+                    alert("新增任务失败")
+                }
+            })
+
+            $("#addtaskdiv").slideToggle()
+            $("#task_alltask").slideToggle()
+        }
     </script>
     <script src="../resources/program_dist/js/checkbix.min.js"></script>
     <script>
@@ -299,11 +470,13 @@
             height: 30px;
             border: 1px white solid;
         }
+
         .datep {
             margin-bottom: 40px;
             line-height: 24px;
             margin-right: 15px;
         }
+
         .wicon {
             background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAQCAYAAADj5tSrAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwNi8xNS8xNGnF/oAAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAAoElEQVQ4jWPceOnNfwYqAz9dYRQ+E7UtwAaGjyUsDAyYYUgJ2HT5LXZLcEmSCnA6duOlN///////H0bDALl8dPH/////Z8FuNW6Qtvw2nL3lyjsGBgYGhlmRqnj1kGwJuqHIlhJlCXq8EOITEsdqCXLEbbr8FisfFkTo+vBZRFZwERNEFFkCiw90nxJtCalxQmzegltCzVyP1RJq5HZ8AABuNZr0628DMwAAAABJRU5ErkJggg==");
             background-repeat: no-repeat;
@@ -317,17 +490,17 @@
         $(document).ready(function () {
             //            页面加载时遍历项目信息
             $.ajax({
-                type:"Post",
-                url:"/project/displayProject",
-                dataType:"json",
-                data:{
+                type: "Post",
+                url: "/project/displayProject",
+                dataType: "json",
+                data: {
                     pId:${param.pId},
                 },
-                success:function (result) {
-                    $("#project").append("<h2 style='font-size: 25px;color: deeppink'>"+result.data.pName+"</h2>" +
-                    "<h3 style='font-size: 15px;color: grey;margin-top: 0px;'>"+result.data.pDescribe+"</h3>")
+                success: function (result) {
+                    $("#project").append("<h2 style='font-size: 25px;color: deeppink'>" + result.data.pName + "</h2>" +
+                        "<h3 style='font-size: 15px;color: grey;margin-top: 0px;'>" + result.data.pDescribe + "</h3>")
                 },
-                error:function () {
+                error: function () {
                     alert("项目输出错了");
                 }
             })
@@ -336,24 +509,20 @@
         //页面加载时遍历任务清单
         $(document).ready(function () {
             $.ajax({
-                type:"Post",
-                url:"/TaskInfo/taskInfoList",
-                dataType:"json",
-                data:{
+                type: "Post",
+                url: "/TaskInfo/taskInfoList",
+                dataType: "json",
+                data: {
                     pId:${param.pId},
                 },
-                success:function (result) {
-                    if(result.errcode==1) {
-                        $.each(result.data, function (n, v) {
-                            $("#task_list").append("<div><div><h2>" +
-                                "<a href='../TaskInfo/displayonetaskinfo.jsp?taskinfoId=" + v.taskinfoId + "'>" + v.taskinfoName + "</a>" +
-                                "</h2></div></div><br>")
-                        })
-                    }else{
-                        alert("该项目现在还没有任务");
-                    }
+                success: function (result) {
+                    $.each(result.data, function (n, v) {
+                        $("#task_list").append("<div><div><h2>" +
+                            "<a href='../TaskInfo/displayonetaskinfo.jsp?taskinfoId=" + v.taskinfoId + "'>" + v.taskinfoName + "</a>" +
+                            "</h2></div></div><br>")
+                    })
                 },
-                error:function () {
+                error: function () {
                     alert("任务遍历失败");
                 },
             })
@@ -362,10 +531,10 @@
         //页面加载时遍历讨论表
         $(document).ready(function () {
             $.ajax({
-                type:"Post",
-                url:"/discus/QueryDiscus",
-                dataType:"json",
-                data:{
+                type: "Post",
+                url: "/discus/QueryDiscus",
+                dataType: "json",
+                data: {
                     pId:${param.pId},
                 },
                 success:function (result) {
@@ -380,7 +549,7 @@
                         alert("该项目现在还没有讨论");
                     }
                 },
-                error:function () {
+                error: function () {
                     alert("遍历评论错了")
                 }
             })
@@ -389,10 +558,10 @@
         //页面加载的时候加载文件和文件夹
         $(document).ready(function () {
             $.ajax({
-                type:"Post",
-                url:"/total/QueryFileByPid",
-                dataType:"json",
-                data:{
+                type: "Post",
+                url: "/total/QueryFileByPid",
+                dataType: "json",
+                data: {
                     pId:${param.pId},
                 },
                 success:function (result) {
@@ -413,7 +582,7 @@
                         alert("该项目还没有文件或者文件夹");
                     }
                 },
-                error:function () {
+                error: function () {
                     alert("文件遍历了失败");
                 }
             })
@@ -668,7 +837,7 @@
     <div class="xq_bag" id="bar3" style="margin-top: 10px;margin-bottom: 20px;">
         <ul class="xq_navbar">
             <!--改颜色要去JS改-->
-            <li class="xq_navli"><a id="intask" style="font-size: 30px;" href="#">任务</a></li>
+            <li class="xq_navli"><a id="intask" style="font-size: 30px;" href="#" onclick="aaab()">任务</a></li>
             <li class="xq_navli"><a id="indiscuss" style="font-size: 30px;" href="#">讨论</a></li>
             <li class="xq_navli"><a id="infile" style="font-size: 30px;" href="#">文件</a></li>
             <li class="xq_navli"><a id="inschedule" style="font-size: 30px;" href="#">日程</a></li>
@@ -679,10 +848,10 @@
     <div id="taskdiv">
         <ul class="menu" style="  background-color: #212121;border: none;">
             <li>
-                <a id="inaddtask1" href="#" >- 添加任务 -</a>
+                <a id="inaddtask12" href="#">- 添加任务 -</a>
                 <ul class="submenu">
-                    <li><a id="inaddtask2" style="text-align: center;" href="#" onclick="createTask()">添加任务</a></li>
-                    <li><a id="inaddlist" style="text-align: center;" href="#">添加清单</a></li>
+                    <li><a id="inaddtask2" style="text-align: center;" href="#">添加任务</a></li>
+                    <%--<li><a id="inaddlist" style="text-align: center;" href="#">添加清单</a></li>--%>
                 </ul>
             </li>
         </ul>
@@ -690,78 +859,58 @@
 
         <!--任务详情-->
         <div id="task_detail" style="margin-left: 210px;margin-top:-20px;width: 960px;">
-            <a href="#" class="backtask" class="infolderdiv" style="font-size: 25px;color: pink;">所有任务</a>
+            <a href="#" class="backtask" class="infolderdiv" style="font-size: 25px;color: pink;">任务名称</a>
             <a style="font-size: 25px;color: white;"> > </a>
-            <a style="font-size: 25px;color: white;">600个俯卧撑</a>
-            <button class="ps_btn" id="task_ined">编辑</button>
-            <button class="ps_btn" id="task_follow" style="margin-left: 20px;">关注</button>
-            <button class="ps_btn" style="margin-left: 20px;">删除</button>
+            <a id="taskname2" style="font-size: 25px;color: white;">600个俯卧撑</a>
+            <button id="task_ined" class="ps_btn" onclick="cTask1()">编辑</button>
+            <button id="task_del" class="ps_btn" style="margin-left: 20px;" onclick="delTask()">删除</button>
             <br>
+            <%--<input id="mycheckbox1" name="a" type="checkbox" class="checkbix" data-shape="circled" data-text="">--%>
+            &nbsp;&nbsp;<a href="#" style="color: pink;margin-left: -10px;" id="taskdes">任务描述</a>
+            <br><br>
+            <span style="color: grey;">任务创建者</span><br>
+            <span style="color: pink;font-size: 15px;" id="creatName">赵信</span>&nbsp;&nbsp;<br>
+            <span style="color: grey;">任务指派人</span>
             <br>
-            <input id="mycheckbox1" name="a" type="checkbox" class="checkbix" data-shape="circled" data-text="">
-            <a style="color: pink;margin-left: -10px;">600个俯卧撑</a>
-            <br>
-            <br>
-            <span style="color: grey;">指派成员完成该任务</span>
-            <br>
-            <input type="radio" name="a" class="checked-boom" checked="true" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">德莱文</span>&nbsp;&nbsp;
-            <label>
-                <input type="radio" name="a" class="checked-boom" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">提莫</span>&nbsp;&nbsp;
-            <label>
-                <input type="radio" name="a" class="checked-boom" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">妖姬</span>&nbsp;&nbsp;
-            <label>
-                <input type="radio" name="a" class="checked-boom" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">赵信</span>&nbsp;&nbsp;
+            <span style="color: pink;font-size: 15px;" id="betaskdo">赵信</span>&nbsp;&nbsp;
             <!--日历-->
+            <br><br>
+            <span style="color: grey;">任务创建时间</span>
             <br>
+            <span id="creattask" style="color: pink"></span>
             <br>
             <span style="color: grey;">截止日期</span>
             <br>
-            <input id="dd" type="text" class="easyui-datebox" required="required" value="2017-09-20"></input>
+            <span id="downtask" style="color: pink"></span>
             <br><br>
-            <p id="task_com1" style="color:white ;">PG ONE : 这是一条新的评论</p>
             <br>
-            <textarea placeholder="发表评论" style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"></textarea>
+            <textarea placeholder="发表评论"
+                      style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"></textarea>
             <br>
             <button id="task_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;">评论</button>
         </div>
 
         <div id="task_ed" style="margin-left: 210px;margin-top:-20px;width: 960px;">
-            <textarea placeholder="请输入任务名称"style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;" >600个俯卧撑</textarea>
+            <a href="#" class="backtask" class="infolderdiv" style="font-size: 25px;color: pink;">任务名称</a>
+            <br><a style="font-size: 25px;color: white;"> > </a>
+            <input type="text"
+                   style="font-size: 25px;color: pink;border-left:0px;border-top:0px;border-right:0px;border-bottom:1px;background-color: transparent"
+                   id="taskname">
             <br>
             <br>
             <span style="color: grey;">指派成员完成该任务</span>
-            <br>
-            <input type="radio" name="q" class="checked-boom" checked="true" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">德莱文</span>&nbsp;&nbsp;
-            <label>
-                <input type="radio" name="q" class="checked-boom" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">提莫</span>&nbsp;&nbsp;
-            <label>
-                <input type="radio" name="q" class="checked-boom" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">妖姬</span>&nbsp;&nbsp;
-            <label>
-                <input type="radio" name="q" class="checked-boom" />
-            </label>
-            <span style="color: pink;font-size: 15px;font-weight: ;">赵信</span>&nbsp;&nbsp;
+            <div id="people1">
+            </div>
+
             <!--日历-->
             <br>
             <br>
-            <span style="color: grey;">截止日 期</span>
+            <span style="color: grey;">截止日期</span>
             <br>
-            <input id="dd" type="text" class="easyui-datebox" required="required" value="2017-09-20"></input>
+            <input  id="time2" name="createdatetimeStart" style="width: 120px;border: none;background-color: #212121;color: #0abd6a;cursor: pointer;font-size: 20px"
+                    onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
             <br><br>
-            <button id="task_edsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;">保存</button>
+            <button id="task_edsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;" onclick="cTask2()">保存</button>
         </div>
 
         <!--清单详情-->
@@ -778,87 +927,88 @@
             <br><br>
             <p id="list_com1" style="color:white ;">PG ONE : 这是一条新的评论</p>
             <br>
-            <textarea placeholder="发表评论" style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"></textarea>
+            <textarea placeholder="发表评论"
+                      style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"></textarea>
             <br>
             <button id="list_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;">评论</button>
         </div>
 
         <div id="list_ed" style="margin-left: 210px;margin-top:-20px;width: 960px;">
-            <textarea placeholder="请输入任务名称"style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;" >买1斤大白菜</textarea>
+            <textarea placeholder="请输入任务名称"
+                      style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;">买1斤大白菜</textarea>
             <br>
             <button id="list_edsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;">保存</button>
         </div>
 
         <script type="text/javascript">
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $("#task_alltask").show()
                 $("#task_detail").hide()
                 $("#task_ed").hide()
                 $("#list_detail").hide()
                 $("#list_ed").hide()
 
-                $("#list1").click(function(){
+                $("#list1").click(function () {
                     $("#task_alltask").hide()
                     $("#list_detail").show()
                 })
 
-                $(".backlist").click(function(){
+                $(".backlist").click(function () {
                     $("#task_alltask").show()
                     $("#list_detail").hide()
                 })
 
-                $("#list_ined").click(function(){
+                $("#list_ined").click(function () {
                     $("#list_detail").hide()
                     $("#list_ed").show()
                 })
 
-                $("#list_edsure").click(function(){
+                $("#list_edsure").click(function () {
                     $("#list_ed").hide()
                     $("#list_detail").show()
                 })
 
                 $("#list_com1").hide()
-                $("#list_comsure").click(function(){
+                $("#list_comsure").click(function () {
                     $("#list_com1").slideDown()
                 })
 
-                $("#list_follow").click(function(){
-                    $("#list_follow").css("background-color","deepskyblue")
+                $("#list_follow").click(function () {
+                    $("#list_follow").css("background-color", "deepskyblue")
                 })
 
 
-
-                $("#task_edsure").click(function(){
+                $("#task_edsure").click(function () {
                     $("#task_detail").show()
                     $("#task_ed").hide()
                 })
-                $("#task_ined").click(function(){
+                $("#task_ined").click(function () {
                     $("#task_detail").hide()
                     $("#task_ed").show()
                 })
 
-                $("#task_follow").click(function(){
-                    $("#task_follow").css("background-color","deepskyblue")
+                $("#task_follow").click(function () {
+                    $("#task_follow").css("background-color", "deepskyblue")
                 })
 
                 $("#task_com1").hide()
-                $("#task_comsure").click(function(){
+                $("#task_comsure").click(function () {
                     $("#task_com1").slideDown()
                 })
 
-                $("#task1_sure").click(function() {
+                $("#task1_sure").click(function () {
                     $("#task_detail").hide()
                     $("#task_alltask").show()
                 })
-                $("#task1_cancel").click(function() {
+                $("#task1_cancel").click(function () {
                     $("#task_detail").hide()
                     $("#task_alltask").show()
                 })
-                $("#task1").click(function() {
+                $("#task1").click(function () {
                     $("#task_detail").show()
                     $("#task_alltask").hide()
                 })
-                $(".backtask").click(function() {
+                $(".backtask").click(function () {
                     $("#task_detail").hide()
                     $("#task_alltask").show()
                 })
@@ -867,32 +1017,37 @@
 
         <!--点击添加任务弹出DIV-->
         <div id="addtaskdiv" style="margin-left: 200px;margin-top: -30px;margin-bottom: 70px;">
-            <textarea id="taskinput" style="height: 30px;resize: none;font-size: 20px;background-color: #212121;border-radius: calc(5px);color: pink;" placeholder="新的任务"></textarea>
+            <a href="#" class="backtask" class="infolderdiv" style="font-size: 25px;color: pink;">任务名称</a><br>
+            <input type="text" style="font-size: 25px;color: pink;border-left:0px;border-top:0px;border-right:0px;border-bottom:1px;background-color: transparent" id="newtaskname">
             <br>
+            <a href="#" class="backtask" class="infolderdiv" style="font-size: 25px;color: pink;">任务描述</a>
             <br>
+            <textarea type="text"
+                   style="color: pink;background-color: transparent" id="taskmiao">
+            </textarea>
+            <br><br>
 
             <span style="color: grey;">指派成员完成该任务</span>
-            <br>
-            <div id="radiouser">
-
+            <div id="people2">
             </div>
-
-
             <!--日历-->
             <br>
             <br>
             <span style="color: grey;">截止日期</span>
             <br>
-            <input id="dd" type="text" class="easyui-datebox" required="required"></input>
+            <input  id="time1" name="createdatetimeStart" style="width: 120px;border: none;background-color: #212121;color: #0abd6a;cursor: pointer;font-size: 20px"
+                    onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
             <br>
             <br>
-            <button id="addtask_sure" class="ps_btn" style="font-size: 20px;" onclick="addTask()">确定</button>
+            <button id="addtask_sure" class="ps_btn" style="font-size: 20px;" onclick="newTask2()">确定</button>
             <button id="addtask_cancel" class="ps_btn" style="font-size: 20px;">取消</button>
         </div>
 
         <!--点击添加清单弹出DIV-->
         <div id="addlistdiv" style="margin-left: 200px;margin-top: -30px;margin-bottom: 70px;">
-            <textarea id="listinput" style="height: 30px;resize: none;font-size: 20px;background-color: #212121;border-radius: calc(5px);color: pink;" placeholder="新的清单"></textarea>
+            <textarea id="listinput"
+                      style="height: 30px;resize: none;font-size: 20px;background-color: #212121;border-radius: calc(5px);color: pink;"
+                      placeholder="新的清单"></textarea>
             <br>
             <br>
             <button id="addlist_sure" class="ps_btn" style="font-size: 20px;">保存</button>
@@ -901,23 +1056,18 @@
 
         <!--任务栏-->
         <div id="task_alltask" style="margin-left: 200px;margin-top: -30px;">
-            <%--<a style="font-size: 25px;color: white;">当前任务</a>--%>
-            <%--<br>--%>
-            <%--<br>--%>
+            <a style="font-size: 25px;color: white;">当前任务</a>
+            <br>
             <%--<input id="mycheckboxt1" name="a" type="checkbox" class="checkbix" data-shape="circled" data-text="">--%>
-            <%--<a id="task1" href="#" style="color: pink;margin-left: -10px;">600个俯卧撑</a>--%>
-            <%--<br>--%>
-            <%--<input id="mycheckboxt2" name="b" type="checkbox" class="checkbix" data-shape="circled" data-text="">--%>
-            <%--<a href="#" style="color: pink;margin-left: -10px;">800个仰卧起坐</a>--%>
-            <%--<br>--%>
-            <%--<input id="mycheckboxt3" name="c" type="checkbox" class="checkbix" data-shape="circled" data-text="">--%>
-            <%--<a href="#" style="color: pink;margin-left: -10px;">20公里慢跑</a>--%>
+            <div id="taskadd">
+
+            </div>
 
             <!--清单栏-->
             <div id="task_list" style="margin-left: 0px;margin-top: 30px;">
                 <a style="font-size: 25px;color: white;">当前清单</a>
                 <br>
-           </a>
+                </a>
             </div>
         </div>
     </div>
@@ -1024,13 +1174,13 @@
             <br>
             <br>
             <%--<span style="color: white;">--%>
-					<%--<i class="icono-folder" id="file_folder1" style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--需求文档--%>
-				<%--</span>--%>
+            <%--<i class="icono-folder" id="file_folder1" style="cursor: pointer;margin-left: 10px;"></i>--%>
+            <%--需求文档--%>
+            <%--</span>--%>
             <%--<span style="color: white;margin-left: 20px;">--%>
-					<%--<i class="icono-folder" id="file_folder2" style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--参考资料--%>
-				<%--</span>--%>
+            <%--<i class="icono-folder" id="file_folder2" style="cursor: pointer;margin-left: 10px;"></i>--%>
+            <%--参考资料--%>
+            <%--</span>--%>
             <%--<br>--%>
             <%--<br>--%>
             <%--<br>--%>
@@ -1148,7 +1298,8 @@
             <a style="font-size: 25px;color: white;"> > 创建日程</a>
             </br>
             </br>
-            <textarea cols="70" rows="5" placeholder="在这里输入日程内容" style=" calc(5px);margin-left: 6px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;font-size: 20px;"></textarea>
+            <textarea cols="70" rows="5" placeholder="在这里输入日程内容"
+                      style=" calc(5px);margin-left: 6px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;font-size: 20px;"></textarea>
             <br>
             <br><span style="color: grey;">开始</span>
             <input id="dd" type="text" class="easyui-datebox" required="required"></input>
@@ -1159,29 +1310,29 @@
             <br><span style="color: grey;">重复</span>
 
             <label style="margin-left: 30px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">每日</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">每周</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">每月</span>
             <br>
 
             <label style="margin-left:66px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">每年</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">隔周</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">不重复</span>
             <br>
@@ -1189,27 +1340,28 @@
 
             <span style="color: grey;">提醒</span>
             <label style="margin-left: 30px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">提前一天</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">提前一周</span>
             <br>
 
             <label style="margin-left: 66px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">不提醒</span>
             <label style="margin-left: 27px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">提前一小时</span>
             <br>
             <br>
             <span style="color: grey; float: left;">地点</span>
-            <textarea cols="30" rows="1" placeholder="请输入地点" style="resize: none;font-size: 15px;margin-left: 10px;border-radius: calc(5px);background-color: #212121;color: pink;"></textarea>
+            <textarea cols="30" rows="1" placeholder="请输入地点"
+                      style="resize: none;font-size: 15px;margin-left: 10px;border-radius: calc(5px);background-color: #212121;color: pink;"></textarea>
             <br>
             <br>
             <span style="color: grey;">邀请其他人加入</span>
@@ -1232,7 +1384,8 @@
             <a style="font-size: 25px;color: white;"> > 2017年...</a>
             </br>
             </br>
-            <textarea cols="70" rows="5" placeholder="点击此处编辑日程内容" style=" calc(5px);margin-left: 6px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;font-size: 20px;">2017年春游</textarea>
+            <textarea cols="70" rows="5" placeholder="点击此处编辑日程内容"
+                      style=" calc(5px);margin-left: 6px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;font-size: 20px;">2017年春游</textarea>
             <br>
             <br><span style="color: grey;">开始</span>
             <input id="dd" type="text" class="easyui-datebox" value="2017-03-01" required="required"></input>
@@ -1243,29 +1396,29 @@
             <br><span style="color: grey;">重复</span>
 
             <label style="margin-left: 30px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">每日</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">每周</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" checked="true" ; />
+                <input type="radio" name="x" class="checked-boom" checked="true" ;/>
             </label>
             <span style="color:white">每月</span>
             <br>
 
             <label style="margin-left:66px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">每年</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">隔周</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="x" class="checked-boom" />
+                <input type="radio" name="x" class="checked-boom"/>
             </label>
             <span style="color:white">不重复</span>
             <br>
@@ -1273,35 +1426,38 @@
 
             <span style="color: grey;">提醒</span>
             <label style="margin-left: 30px;">
-                <input type="radio" name="xx" class="checked-boom" />
+                <input type="radio" name="xx" class="checked-boom"/>
             </label>
             <span style="color:white">提前一天</span>
             <label style="margin-left: 10px;">
-                <input type="radio" name="xx" class="checked-boom" checked="true" />
+                <input type="radio" name="xx" class="checked-boom" checked="true"/>
             </label>
             <span style="color:white">提前一周</span>
             <br>
 
             <label style="margin-left: 66px;">
-                <input type="radio" name="xx" class="checked-boom" />
+                <input type="radio" name="xx" class="checked-boom"/>
             </label>
             <span style="color:white">不提醒</span>
             <label style="margin-left: 27px;">
-                <input type="radio" name="xx" class="checked-boom" />
+                <input type="radio" name="xx" class="checked-boom"/>
             </label>
             <span style="color:white">提前一小时</span>
             <br>
             <br>
             <span style="color: grey; float: left;">地点</span>
-            <textarea cols="30" rows="1" placeholder="请输入地点" style="resize: none;font-size: 15px;margin-left: 10px;border-radius: calc(5px);background-color: #212121;color: pink;">德国、意大利、日本</textarea>
+            <textarea cols="30" rows="1" placeholder="请输入地点"
+                      style="resize: none;font-size: 15px;margin-left: 10px;border-radius: calc(5px);background-color: #212121;color: pink;">德国、意大利、日本</textarea>
             <br>
             <br>
             <span style="color: grey;">邀请其他人加入</span>
             <input id="mycheckboxc1" name="a" type="checkbox" class="checkbix" data-shape="circled" data-text="">
             <a href="#" style="color: pink;margin-left: -10px;">BF</a>
-            <input id="mycheckboxc2" name="a" type="checkbox" checked="true" class="checkbix" data-shape="circled" data-text="">
+            <input id="mycheckboxc2" name="a" type="checkbox" checked="true" class="checkbix" data-shape="circled"
+                   data-text="">
             <a href="#" style="color: pink;margin-left: -10px;">JX</a>
-            <input id="mycheckboxc3" name="a" type="checkbox" checked="true" class="checkbix" data-shape="circled" data-text="">
+            <input id="mycheckboxc3" name="a" type="checkbox" checked="true" class="checkbix" data-shape="circled"
+                   data-text="">
             <a href="#" style="color: pink;margin-left: -10px;">YG</a>
             <br>
             <br>
@@ -1327,7 +1483,8 @@
 
             <div id="countdiv1" style="margin-left: 210px;margin-top:10px;width: 960px;">
                 <h2 style="color: white;">进展</h2>
-                <div class="menu-sep" style="color: white; margin-left: 0px;margin-top: 15px;margin-bottom: 15px;"></div>
+                <div class="menu-sep"
+                     style="color: white; margin-left: 0px;margin-top: 15px;margin-bottom: 15px;"></div>
                 <span style="color: white; ">晚会后期准备   </span>
                 <button style="width: 300px;height: 20px;background-color: gpalegreen;border-radius: calc(5px);"></button>
                 <span style="color: grey;">0/1</span>
@@ -1347,11 +1504,15 @@
                 <h2 style="color: white;">贡献</h2>
                 <p style="color: grey;">截至目前，共有 2 位成员对项目做出了贡献，产生 3 条讨论，上传 3 个文件。</p>
                 <div class="menu-sep" style="margin-left: 0px;margin-top: 15px;margin-bottom: 15px;"></div>
-                <img src="img/fzl.jpg" style="height: 30px;" /><span style="font-size: 15px;color: white;">小明   </span>
-                <button title="小明完成了5条任务" style="width: 200px;height: 20px;background-color: pink;border-radius: calc(5px);">5</button>
+                <img src="img/fzl.jpg" style="height: 30px;"/><span style="font-size: 15px;color: white;">小明   </span>
+                <button title="小明完成了5条任务"
+                        style="width: 200px;height: 20px;background-color: pink;border-radius: calc(5px);">5
+                </button>
                 <div class="menu-sep" style="margin-left: 0px;margin-top: 15px;margin-bottom: 15px;"></div>
-                <img src="img/fzl2.jpg" style="height: 30px;" /><span style="font-size: 15px;color: white;">小娜   </span>
-                <button title="小娜完成了2条任务" style=" width:40px;height: 20px;background-color: pink;border-radius: calc(5px);">1</button>
+                <img src="img/fzl2.jpg" style="height: 30px;"/><span style="font-size: 15px;color: white;">小娜   </span>
+                <button title="小娜完成了2条任务"
+                        style=" width:40px;height: 20px;background-color: pink;border-radius: calc(5px);">1
+                </button>
             </div>
 
             <div id="countdiv2" style="margin-left: 210px;margin-top:10px;width: 960px;">
@@ -1379,15 +1540,15 @@
         <button id="member_quit" class="ps_btn" style="margin-left: 10px;">退出项目</button>
         <br>
         <div id="allmember">
-            <img src="img/fzl6.jpg" height="50px" style="margin-top: 20px;" />
+            <img src="img/fzl6.jpg" height="50px" style="margin-top: 20px;"/>
             <a style="font-size: 25px;color: pink;margin-left: 5px;">蜜桃酱儿</a>
             <a style="font-size: 20px;color: orange;">超级管理员</a>
             <br>
-            <img src="img/fzl5.jpg" height="50px" style="margin-top: 20px;" />
+            <img src="img/fzl5.jpg" height="50px" style="margin-top: 20px;"/>
             <a style="font-size: 25px;color: pink;margin-left: 5px;">PG ONE万磁王</a>
             <a style="font-size: 20px;color: palegoldenrod;">管理员</a>
             <br>
-            <img src="img/fzl7.jpg" height="50px" style="margin-top: 20px;" />
+            <img src="img/fzl7.jpg" height="50px" style="margin-top: 20px;"/>
             <a style="font-size: 25px;color: pink;margin-left: 5px;">哞哞牛</a>
             <a style="font-size: 20px;color: white;">成员</a>
         </div>

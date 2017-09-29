@@ -63,8 +63,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public int updateTask(Task task) {
-        taskMapper.updateByPrimaryKey(task);
-        return 1;
+        try{
+            taskMapper.updateByPrimaryKey(task);
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     public List<Task> selectTask(Task task, int id) {
