@@ -2,6 +2,7 @@ package com.util;
 
 import com.pojo.Dynamic;
 import com.pojo.Project;
+import com.pojo.Team;
 import com.pojo.User;
 import com.service.DynamicService;
 import org.slf4j.Logger;
@@ -39,6 +40,8 @@ public class DynamicTool {
     private Project project;
     // 操作时间
     private Date time;
+    //团队
+    private Team team;
 
     // 禁用无参构造函数
     private DynamicTool() {
@@ -55,6 +58,7 @@ public class DynamicTool {
         this.dynamicService = d;
         this.user = (User) request.getSession().getAttribute("user");
         this.project = (Project) request.getSession().getAttribute("project");
+        this.team = (Team) request.getSession().getAttribute("team");
         // 获取当前系统时间，格式为--> yyyy-MM-dd HH:mm:ss
         this.time = new TimeGetTrans().getTime();
     }
@@ -69,12 +73,14 @@ public class DynamicTool {
         //                    +"table="+table+",\n"
         //                    +"time="+time+",\n");
         //TODO 累赘？
+        System.out.println(user.getuId()+project.getpId());
         dynamic.setuId(user.getuId());
         dynamic.setpId(project.getpId());
         dynamic.setAction(action);
         dynamic.setBeTable(table);
         dynamic.setBeOperated(beId);
         dynamic.setdTime(time);
+        dynamic.settId(team.gettId());
         System.out.println(dynamic.toString());
         // 新增动态
         dynamicService.addDynamic(dynamic);

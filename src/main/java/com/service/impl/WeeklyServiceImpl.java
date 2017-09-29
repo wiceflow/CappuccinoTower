@@ -56,7 +56,7 @@ public class WeeklyServiceImpl implements WeeklyService {
                     DateHelper.getMonday(weekly.getwTime())).andWTimeLessThan(
                     DateHelper.getNextMonday(weekly.getwTime())).andTIdEqualTo(weekly.gettId());
             List<Weekly> weeklies = weeklyMapper.selectByExample(weeklyExample);
-            if(weeklies!=null||weeklies.size()!=0){
+            if(weeklies!=null&&weeklies.size()!=0){
                 return weeklies;
             }else{
                 return null;
@@ -69,6 +69,17 @@ public class WeeklyServiceImpl implements WeeklyService {
             List<Weekly> weeklies1 = weeklyMapper.selectByExample(weeklyExample);
             if(weeklies1!=null||weeklies1.size()!=0){
                 return weeklies1;
+            }else{
+                return null;
+            }
+        }
+        //根据周报ID查询周报
+        else if(i==2){
+            WeeklyExample weeklyExample = new WeeklyExample();
+            weeklyExample.createCriteria().andWeeklyIdEqualTo(weekly.getWeeklyId());
+            List<Weekly> weeklies = weeklyMapper.selectByExample(weeklyExample);
+            if(weeklies!=null||weeklies.size()!=0){
+                return weeklies;
             }else{
                 return null;
             }

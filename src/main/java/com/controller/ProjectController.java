@@ -237,7 +237,6 @@ public class ProjectController {
     @RequestMapping(value = "ListByUid")
     @ResponseBody
     public AjaxResult ListByUid(HttpServletRequest request,@RequestParam("uId")int uId){
-        System.out.println(".....");
         List<Project> projectList = projectService.QueryList(uId);
         if(projectList!=null&&projectList.size()!=0){
             return new AjaxResult(1,"查找成功",projectList);
@@ -264,5 +263,6 @@ public class ProjectController {
             return new AjaxResult(1,"成功",project);
         }
         return new AjaxResult(0,"失败");
+
     }
 }

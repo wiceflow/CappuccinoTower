@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import com.dao.*;
+import com.dto.AllObj;
 import com.dto.General;
 import com.pojo.*;
 import com.service.DynamicService;
@@ -61,6 +62,14 @@ public class DynamicServiceImpl implements DynamicService {
     //注入周报表
     @Autowired
     WeeklyMapper weeklyMapper;
+
+    //注入分组表
+    @Autowired
+    GroupofteamMapper groupofteamMapper;
+
+    //注入任务清单表
+    @Autowired
+    TaskinfoMapper taskinfoMapper;
 
 
     /**
@@ -127,37 +136,51 @@ public class DynamicServiceImpl implements DynamicService {
                 if(table.equals("task")){
                     //若对task表进行操作，则根据beOperated查询task
                     Task task = taskMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setTaskName(task.getTaskName());
+                    general.setAaName(task.getTaskName());
+                    general.setOperateId(task.getTaskId());
+                    general.setTable("task");
                     generalList.add(general);
                 }else if(table.equals("discus")){
                     //若对discus表进行操作，则根据beOperated查询discus
                     Discus discus = discusMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setdContent(discus.getdContent());
+                    general.setAaName(discus.getdContent());
+                    general.setOperateId(discus.getDiscusId());
+                    general.setTable("discus");
                     generalList.add(general);
                 }else if(table.equals("comment")){
                     //若对comment表进行操作，则根据beOperated查询comment
                     Comment comment = commentMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setcContent(comment.getcContent());
+                    general.setAaName(comment.getcContent());
+                    general.setOperateId(comment.getcId());
+                    general.setTable("comment");
                     generalList.add(general);
                 }else if(table.equals("file")){
                     //若对file表进行操作，则根据beOperated查询file
                     File file = fileMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setFileName(file.getFileName());
+                    general.setAaName(file.getFileName());
+                    general.setOperateId(file.getFileId());
+                    general.setTable("file");
                     generalList.add(general);
                 }else if(table.equals("folder")){
                     //若对folder表进行操作，则根据beOperated查询folder
                     Folder folder = folderMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setFolderName(folder.getFolderName());
+                    general.setAaName(folder.getFolderName());
+                    general.setOperateId(folder.getFolderId());
+                    general.setTable("folder");
                     generalList.add(general);
                 }else if (table.equals("team")){
                     //若对team表进行操作，则根据beOperated查询team
                     Team team = teamMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.settName(team.gettName());
+                    general.setAaName(team.gettName());
+                    general.setOperateId(team.gettId());
+                    general.setTable("team");
                     generalList.add(general);
                 }else if(table.equals("weekly")){
                     //若对weekly表进行操作，则根据beOperated查询weekly
                     Weekly weekly = weeklyMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setwTime(weekly.getwTime());
+                    general.setAaName("周报");
+                    general.setOperateId(weekly.getWeeklyId());
+                    general.setTable("weekly");
                     generalList.add(general);
                 }
             }
@@ -183,37 +206,51 @@ public class DynamicServiceImpl implements DynamicService {
                 if(table.equals("task")){
                     //若对task表进行操作，则根据beOperated查询task
                     Task task = taskMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setTaskName(task.getTaskName());
+                    general.setAaName(task.getTaskName());
+                    general.setOperateId(task.getTaskId());
+                    general.setTable("task");
                     generalList.add(general);
                 }else if(table.equals("discus")){
                     //若对discus表进行操作，则根据beOperated查询discus
                     Discus discus = discusMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setdContent(discus.getdContent());
+                    general.setAaName(discus.getdContent());
+                    general.setOperateId(discus.getDiscusId());
+                    general.setTable("discus");
                     generalList.add(general);
                 }else if(table.equals("comment")){
                     //若对comment表进行操作，则根据beOperated查询comment
                     Comment comment = commentMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setcContent(comment.getcContent());
+                    general.setAaName(comment.getcContent());
+                    general.setOperateId(comment.getcId());
+                    general.setTable("comment");
                     generalList.add(general);
                 }else if(table.equals("file")){
                     //若对file表进行操作，则根据beOperated查询file
                     File file = fileMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setFileName(file.getFileName());
+                    general.setAaName(file.getFileName());
+                    general.setOperateId(file.getFileId());
+                    general.setTable("file");
                     generalList.add(general);
                 }else if(table.equals("folder")){
                     //若对folder表进行操作，则根据beOperated查询folder
                     Folder folder = folderMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setFolderName(folder.getFolderName());
+                    general.setAaName(folder.getFolderName());
+                    general.setOperateId(folder.getFolderId());
+                    general.setTable("folder");
                     generalList.add(general);
                 }else if (table.equals("team")){
                     //若对team表进行操作，则根据beOperated查询team
                     Team team = teamMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.settName(team.gettName());
+                    general.setAaName(team.gettName());
+                    general.setOperateId(team.gettId());
+                    general.setTable("team");
                     generalList.add(general);
                 }else if(table.equals("weekly")){
                     //若对weekly表进行操作，则根据beOperated查询weekly
                     Weekly weekly = weeklyMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                    general.setwTime(weekly.getwTime());
+                    general.setAaName("周报");
+                    general.setOperateId(weekly.getWeeklyId());
+                    general.setTable("weekly");
                     generalList.add(general);
                 }
             }
@@ -245,40 +282,116 @@ public class DynamicServiceImpl implements DynamicService {
             if(table.equals("task")){
                 //若对task表进行操作，则根据beOperated查询task
                 Task task = taskMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                general.setTaskName(task.getTaskName());
+                general.setAaName(task.getTaskName());
+                general.setOperateId(task.getTaskId());
+                general.setTable("task");
                 generalList.add(general);
             }else if(table.equals("discus")){
                 //若对discus表进行操作，则根据beOperated查询discus
                 Discus discus = discusMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                general.setdContent(discus.getdContent());
+                general.setAaName(discus.getdContent());
+                general.setOperateId(discus.getDiscusId());
+                general.setTable("discus");
                 generalList.add(general);
             }else if(table.equals("comment")){
                 //若对comment表进行操作，则根据beOperated查询comment
                 Comment comment = commentMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                general.setcContent(comment.getcContent());
+                general.setAaName(comment.getcContent());
+                general.setOperateId(comment.getcId());
+                general.setTable("comment");
                 generalList.add(general);
             }else if(table.equals("file")){
                 //若对file表进行操作，则根据beOperated查询file
                 File file = fileMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                general.setFileName(file.getFileName());
+                general.setAaName(file.getFileName());
+                general.setOperateId(file.getFileId());
+                general.setTable("file");
                 generalList.add(general);
             }else if(table.equals("folder")){
                 //若对folder表进行操作，则根据beOperated查询folder
                 Folder folder = folderMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                general.setFolderName(folder.getFolderName());
+                general.setAaName(folder.getFolderName());
+                general.setOperateId(folder.getFolderId());
+                general.setTable("folder");
                 generalList.add(general);
             }else if (table.equals("team")){
                 //若对team表进行操作，则根据beOperated查询team
                 Team team = teamMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                general.settName(team.gettName());
+                general.setAaName(team.gettName());
+                general.setOperateId(team.gettId());
+                general.setTable("team");
                 generalList.add(general);
             }else if(table.equals("weekly")){
                 //若对weekly表进行操作，则根据beOperated查询weekly
                 Weekly weekly = weeklyMapper.selectByPrimaryKey(dynamicList.get(i).getBeOperated());
-                general.setwTime(weekly.getwTime());
+                general.setAaName("周报");
+                general.setOperateId(weekly.getWeeklyId());
+                general.setTable("weekly");
                 generalList.add(general);
             }
         }
         return generalList;
+    }
+
+    public List<AllObj> selectObj(int operateId, String table) {
+        List<AllObj> allObjList = new ArrayList<AllObj>();
+        AllObj allObj = new AllObj();
+        General general = new General();
+        general.setTable(table);
+        general.setOperateId(operateId);
+        if(table.equals("task")){
+            Task task = taskMapper.selectByPrimaryKey(general.getOperateId());
+            allObj.setTask(task);
+            allObj.setType(1);
+            allObjList.add(allObj);
+        }else if(table.equals("discus")){
+            Discus discus = discusMapper.selectByPrimaryKey(general.getOperateId());
+            allObj.setDiscus(discus);
+            allObj.setType(2);
+            allObjList.add(allObj);
+        }else if(table.equals("comment")){
+            Comment comment = commentMapper.selectByPrimaryKey(general.getOperateId());
+            allObj.setComment(comment);
+            allObj.setType(3);
+            allObjList.add(allObj);
+        }else if(table.equals("file")){
+            File file = fileMapper.selectByPrimaryKey(general.getOperateId());
+            allObj.setFile(file);
+            allObj.setType(4);
+            allObjList.add(allObj);
+        }else if(table.equals("folder")){
+            Folder folder = folderMapper.selectByPrimaryKey(general.getOperateId());
+            allObj.setFolder(folder);
+            allObj.setType(5);
+            allObjList.add(allObj);
+        }else if(table.equals("team")){
+            Team team = teamMapper.selectByPrimaryKey(general.getOperateId());
+            allObj.setTeam(team);
+            allObj.setType(6);
+            allObjList.add(allObj);
+        }else if(table.equals("weekly")){
+            Weekly weekly = weeklyMapper.selectByPrimaryKey(general.getOperateId());
+            allObj.setWeekly(weekly);
+            allObj.setType(7);
+            allObjList.add(allObj);
+        }
+        //TODO 不一定需要
+// else if(table.equals("groupofteam")){
+//            Groupofteam groupofteam = groupofteamMapper.selectByPrimaryKey(general.getOperateId());
+//            allObj.setGroupofteam(groupofteam);
+//            allObj.setType(8);
+//            allObjList.add(allObj);
+//        }else if(table.equals("project")){
+//            Project project = projectMapper.selectByPrimaryKey(general.getOperateId());
+//            allObj.setProject(project);
+//            allObj.setType(9);
+//            allObjList.add(allObj);
+//        }else if(table.equals("taskinfo")){
+//            Taskinfo taskinfo = taskinfoMapper.selectByPrimaryKey(general.getOperateId());
+//            allObj.setTaskinfo(taskinfo);
+//            allObj.setType(10);
+//            allObjList.add(allObj);
+//        }
+        return allObjList;
     }
 }

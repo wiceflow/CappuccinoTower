@@ -5,6 +5,7 @@ import com.pojo.User;
 import com.service.TeamService;
 import com.service.UserService;
 import com.util.AjaxResult;
+import com.util.ObtainSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,28 +86,24 @@ public class UserController {
         return "/login";
     }
 
-    @RequestMapping(value = "update", method = RequestMethod.POST)
-    public void update(User user, HttpServletRequest request) {
+    @RequestMapping(value = "update")
+    @ResponseBody
+    public AjaxResult update(@RequestParam("uName")String uName,
+                       @RequestParam("uEmail")String uEmail,
+                       @RequestParam("uPassword")String uPassword,
+                       HttpServletRequest request) {
         // 从session中获取当前用户的当前信息
-        HttpSession session = request.getSession();
-        User user1 = (User) session.getAttribute("user");
-
-        if (user1 != null) {
-            // 将用户ID赋值给将要进行修改的POJO类
-            user.setuId(user1.getuId());
-            try {
-                userService.updateUser(user);
-                System.out.println("更新用户成功");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("更新用户失败");
-            }
-            // 更新session中用户的信息
-            session.setAttribute("user",user);
-        } else {
-            System.out.println("错误的操作,用户信息错误,将其赶回登录界面");
+        int uId = new ObtainSession(request).getUser().getuId();
+        User user = new User();
+        user.setuId(uId);
+        user.setuEmail(uEmail);
+        user.setuName(uName);
+        user.setuPassword(uPassword);
+        int i = userService.updateUser(user);
+        if(i==1){
+            return new AjaxResult(1,"更新成功");
         }
+        return null;
     }
 
     /**
@@ -142,6 +139,21 @@ public class UserController {
         }
         teamService.backAll(teamList);
         return new AjaxResult(0,"失败");
+    }
+
+    @RequestMapping(value = "selectUser")
+    @ResponseBody
+    public AjaxResult selectUser(HttpServletRequest request){
+        int uId = new ObtainSession(request).getUser().getuId();
+        User user = new User();
+        user.setuId(uId);
+        List<User> userList = userService.selectUser(user, 0);
+        if(userList!=null||userList.size()!=0){
+            System.out.println(userList.get(0)+"/*/*/*/*/**/");
+            return new AjaxResult(1,"查询用户成功",userList.get(0));
+        }else{
+            return new AjaxResult(0,"查询用户失败");
+        }
     }
 
 }

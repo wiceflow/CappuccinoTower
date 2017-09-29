@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.Taskdto;
 import com.pojo.Task;
 
 import java.util.List;
@@ -43,4 +44,6 @@ public interface TaskService {
      * @return
      */
     List<Task> QueryList();
+
+    List<Taskdto> DtoQueryList(Task task);
 }

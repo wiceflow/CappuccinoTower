@@ -171,6 +171,38 @@
                 }
             })
         }
+
+        function godynamic() {
+            $.ajax({
+                type:"Post",
+                url:"/dynamic/DynamicList",
+                dataType:"json",
+                data:{
+                    tId:$("#queryTeam").val(),
+                },
+                success:function (result) {
+                    if(result.errcode==1){
+                        document.getElementById("program_index").src="../dynamic/dynamic.jsp?tId='"+$('#queryTeam').val()+"'";
+                    }
+                    if(result.errcode==0){
+                        alert("生成动态列表失败");
+                    }
+                },
+                error:function () {
+                    alert("生成动态列表失败11111");
+                }
+            })
+        }
+
+        function goweekly() {
+//            location.href="/weekly/weekly.jsp";
+            document.getElementById("program_index").src="..//weekly/weekly.jsp";
+        }
+
+        function gopersonalsetting() {
+//            location.href="/personal/personal-setting.jsp";
+            document.getElementById("program_index").src="..//personal/personal-setting.jsp";
+        }
     </script>
 
     <style>
@@ -200,9 +232,10 @@
 
 
     <span style="margin-left: 40px;">
+
     		<a href="#" style="color: pink;margin-left: 40px;font-size: 25px;" onclick="goproject()">项目</a>
-    		<a href="#" style="color: #ffdd4d;margin-left: 40px;font-size: 25px;">动态</a>
-    		<a href="#" style="color: #0abd6a;margin-left: 40px;font-size: 25px;">周报</a>
+    		<a href="#" style="color: pink;margin-left: 40px;font-size: 25px;" onclick=godynamic()>动态</a>
+    		<a href="#" style="color: pink;margin-left: 40px;font-size: 25px;" onclick=goweekly()>周报</a>
     		<a href="#" style="color: slateblue;margin-left: 40px;font-size: 25px;" onclick="goteam()">团队</a>
     		<a href="#" style="color: deepskyblue;margin-left: 40px;font-size: 25px;">我自己</a>
     		</span>
@@ -251,7 +284,7 @@
     <!--头像下拉菜单-->
     <div id="manmenu" style="margin-left: 970px;margin-top: 20px; position:absolute;padding: 10px;
 				background-color: black;border: solid;border-color: white;border-width: 0.3px;">
-        <a href="#" id="manmenu1" style="color: white;margin: 10px;">个人设置</a><br>
+        <a href="#" style="color: white;margin: 10px;" onclick="gopersonalsetting()">个人设置</a>><br>
         <a href="#" id="manmenu2" style="color: white;margin: 10px;">通知设置</a><br>
         <a href="#" id="manmenu3" style="color: white;margin: 10px;">我的关注</a><br>
         <div class="menu-sep" style="width: 70px;margin-left: 00px;margin: 10px;"></div>

@@ -18,6 +18,34 @@ public class General {
     private Date date; //日期
     private String action; //操作
     private Date wTime; //周报时间
+    private int operateId; //被操作对象的ID
+    private String table; //被操作的表名
+    private String aaName; //被操作的对象名
+
+    public int getOperateId() {
+        return operateId;
+    }
+
+    public void setOperateId(int operateId) {
+        this.operateId = operateId;
+    }
+
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
+
+    public String getAaName() {
+        return aaName;
+    }
+
+    public void setAaName(String aaName) {
+        this.aaName = aaName;
+    }
 
     public Date getwTime() {
         return wTime;

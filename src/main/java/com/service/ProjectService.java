@@ -42,10 +42,10 @@ public interface ProjectService {
      * 根据个人表对项目表进行遍历
      * @return
      */
-    List<Project> QueryList(int uId);
+    List<Project> QueryList(int tId);
 
     /**
      * 将一个项目的相关信息全部遍历出来
      */
-    public Project projectALL(int pId, int uId);
+     Project projectALL(int pId, int uId);
 }

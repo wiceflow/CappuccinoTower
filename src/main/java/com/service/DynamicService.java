@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.AllObj;
 import com.dto.General;
 import com.pojo.Dynamic;
 
@@ -46,6 +47,14 @@ public interface DynamicService {
     List<General> selectDynamic(Dynamic dynamic, int pId);
 
     List<General> QueryList(Dynamic dynamic);
+
+    /**
+     * 根据表名和被操作的ID查找被操作的对象
+     * @param operateId 被操作对象的ID
+     * @param table 被操作的表名
+     * @return
+     */
+    List<AllObj> selectObj(int operateId, String table);
 
 
 }
