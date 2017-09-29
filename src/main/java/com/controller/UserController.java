@@ -175,4 +175,9 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "view")
+    public String view(){
+        return "main/main";
+    }
+
 }
