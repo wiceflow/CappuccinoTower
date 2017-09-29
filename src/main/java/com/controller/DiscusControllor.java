@@ -1,10 +1,12 @@
 package com.controller;
 
+import com.dto.AllObj;
 import com.pojo.Comment;
 import com.pojo.Discus;
 import com.pojo.Project;
 import com.service.CommentService;
 import com.service.DiscusService;
+import com.service.DynamicService;
 import com.service.ProjectService;
 import com.util.AjaxResult;
 import com.util.ObtainSession;
@@ -37,6 +39,8 @@ public class DiscusControllor {
     //注入评论的Service
     @Autowired
     CommentService commentService;
+    //注入动态的serv
+    DynamicService dynamicService;
 
 
     /**
@@ -107,5 +111,15 @@ public class DiscusControllor {
             return new AjaxResult(1,"成功",discus,commentList);
         }
         return new AjaxResult(0,"失败");
+    }
+
+    @RequestMapping(value = "hyperlink")
+    @ResponseBody
+    public AjaxResult hyperlink(@RequestParam("operateId")int operateId,@RequestParam("table")String table){
+        List<AllObj> allObjList = dynamicService.selectObj(operateId, table);
+        if(allObjList!=null||allObjList.size()!=0){
+            return new AjaxResult(1,"查询对象成功",allObjList.get(0));
+        }
+        return null;
     }
 }
