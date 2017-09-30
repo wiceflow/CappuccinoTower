@@ -50,6 +50,7 @@
             })
 
         })
+
     </script>
 
     <%--页面加载时遍历团队--%>
@@ -149,7 +150,6 @@
             })
         }
 
-        //点击进入动态界面
         function godynamic() {
             $.ajax({
                 type: "Post",
@@ -172,17 +172,13 @@
             })
         }
 
-        //点击进入周报界面
         function goweekly() {
             document.getElementById("program_index").src = "../weekly/weekly.jsp";
         }
 
-        //点击进入用户设置界面
         function gopersonalsetting() {
             document.getElementById("program_index").src = "../personal/personal-setting.jsp";
         }
-
-        //点击进入我自己界面
         function gopersonal() {
             document.getElementById("program_index").src = "../personal/personal.jsp";
         }

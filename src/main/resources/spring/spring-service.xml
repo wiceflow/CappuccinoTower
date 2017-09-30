@@ -20,23 +20,26 @@
     </bean>
     <!-- 配置基于注解的声明式事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <!--&lt;!&ndash; 拦截器 &ndash;&gt;-->
-    <!--<mvc:interceptors>-->
-        <!--&lt;!&ndash; 拦截所有请求 &ndash;&gt;-->
-
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<mvc:exclude-mapping path="/common/**"></mvc:exclude-mapping>-->
-
-            <!--<bean class="Interceptor.Interceptor">-->
-                <!--&lt;!&ndash;定义不被拦截的url&ndash;&gt;-->
-                <!--<property name="excludeUrls">-->
-                    <!--<list>-->
-                        <!--<value>/confim</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <!-- 拦截器 -->
+    <mvc:interceptors>
+        <!-- 拦截所有请求 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/user/view"/>
+            <mvc:exclude-mapping path="/resources/**"></mvc:exclude-mapping>
+            <!--<mvc:mapping path="/dynamic/**"/>-->
+            <!--<mvc:mapping path="/personal/**"/>-->
+            <!--<mvc:mapping path="/team/**"/>-->
+            <!--<mvc:mapping path="/weekly/**"/>-->
+            <bean class="com.Interceptor.Interceptor">
+                <!--定义不被拦截的url-->
+                <property name="excludeUrls">
+                    <list>
+                        <value>/register.jsp</value>
+                        <value>/user/login</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>
