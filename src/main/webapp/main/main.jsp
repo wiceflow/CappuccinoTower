@@ -50,35 +50,6 @@
             })
 
         })
-
-        /*$("#manmenu1").hover(function(){
-         $("#manmenu1").css("color","darkgray")
-         $("#manmenu2").css("color","white")
-         $("#manmenu3").css("color","white")
-         $("#manmenu4").css("color","white")
-         })
-
-         $("#manmenu2").hover(function(){
-         $("#manmenu1").css("color","white")
-         $("#manmenu2").css("color","darkgray")
-         $("#manmenu3").css("color","white")
-         $("#manmenu4").css("color","white")
-         })
-
-         $("#manmenu3").hover(function(){
-         $("#manmenu1").css("color","white")
-         $("#manmenu2").css("color","white")
-         $("#manmenu3").css("color","darkgray")
-         $("#manmenu4").css("color","white")
-         })
-
-         $("#manmenu4").hover(function(){
-         $("#manmenu1").css("color","white")
-         $("#manmenu2").css("color","white")
-         $("#manmenu3").css("color","white")
-         $("#manmenu4").css("color","darkgray")
-         })*/
-
     </script>
 
     <%--页面加载时遍历团队--%>
@@ -178,6 +149,7 @@
             })
         }
 
+        //点击进入动态界面
         function godynamic() {
             $.ajax({
                 type: "Post",
@@ -200,13 +172,17 @@
             })
         }
 
+        //点击进入周报界面
         function goweekly() {
             document.getElementById("program_index").src = "../weekly/weekly.jsp";
         }
 
+        //点击进入用户设置界面
         function gopersonalsetting() {
             document.getElementById("program_index").src = "../personal/personal-setting.jsp";
         }
+
+        //点击进入我自己界面
         function gopersonal() {
             document.getElementById("program_index").src = "../personal/personal.jsp";
         }

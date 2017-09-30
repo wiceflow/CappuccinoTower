@@ -88,7 +88,6 @@ public class TotalfileServiceImpl implements TatalfileService {
                     totalfileforJsp.setTotalfileId(projectList.get(0).getfTotalid());
                     totalfileforJsp.setFolderId(folderList.get(j).getFolderId());
                     totalfileforJsp.setFolderName(folderList.get(j).getFolderName());
-                    System.out.println(totalfileforJsp.getFolderName()+"这是文件夹的名字----》");
                     //1为文件夹
                     totalfileforJsp.setType(1);
                     totalfileforJspList.add(totalfileforJsp);

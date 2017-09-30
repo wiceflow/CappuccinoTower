@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**讨论表
+/**
+ * 讨论表
  * Created by WU on 2017/9/15.
  */
 @Controller
@@ -39,35 +40,35 @@ public class DiscusControllor {
     //注入评论的Service
     @Autowired
     CommentService commentService;
-    //注入动态的serv
+    //注入动态的Service
     DynamicService dynamicService;
 
 
     /**
      * 新建讨论
-     * @param pId
-     * @param discus
+     * @param pId 项目ID
+     * @param discus 讨论对象
      * @return
      */
-    @RequestMapping(value ="/creatDiscus")
+    @RequestMapping(value = "/creatDiscus")
     @ResponseBody
-    public AjaxResult creatDiscus(@RequestParam("pId")int pId, Discus discus, HttpServletRequest request){
+    public AjaxResult creatDiscus(@RequestParam("pId") int pId, Discus discus, HttpServletRequest request) {
         System.out.println("我进入了creatDiscus");
         System.out.println(new ObtainSession(request).getUser().getuId());
         //通过session取值将uid uName
         discus.setuId(new ObtainSession(request).getUser().getuId());
         discus.setuName(new ObtainSession(request).getUser().getuName());
         //将项目Id放入其中
-        Project project=new Project();
+        Project project = new Project();
         project.setpId(pId);
         List<Project> projectList = projectService.selectProject(project, 0);
-        System.out.println(projectList.get(0)+"hhahhhhhhhh");
-        if (projectList.get(0)!=null){
-                Discus discus1 = discusService.addDiscus(discus, projectList.get(0));
-                System.out.println(discus1+"11111111111111");
-                return new AjaxResult(1,"成功",discus1);
-            }else {
-                return new AjaxResult(0,"badness");
+        System.out.println(projectList.get(0) + "hhahhhhhhhh");
+        if (projectList.get(0) != null) {
+            Discus discus1 = discusService.addDiscus(discus, projectList.get(0));
+            System.out.println(discus1 + "11111111111111");
+            return new AjaxResult(1, "成功", discus1);
+        } else {
+            return new AjaxResult(0, "badness");
         }
     }
 
@@ -77,17 +78,17 @@ public class DiscusControllor {
      */
     @RequestMapping(value = "/QueryDiscus")
     @ResponseBody
-    public AjaxResult QueryDiscus(@RequestParam("pId")int pId){
+    public AjaxResult QueryDiscus(@RequestParam("pId") int pId) {
         System.out.println("进入了query");
         List<Discus> discusList = discusService.QueryDiscus(pId);
-        if (discusList!=null){
+        if (discusList != null) {
             System.out.println("query到这里了");
-            for(int i=0;i<discusList.size();i++){
+            for (int i = 0; i < discusList.size(); i++) {
                 System.out.println(discusList.get(i));
             }
-            return new AjaxResult(1,"成功",discusList);
-        }else {
-            return new AjaxResult(0,"失败");
+            return new AjaxResult(1, "成功", discusList);
+        } else {
+            return new AjaxResult(0, "失败");
         }
     }
 
@@ -98,27 +99,33 @@ public class DiscusControllor {
      */
     @RequestMapping("/selectDiscusByDid")
     @ResponseBody
-    public AjaxResult selectDiscusByDid(@RequestParam("discusId")int discusId,HttpServletRequest request){
-        Discus discus=new Discus();
+    public AjaxResult selectDiscusByDid(@RequestParam("discusId") int discusId, HttpServletRequest request) {
+        Discus discus = new Discus();
         discus.setDiscusId(discusId);
-        Comment comment=new Comment();
+        Comment comment = new Comment();
         comment.setDiscusId(discusId);
         List<Discus> discusList = discusService.select(discus, 0);
-        List<Comment> commentList=commentService.selectComment(comment,2);
-        if(discusList!=null&&commentList!=null){
-            discus=discusList.get(0);
-            request.getSession().setAttribute("discus",discus);
-            return new AjaxResult(1,"成功",discus,commentList);
+        List<Comment> commentList = commentService.selectComment(comment, 2);
+        if (discusList != null && commentList != null) {
+            discus = discusList.get(0);
+            request.getSession().setAttribute("discus", discus);
+            return new AjaxResult(1, "成功", discus, commentList);
         }
-        return new AjaxResult(0,"失败");
+        return new AjaxResult(0, "失败");
     }
 
+    /**
+     * 点击动态事件，跳转至相应页面
+     * @param operateId 被操作对象的ID
+     * @param table     被操作的表
+     * @return
+     */
     @RequestMapping(value = "hyperlink")
     @ResponseBody
-    public AjaxResult hyperlink(@RequestParam("operateId")int operateId,@RequestParam("table")String table){
+    public AjaxResult hyperlink(@RequestParam("operateId") int operateId, @RequestParam("table") String table) {
         List<AllObj> allObjList = dynamicService.selectObj(operateId, table);
-        if(allObjList!=null||allObjList.size()!=0){
-            return new AjaxResult(1,"查询对象成功",allObjList.get(0));
+        if (allObjList != null || allObjList.size() != 0) {
+            return new AjaxResult(1, "查询对象成功", allObjList.get(0));
         }
         return null;
     }

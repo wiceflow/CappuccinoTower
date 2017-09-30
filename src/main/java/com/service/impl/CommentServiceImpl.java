@@ -32,8 +32,6 @@ public class CommentServiceImpl implements CommentService{
     public Comment addComment(Comment comment) {
         // 调用工具类获取系统当前时间并转换成Date格式
         TimeGetTrans time=new TimeGetTrans();
-        // 测试一下时间是否正确
-        System.out.println();
         //将获取的时间放到 comment
         comment.setcTime(time.getTime());
         //判断一下是对任务的评论还是对讨论的评论
