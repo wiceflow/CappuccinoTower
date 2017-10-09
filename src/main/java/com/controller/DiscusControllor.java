@@ -105,10 +105,14 @@ public class DiscusControllor {
         comment.setDiscusId(discusId);
         List<Discus> discusList = discusService.select(discus, 0);
         List<Comment> commentList=commentService.selectComment(comment,2);
-        if(discusList!=null&&commentList!=null){
+        if(discusList!=null){
             discus=discusList.get(0);
             request.getSession().setAttribute("discus",discus);
-            return new AjaxResult(1,"成功",discus,commentList);
+            if (commentList!=null) {
+                return new AjaxResult(1, "成功", discus, commentList);
+            }else {
+                return new AjaxResult(2,"没有评论表成功",discus);
+            }
         }
         return new AjaxResult(0,"失败");
     }

@@ -364,6 +364,7 @@
 //                    $("#downtask").append(dateFormat(result.data.taskFinishtime));
                     $("#task_del").attr("name", result.data.taskId);
                     $("#task_ined").attr("name", result.data.taskId);
+                    $("#task_comsure").attr("name",result.data.taskId);
                     $("#taskname").val(result.data.taskName);
                 },
                 error: function () {
@@ -457,6 +458,26 @@
 
             $("#addtaskdiv").slideToggle()
             $("#task_alltask").slideToggle()
+        }
+
+        //对任务进行评论
+        function commentoftask() {
+            alert($("#task_comsure").attr("name"));
+            $.ajax({
+                type:"Post",
+                url:"/Comment/insert",
+                dataType:"json",
+                data:{
+                    cContent:$("#commentoftask").val(),
+                    taskId:$("#task_comsure").attr("name"),
+                },
+                success:function(result) {
+                    alert(result.errcode);
+                },
+                error:function () {
+                    alert("任务评论失败");
+                }
+            })
         }
     </script>
     <script src="../resources/program_dist/js/checkbix.min.js"></script>
@@ -776,8 +797,11 @@
                         });
                         $("#discus_one_addcomment").show();
                         $("#didiscus_one_addcomment_buttom").append("<button name='" + result.data.discusId + "' class='ps_btn' onclick='addcomment(this)'>发表评论</button>");
-                    }else {
-                        alert("讨论中还没有评论")
+                    }
+                    if(result.errcode==2){
+                        $("#discus_one_addcomment").show();
+                        $("#didiscus_one_addcomment_buttom").append("<button name='" + result.data.discusId + "' class='ps_btn' onclick='addcomment(this)'>发表评论</button>");
+                        alert("讨论中还没有评论");
                     }
                 },
                 error:function () {
@@ -884,10 +908,15 @@
             <span id="downtask" style="color: pink"></span>
             <br><br>
             <br>
-            <textarea placeholder="发表评论"
-                      style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"></textarea>
+            <%--用来存放任务的评论内容--%>
+            <div id="divforcommentoftask">
+
+            </div>
+
+            <input type="text" id="commentoftask" name="cContent" placeholder="发表评论"
+                      style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"/>
             <br>
-            <button id="task_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;">评论</button>
+            <button id="task_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;" onclick="commentoftask()">评论</button>div>
         </div>
 
         <div id="task_ed" style="margin-left: 210px;margin-top:-20px;width: 960px;">
