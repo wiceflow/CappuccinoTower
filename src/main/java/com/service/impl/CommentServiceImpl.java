@@ -111,7 +111,7 @@ public class CommentServiceImpl implements CommentService{
         CommentExample commentExample=new CommentExample();
         commentExample.createCriteria().andDiscusIdEqualTo(comment.getDiscusId());
         commentList= commentMapper.selectByExample(commentExample);
-        if (commentList!=null&&commentList.get(0).getcId()!=null){
+        if (commentList!=null&&commentList.size()!=0){
             return commentList;
         }
     }

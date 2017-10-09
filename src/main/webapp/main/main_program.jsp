@@ -364,6 +364,7 @@
 //                    $("#downtask").append(dateFormat(result.data.taskFinishtime));
                     $("#task_del").attr("name", result.data.taskId);
                     $("#task_ined").attr("name", result.data.taskId);
+                    $("#task_comsure").attr("name",result.data.taskId);
                     $("#taskname").val(result.data.taskName);
                 },
                 error: function () {
@@ -457,6 +458,26 @@
 
             $("#addtaskdiv").slideToggle()
             $("#task_alltask").slideToggle()
+        }
+
+        //对任务进行评论
+        function commentoftask() {
+            alert($("#task_comsure").attr("name"));
+            $.ajax({
+                type:"Post",
+                url:"/Comment/insert",
+                dataType:"json",
+                data:{
+                    cContent:$("#commentoftask").val(),
+                    taskId:$("#task_comsure").attr("name"),
+                },
+                success:function(result) {
+                    alert(result.errcode);
+                },
+                error:function () {
+                    alert("任务评论失败");
+                }
+            })
         }
     </script>
     <script src="../resources/program_dist/js/checkbix.min.js"></script>
@@ -568,8 +589,7 @@
                     if(result.errcode==1) {
                         $.each(result.data, function (n, v) {
                             if (v.type == 0) {
-                                $("#file_folderdiv").append("<i class='icono-folder' " +
-                                    "id='file_folder" + v.fileId + "' style='cursor: pointer;margin-left: 10px;'></i>" +
+                                $("#file_folderdiv").append("<i  "+ v.fileId + " class='icono-file'  style='cursor: pointer;margin-left: 10px;'></i>" +
                                     "<span style='color: white;' id='" + v.fileId + "'>" + v.fileName + "</span>");
                             }
                             if (v.type == 1) {
@@ -633,7 +653,16 @@
                 contentType: false,  //必须false才会自动加上正确的Content-Type
                 processData: false, //必须false才会避开jQuery对 formdata 的默认处理
                 success: function (result) {
-                    alert(result.errcode);
+//                    window.location.reload();
+                    $("#file_folderdiv").show();
+                    $("#filediv").fadeIn();
+                    $("#taskdiv").hide();
+                    $("#discussdiv").hide();
+                    $("#schedulediv").hide();
+                    $("#countdiv").hide();
+                    $("#memberdiv").hide();
+                    $("#upfile").hide();
+
                 },
                 error: function () {
                     alert("上传失败");
@@ -768,8 +797,11 @@
                         });
                         $("#discus_one_addcomment").show();
                         $("#didiscus_one_addcomment_buttom").append("<button name='" + result.data.discusId + "' class='ps_btn' onclick='addcomment(this)'>发表评论</button>");
-                    }else {
-                        alert("讨论中还没有评论")
+                    }
+                    if(result.errcode==2){
+                        $("#discus_one_addcomment").show();
+                        $("#didiscus_one_addcomment_buttom").append("<button name='" + result.data.discusId + "' class='ps_btn' onclick='addcomment(this)'>发表评论</button>");
+                        alert("讨论中还没有评论");
                     }
                 },
                 error:function () {
@@ -876,10 +908,15 @@
             <span id="downtask" style="color: pink"></span>
             <br><br>
             <br>
-            <textarea placeholder="发表评论"
-                      style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"></textarea>
+            <%--用来存放任务的评论内容--%>
+            <div id="divforcommentoftask">
+
+            </div>
+
+            <input type="text" id="commentoftask" name="cContent" placeholder="发表评论"
+                      style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"/>
             <br>
-            <button id="task_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;">评论</button>
+            <button id="task_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;" onclick="commentoftask()">评论</button>div>
         </div>
 
         <div id="task_ed" style="margin-left: 210px;margin-top:-20px;width: 960px;">
@@ -1152,6 +1189,7 @@
             </form>
             <button class="ps_btn" onclick="closefile()">取消</button>
         </div>
+
         
         <%--创建文件夹模块--%>
         <div id="creatfolder" style="margin-left: 210px;margin-top:10px;width: 960px;" hidden>
