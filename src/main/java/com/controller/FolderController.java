@@ -1,16 +1,16 @@
 package com.controller;
 
+import com.pojo.File;
 import com.pojo.Folder;
 import com.service.DynamicService;
+import com.service.FileService;
 import com.service.FolderService;
 import com.util.AjaxResult;
 import com.util.DynamicTool;
-import org.json.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -30,16 +30,18 @@ public class FolderController {
     private DynamicService dynamicService;
 
     @RequestMapping(value = "AddFolder",method = RequestMethod.POST)
-    public AjaxResult AddFolder(Folder folder, HttpServletRequest request){
+    @ResponseBody
+    public AjaxResult AddFolder(Folder folder, HttpServletRequest request, @RequestParam("pId")int pId){
         try{
-            int folderid = folderService.addFolder(folder);
+            int folderid = folderService.addFolder(folder,pId);
+            folder.setFolderId(folderid);
             request.getSession().setAttribute("folderid",folderid);
             int i = folderid;
             //动态操作
             DynamicTool d = new DynamicTool(i,"folder","新建了一个文件夹",request,dynamicService);
             d.newDynamic();
             //返回1，表示增加文件夹成功
-            return new AjaxResult(1,"增加文件夹成功");
+            return new AjaxResult(1,"增加文件夹成功",folder);
         }catch (Exception e){
             e.printStackTrace();
             //返回0，表示增加文件夹失败
@@ -50,7 +52,7 @@ public class FolderController {
 
     @RequestMapping(value = "FolderList",method = RequestMethod.GET)
     public AjaxResult FolderList(HttpServletRequest request){
-        List<Folder> folderList = folderService.QueryList();
+        List<Folder> folderList = folderService.QueryList(1);
         request.getSession().setAttribute("folderList",folderList);
         return new AjaxResult(1,"取出文件夹列表成功");
     }
@@ -101,5 +103,25 @@ public class FolderController {
             //返回0，表示删除文件夹失败
             return new AjaxResult(0,"删除文件夹失败");
         }
+    }
+
+    /**
+     * 根据文件夹的ID遍历其中所有的文件
+     * @param folderId
+     * @param request
+     * @return
+     */
+    @RequestMapping("/queryFileByFolderId")
+    @ResponseBody
+    public AjaxResult queryFileByFolderId(@RequestParam("folderId")int folderId,HttpServletRequest request){
+        System.out.println("进入了queryFileByFolderId------>Controller");
+        List<File> fileList = folderService.queryFileByFolderId(folderId);
+        if(fileList!=null){
+            //将文件夹放入session中，判断是否是在文件夹中上传的
+            System.out.println("将文件夹ID放入session");
+            request.getSession().setAttribute("folderId",folderId);
+            return new AjaxResult(1,"成功",fileList);
+        }
+        return new AjaxResult(0,"失败");
     }
 }

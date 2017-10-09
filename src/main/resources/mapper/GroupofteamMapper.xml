@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.GroupofteamMapper">
+  <resultMap id="BaseResultMap" type="com.pojo.Groupofteam">
+    <id column="g_id" jdbcType="INTEGER" property="gId" />
+    <result column="t_id" jdbcType="INTEGER" property="tId" />
+    <result column="g_name" jdbcType="VARCHAR" property="gName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    g_id, t_id, g_name
+  </sql>
+  <select id="selectByExample" parameterType="com.pojo.GroupofteamExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from groupofteam
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from groupofteam
+    where g_id = #{gId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from groupofteam
+    where g_id = #{gId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pojo.GroupofteamExample">
+    delete from groupofteam
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pojo.Groupofteam">
+    <!-- 新增项目的时候返回此次的自增ID -->
+    <selectKey keyProperty="gId" order="AFTER" resultType="int">
+      SELECT LAST_INSERT_ID() AS gId
+    </selectKey>
+    insert into groupofteam (g_id, t_id, g_name
+      )
+    values (#{gId,jdbcType=INTEGER}, #{tId,jdbcType=INTEGER}, #{gName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pojo.Groupofteam">
+    insert into groupofteam
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gId != null">
+        g_id,
+      </if>
+      <if test="tId != null">
+        t_id,
+      </if>
+      <if test="gName != null">
+        g_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gId != null">
+        #{gId,jdbcType=INTEGER},
+      </if>
+      <if test="tId != null">
+        #{tId,jdbcType=INTEGER},
+      </if>
+      <if test="gName != null">
+        #{gName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pojo.GroupofteamExample" resultType="java.lang.Long">
+    select count(*) from groupofteam
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update groupofteam
+    <set>
+      <if test="record.gId != null">
+        g_id = #{record.gId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tId != null">
+        t_id = #{record.tId,jdbcType=INTEGER},
+      </if>
+      <if test="record.gName != null">
+        g_name = #{record.gName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update groupofteam
+    set g_id = #{record.gId,jdbcType=INTEGER},
+      t_id = #{record.tId,jdbcType=INTEGER},
+      g_name = #{record.gName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pojo.Groupofteam">
+    update groupofteam
+    <set>
+      <if test="tId != null">
+        t_id = #{tId,jdbcType=INTEGER},
+      </if>
+      <if test="gName != null">
+        g_name = #{gName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where g_id = #{gId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pojo.Groupofteam">
+    update groupofteam
+    set t_id = #{tId,jdbcType=INTEGER},
+      g_name = #{gName,jdbcType=VARCHAR}
+    where g_id = #{gId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -19,7 +19,11 @@
     <script type="text/javascript" src="../resources/js/jquery-easyui-1.4.5/jquery.min.js"></script>
     <script type="text/javascript" src="../resources/js/jquery-easyui-1.4.5/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../resources/js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
-
+    <!--SELECT-->
+    <link rel="stylesheet" type="text/css" href="../resources/select_css/default.css">
+    <link rel="stylesheet" href="../resources/select_css/combo.select.css">
+    <!--SELECT-->
+    <script src="http://www.jq22.com/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
         /**
          * 把毫秒级时间转换成字符串,保留时分秒
@@ -30,7 +34,7 @@
         function dateFormatDetail(date) {
             var dateStr = new Date(v.date);
             // 重写toString方法
-            Date.prototype.toLocaleString = function() {
+            Date.prototype.toLocaleString = function () {
                 return this.getFullYear() + "年" + (this.getMonth() + 1) + "月" + this.getDate() + "日 " + this.getHours() + "点" + this.getMinutes() + "分" + this.getSeconds() + "秒";
             };
             return dateStr.toLocaleString();
@@ -45,98 +49,143 @@
         function dateFormat(date) {
             var dateStr = new Date(date);
             // 重写toString方法
-            Date.prototype.toLocaleString = function() {
+            Date.prototype.toLocaleString = function () {
                 return this.getFullYear() + "年" + (this.getMonth() + 1) + "月" + this.getDate() + "日";
             };
             return dateStr.toLocaleString();
         }
         //打开动态页面，自动遍历当前团队所有动态
-         $(document).ready(function () {
-             $.ajax({
-                 type:"Post",
-                 url:"/dynamic/DynamicList",
-                 dataType:"json",
-                 data:{
-                     tId:${param.tId},
-                 },
-                 success:function (result) {
-                        $.each(result.data,function (n,v) {
-                            $("#ul1_1").append("<li><h1>"+v.pName+"</h1><div>"+dateFormat(v.date)+"</div>" +
-                                "<div>"+v.uname+":"+v.action+"</div></li>")
-                        })
-                     },
-                     error:function () {
-                         alert("失败");
-                     }
+        $(document).ready(function () {
+            $.ajax({
+                type: "Post",
+                url: "/dynamic/DynamicList",
+                dataType: "json",
+                data: {
+                    tId:${param.tId},
+                },
+                success: function (result) {
+                    $.each(result.data, function (n, v) {
+                        $("#ul1_1").append("<li>" + "<h1>" + v.pName + "</h1>" +
+                            "<span style='font-size: 20px;color: grey;font-family: 'Microsoft YaHei', sans-serif'>" +
+                            dateFormat(v.date) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                            "</span>" +
+                            "<span class='weekcontent'>" + v.uname + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "</span>" + ": " +
+                            "<span class='weekcontent'>"  + v.action +"<a style='color: #ffdd4d'  href='#' onclick=gohref('"+v.operateId+"','"+v.table+"')>"+v.aaName+"</a>" + "</span>" +
+                            "</div></li>")
+                    })
+                },
+                error: function () {
+                    alert("失败");
+                }
+            })
+        })
 
-             })
-         })
+
+
+        function gohref(a,b) {
+            $.ajax({
+                type:"Post",
+                url:"/dynamic/hyperlink",
+                dataType:"json",
+                data:{
+                    operateId:a,
+                    table:b,
+                },
+                success:function (result) {
+                    if(result.errcode==1){
+
+                        if(result.data.type==1){
+                            location.href="../main/task_index.jsp?operateId='"+a+"'";
+                        }else if(result.data.type==2){
+                            alert(result.data.discus.dTopic);
+                        }else if(result.data.type==3){
+                            alert(result.data.comment.cComment);
+                        }else if(result.data.type==4){
+                            alert(result.data.file.fileName);
+                        }else if(result.data.type==5){
+                            alert(result.data.folder.folderName);
+                            document.getElementById("program_index").src="../main/main_program.jsp";
+                        }else if(result.data.type==6){
+                            alert(result.data.team.tName);
+                        }else if(result.data.type==7){
+                            location.href="../weekly/weekly11.jsp?operateId='"+a+"'";
+                        }
+                    }
+                }
+            })
+        }
     </script>
     <script type="text/javascript">
         //打开动态页面，在select1中遍历用户在该团队中所有项目
         $(document).ready(function () {
-           $("#select1")
+            $("#select1")
             $.ajax({
-                type:"POST",
-                url:"/dynamic/projectByUid",
-                dataType:"json",
-                data:{
-                    uId:${user.uId},
+                type: "POST",
+                url: "/dynamic/projectByTid",
+                dataType: "json",
+                data: {
+                    tId:${param.tId},
                 },
-                success : function(result) {// result为返回的数据
-                  $.each(result.data,function (n,v) {
-                      var op="<option value="+v.pName+">"+v.pName+"</option>"
-                      $("#select1").append(op);
-                  })
+                success: function (result) {// result为返回的数据
+                    $.each(result.data, function (n, v) {
+                        var op = "<option value=" + v.pName + ">" + v.pName + "</option>"
+                        $("#select1").append(op);
+                    })
 
-                  },
-                error:function () {
+                },
+                error: function () {
                     alert("错了")
                 }
-                })
+            })
 
 
             //点击select1中的项目执行该方法，显示被点击项目的动态列表
             $("#select1").change(function () {
-                 $.ajax({
-                     type:"POST",
-                     url:"/dynamic/dynamicByPid",
-                     dataType:"json",
-                     data:{
-                         pName:$("#select1").val(),
-                         uName:$("#select2").val(),
-                     },
-                     success:function (result) {
-                         if(result.errcode==1){
-                             $("#ul1_1").html("");
-                             $.each(result.data,function (n,v) {
-                                 $("#ul1_1").append("<li><h1>"+v.pName+"</h1><div>"+dateFormat(v.date)+"</div>" +
-                                     "<div>"+v.uname+":"+v.action+"</div></li>")
-                             })
-                         }else{
-                             alert("显示失败！")
-                         }
-                     }
-                 })
+                $.ajax({
+                    type: "POST",
+                    url: "/dynamic/dynamicByPid",
+                    dataType: "json",
+                    data: {
+                        pName: $("#select1").val(),
+                        uName: $("#select2").val(),
+                    },
+                    success: function (result) {
+                        if (result.errcode == 1) {
+                            $("#ul1_1").html("");
+                            $.each(result.data, function (n, v) {
+                                $("#ul1_1").append("<li>" + "<h1>" + v.pName + "</h1>" +
+                                    "<span style='font-size: 20px;color: grey;font-family: 'Microsoft YaHei', sans-serif'>" +
+                                    dateFormat(v.date) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                    "</span>" +
+                                    "<span class='weekcontent'>" + v.uname + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "</span>" + ": " +
+                                    "<span class='weekcontent'>"  + v.action +"<a style='color: #ffdd4d'  href='#' onclick=gohref('"+v.operateId+"','"+v.table+"')>"+v.aaName+"</a>" + "</span>" +
+                                    "</div></li>")
+                            })
+                        }
+                    },
+                    error:function () {
+                        alert("错误");
+                    }
+                })
             })
 
             ////打开动态页面，在select2中遍历该团队中所有组员
             $("#select2")
             $.ajax({
-                type:"POST",
-                url:"/dynamic/userByTid",
-                dataType:"json",
-                data:{
+                type: "POST",
+                url: "/dynamic/userByTid",
+                dataType: "json",
+                data: {
                     tId:${param.tId},
                 },
-                success:function (result) {//result为返回的数据
-                    $.each(result.data,function (n,v) {
-                        var op1="<option value="+v.uName+">"+v.uName+"</option>"
+                success: function (result) {//result为返回的数据
+                    $.each(result.data, function (n, v) {
+                        var op1 = "<option value=" + v.uName + ">" + v.uName + "</option>"
                         $("#select2").append(op1);
                     })
 
                 },
-                error:function () {
+                error: function () {
                     alert("错了1111")
                 }
             })
@@ -144,50 +193,72 @@
             //点击select2中的组员执行该方法，显示被点击组员的动态列表
             $("#select2").change(function () {
                 $.ajax({
-                    type:"POST",
-                    url:"/dynamic/dynamicByPid",
-                    dataType:"json",
-                    data:{
-                        pName:$("#select1").val(),
-                        uName:$("#select2").val(),
+                    type: "POST",
+                    url: "/dynamic/dynamicByPid",
+                    dataType: "json",
+                    data: {
+                        pName: $("#select1").val(),
+                        uName: $("#select2").val(),
                     },
-                    success:function (result) {
-                        if(result.errcode==1){
+                    success: function (result) {
+                        if (result.errcode == 1) {
                             $("#ul1_1").html("");
-                            $.each(result.data,function (n,v) {
-                                $("#ul1_1").append("<li><h1>"+v.pName+"</h1><div>"+dateFormat(v.date)+"</div>" +
-                                    "<div>"+v.uname+":"+v.action+"</div></li>")
+                            $.each(result.data, function (n, v) {
+                                $("#ul1_1").append("<li>" + "<h1>" + v.pName + "</h1>" +
+                                    "<span style='font-size: 20px;color: grey;font-family: 'Microsoft YaHei', sans-serif'>" +
+                                    dateFormat(v.date) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                    "</span>" +
+                                    "<span class='weekcontent'>" + v.uname + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "</span>" + ": " +
+                                    "<span class='weekcontent'>"  + v.action +"<a style='color: #ffdd4d'  href='#' onclick=gohref('"+v.operateId+"','"+v.table+"')>"+v.aaName+"</a>" + "</span>" +
+                                    "</div></li>")
                             })
-                        }else{
+                        } else {
                             alert("显示失败1111")
                         }
                     }
                 })
             })
-
-
-
         });
 
     </script>
+
     <style>
+        body {
+            background-color: #212121;
+        }
+
+
+        .weekcontent{
+            font-size: 20px;
+            color: grey;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        h1 {
+            font-size: 30px;
+            color: white;
+
+        }
 
     </style>
 </head>
-<body style="margin: 20px;">
-<p>筛选动态:</p>
-<select id="select1">
-    <option value='0'>所有项目...</option>
-</select>
-<select id="select2">
-    <option value="0">所有成员</option>
+<body style="margin-left: 80px;">
+<p style="color: #ffdd4d;font-size: 30px">筛选动态:</p>
+<div style="float:left;">
+    <select id="select1">
+        <option value='0'>所有项目</option>
+    </select>
+</div>
 
-</select>
+<div style="float:left;">
+    <select id="select2">
+        <option value="0">所有成员</option>
+    </select>
+</div>
+
 <br><br><br>
 <div id="div1" class="menu-sep" style="margin-left: 0px;width: 1000px;float: left;">
     <ul id="ul1_1"></ul>
 </div>
-
 
 
 </body>

@@ -3,8 +3,8 @@ package com.controller;
 import com.pojo.Comment;
 import com.pojo.User;
 import com.service.CommentService;
+import com.util.AjaxResult;
 import com.util.ObtainSession;
-import com.util.TimeGetTrans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,22 +33,45 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    //向评论表中新增数据
+    //向评论表中新增数据用来评论任务的
+    //方法是有问题的，有待改进
     @RequestMapping(value = "insert",method = RequestMethod.POST)
-    //type 是用来判断 是评论还是 回复
-    public String insertComment(HttpServletRequest request, @RequestParam("type") int type, Comment comment){
+    @ResponseBody
+    public String insertComment(HttpServletRequest request,Comment comment){
         // 为Comment补全信息
         User user = new ObtainSession(request).getUser();
         comment.setuId(user.getuId());
         comment.setuName(user.getuName());
         // 将数据存入Comment数据库中
-        comment = commentService.addComment(comment,type);
+        comment = commentService.addComment(comment);
         if(comment!=null){
             //添加成功就跳进遍历Controllor进行重新遍历
             return "success";
         }
         return "comment/fail";
     }
+
+    //向讨论中增加评论
+    @RequestMapping("/cContent")
+    @ResponseBody
+    public AjaxResult insertDiscusComment(HttpServletRequest request,Comment comment){
+       //从Session中获取user
+        User user=new ObtainSession(request).getUser();
+       comment.setuName(user.getuName());
+       comment.setuId(user.getuId());
+       //因为是对讨论表中评论，所以没有任务什么事
+        //根据数据库中 task-id(即任务ID)不能为空，所以设置为0；
+        comment.setTaskId(0);
+        Comment comment1 = commentService.addComment(comment);
+        System.out.println("这是返回的评论对象"+comment1);
+        if (comment1!=null){
+            return new AjaxResult(1,"成功",comment1);
+        }
+        return new AjaxResult(0,"失败");
+    }
+
+
+
     // TODO 点击任务后会把评论显示出来
     @RequestMapping(value = "queryComment",method = RequestMethod.GET)
     //前台要传过来一个任务ID 即 taskid

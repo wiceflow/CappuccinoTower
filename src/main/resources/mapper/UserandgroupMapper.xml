@@ -106,6 +106,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pojo.Userandgroup">
+    <!-- 新增项目的时候返回此次的自增ID -->
+    <selectKey keyProperty="ugId" order="AFTER" resultType="int">
+      SELECT LAST_INSERT_ID() AS ugId
+    </selectKey>
     insert into userandgroup (ug_id, u_id, g_id
       )
     values (#{ugId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{gId,jdbcType=INTEGER}

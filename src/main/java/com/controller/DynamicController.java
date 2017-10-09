@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.AllObj;
 import com.dto.General;
 import com.pojo.Dynamic;
 import com.pojo.Project;
@@ -10,6 +11,7 @@ import com.service.ProjectService;
 import com.service.UserService;
 import com.service.UserandteamService;
 import com.util.AjaxResult;
+import com.util.ObtainSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,7 +72,6 @@ public class DynamicController {
     @ResponseBody
     public AjaxResult DynamicList(@RequestParam("tId")int tId){
         Dynamic dynamic = new Dynamic();
-        System.out.println(tId+"前台传入的tid团队编号******************");
         dynamic.settId(tId);
         List<General> generalList = dynamicService.QueryList(dynamic);
         setGL(generalList);
@@ -81,11 +82,12 @@ public class DynamicController {
         }
     }
 
-    @RequestMapping(value = "projectByUid")
+    @RequestMapping(value = "projectByTid")
     @ResponseBody
-    public AjaxResult projectByUid(@RequestParam("uId")int uId, HttpServletRequest request){
-        List<Project> projectList = projectService.QueryList(uId);
-        if(projectList!=null&&projectList.size()!=0){
+    public AjaxResult projectByTid(@RequestParam("tId")int tId){
+        List<Project> projectList = projectService.QueryList(tId);
+        if(projectList!=null||projectList.size()!=0){
+            System.out.println(projectList+"*********");
             return new AjaxResult(1,"项目遍历成功",projectList);
         }
         return new AjaxResult(0,"项目遍历失败");
@@ -145,4 +147,13 @@ public class DynamicController {
         }
     }
 
+    @RequestMapping(value = "hyperlink")
+    @ResponseBody
+    public AjaxResult hyperlink(@RequestParam("operateId")int operateId,@RequestParam("table")String table){
+        List<AllObj> allObjList = dynamicService.selectObj(operateId, table);
+        if(allObjList!=null||allObjList.size()!=0){
+            return new AjaxResult(1,"查询对象成功",allObjList.get(0));
+        }
+        return null;
+    }
 }

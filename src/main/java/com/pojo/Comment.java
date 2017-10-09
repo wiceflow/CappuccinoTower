@@ -32,25 +32,18 @@ public class Comment implements Serializable {
      */
     private Date cTime;
 
-    /**
-     * 发起评论者
-     */
     private String uName;
 
-    /**
-     * 被评论者
-     */
     private Integer buId;
 
-    /**
-     * 被评论名字
-     */
     private String buUsername;
 
-    /**
-     * 被评论编号
-     */
     private Integer bcId;
+
+    /**
+     * 评论的讨论表
+     */
+    private Integer discusId;
 
     private static final long serialVersionUID = 1L;
 
@@ -126,6 +119,14 @@ public class Comment implements Serializable {
         this.bcId = bcId;
     }
 
+    public Integer getDiscusId() {
+        return discusId;
+    }
+
+    public void setDiscusId(Integer discusId) {
+        this.discusId = discusId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -146,7 +147,8 @@ public class Comment implements Serializable {
             && (this.getuName() == null ? other.getuName() == null : this.getuName().equals(other.getuName()))
             && (this.getBuId() == null ? other.getBuId() == null : this.getBuId().equals(other.getBuId()))
             && (this.getBuUsername() == null ? other.getBuUsername() == null : this.getBuUsername().equals(other.getBuUsername()))
-            && (this.getBcId() == null ? other.getBcId() == null : this.getBcId().equals(other.getBcId()));
+            && (this.getBcId() == null ? other.getBcId() == null : this.getBcId().equals(other.getBcId()))
+            && (this.getDiscusId() == null ? other.getDiscusId() == null : this.getDiscusId().equals(other.getDiscusId()));
     }
 
     @Override
@@ -162,6 +164,7 @@ public class Comment implements Serializable {
         result = prime * result + ((getBuId() == null) ? 0 : getBuId().hashCode());
         result = prime * result + ((getBuUsername() == null) ? 0 : getBuUsername().hashCode());
         result = prime * result + ((getBcId() == null) ? 0 : getBcId().hashCode());
+        result = prime * result + ((getDiscusId() == null) ? 0 : getDiscusId().hashCode());
         return result;
     }
 
@@ -180,6 +183,7 @@ public class Comment implements Serializable {
         sb.append(", buId=").append(buId);
         sb.append(", buUsername=").append(buUsername);
         sb.append(", bcId=").append(bcId);
+        sb.append(", discusId=").append(discusId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

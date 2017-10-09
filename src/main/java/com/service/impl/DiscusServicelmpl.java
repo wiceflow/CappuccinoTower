@@ -68,7 +68,18 @@ public class DiscusServicelmpl implements DiscusService {
         return 0;
     }
 
-    public List<Discus> select(Discus discus, int discusId) {return null;}
+    public List<Discus> select(Discus discus, int discusId) {
+        List<Discus> discusList=new ArrayList<Discus>();
+        Discus discus1=null;
+        if (discusId==0){
+            discus1=discusMapper.selectByPrimaryKey(discus.getDiscusId());
+            if (discus1!=null){
+                discusList.add(discus1);
+                return discusList;
+            }
+        }
+        return null;
+    }
 
     /**
      * 根据项目id 遍历出该id所有的讨论
@@ -77,7 +88,6 @@ public class DiscusServicelmpl implements DiscusService {
      */
     public List<Discus> QueryDiscus(int pId){
         Project project = projectMapper.selectByPrimaryKey(pId);
-        System.out.println(project.getDiscusallid()+"这是总表的ID");
         DiscusExample discusExample=new DiscusExample();
         discusExample.createCriteria().andDiscusallIdEqualTo(project.getDiscusallid());
         List<Discus> discusList = discusMapper.selectByExampleWithBLOBs(discusExample);

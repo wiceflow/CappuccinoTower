@@ -1,9 +1,11 @@
 package com.service.impl;
 
+import com.dao.FileMapper;
 import com.dao.FolderMapper;
-import com.pojo.Folder;
-import com.pojo.FolderExample;
+import com.dao.TotalfileMapper;
+import com.pojo.*;
 import com.service.FolderService;
+import com.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,34 @@ import java.util.List;
 public class FolderServiceImpl implements FolderService{
     @Autowired
     FolderMapper folderMapper;
-    public int addFolder(Folder folder) {
-        folderMapper.insert(folder);
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    TotalfileMapper totalfileMapper;
+
+    //注入文件的Mapper
+    @Autowired
+    FileMapper fileMapper;
+    public int addFolder(Folder folder,int pId) {
+        Project project=new Project();
+        project.setpId(pId);
+        //根据项目id查找项目中所有的数据，判断是否有文件总表
+        List<Project> projectList = projectService.selectProject(project, 0);
+        int totalid;
+        if(projectList.get(0).getfTotalid()==null||projectList.get(0).getfTotalid()==0) {
+            Totalfile totalfile = new Totalfile();
+            totalfileMapper.insert(totalfile);
+            totalid = totalfile.getTotalfileId();
+            //将文件总表的id加入project中
+            project = projectList.get(0);
+            project.setfTotalid(totalid);
+            //更新project
+            projectService.updateProject(project);
+        }else {
+            totalid=projectList.get(0).getfTotalid();
+        }
+            folder.setTotalfileId(totalid);
+            folderMapper.insert(folder);
         return folder.getFolderId();
     }
 
@@ -56,11 +84,34 @@ public class FolderServiceImpl implements FolderService{
         }
     }
 
-    public List<Folder> QueryList() {
-        List<Folder> folderList = null;
+    /**
+     * 根据总表totalid对文件夹进行查询
+     * @return
+     */
+    public List<Folder> QueryList(int totalid) {
         FolderExample folderExample = new FolderExample();
-        folderExample.setDistinct(true);
-        folderList = folderMapper.selectByExample(folderExample);
-        return folderList;
+        folderExample.createCriteria().andTotalfileIdEqualTo(totalid);
+        List<Folder> folderList = folderMapper.selectByExample(folderExample);
+        if (folderList!=null&&folderList.size()!=0){
+            return folderList;
+        }
+       return null;
+    }
+
+
+    /**
+     * 根据文件夹ID遍历其中的文件
+     * @param folderId
+     * @return
+     */
+    public List<File> queryFileByFolderId(int folderId){
+        FileExample fileExample=new FileExample();
+        fileExample.createCriteria().andFolderIdEqualTo(folderId);
+        //select * from file where folderID=?
+        List<File> fileList = fileMapper.selectByExample(fileExample);
+        if(fileList!=null&&fileList.size()!=0){
+            return fileList;
+        }
+        return null;
     }
 }

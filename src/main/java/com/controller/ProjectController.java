@@ -6,6 +6,7 @@ import com.pojo.User;
 import com.service.DynamicService;
 import com.service.ProjectService;
 import com.service.UserService;
+import com.service.UserandprojectService;
 import com.util.AjaxResult;
 import com.util.DynamicTool;
 import com.util.ObtainSession;
@@ -41,6 +42,12 @@ public class ProjectController {
 
     @Autowired
     DynamicService dynamicService;
+
+    //注入用户与项目服务依赖[userandprojectService]
+    @Autowired
+    UserandprojectService userandprojectService;
+
+
     /**
      * 跳转到输入项目信息界面
      * @return
@@ -57,7 +64,11 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/putProject")
-    public String putProject( Project project, @RequestParam("uId") List<Integer> uId,HttpServletRequest request){
+    @ResponseBody
+    public AjaxResult putProject( Project project, @RequestParam("uId[]") List<Integer> uId,HttpServletRequest request){
+        System.out.println("进入了putProject------》Controller");
+        int tId=new ObtainSession(request).getTeam().gettId();
+        project.settId(tId);
 
         //调用实现类，插入项目数据(返回项目)
         Project projectback = projectService.addProject(project, uId);
@@ -67,7 +78,7 @@ public class ProjectController {
         //动态操作
         DynamicTool d=new DynamicTool(projectback.getpId(),"project","创建了这个项目",request,dynamicService);
         d.newDynamic();
-        return "AllSuccess";
+        return new AjaxResult(1,"成功");
     }
 
     /**
@@ -233,7 +244,6 @@ public class ProjectController {
     @RequestMapping(value = "ListByUid")
     @ResponseBody
     public AjaxResult ListByUid(HttpServletRequest request,@RequestParam("uId")int uId){
-        System.out.println(".....");
         List<Project> projectList = projectService.QueryList(uId);
         if(projectList!=null&&projectList.size()!=0){
             return new AjaxResult(1,"查找成功",projectList);
@@ -251,13 +261,31 @@ public class ProjectController {
     @RequestMapping(value = "displayProject")
     @ResponseBody
     public AjaxResult displayProject(@RequestParam("pId")int pId,HttpServletRequest request){
-        System.out.println("进来了dis");
         int uId=new ObtainSession(request).getUser().getuId();
-        ProjectList projectList = projectService.projectALL(pId, uId);
-        System.out.println(projectList.getpName());
-        if (projectList!=null){
-            return new AjaxResult(1,"成功",projectList);
+        Project project = projectService.projectALL(pId, uId);
+        if (project!=null){
+            request.getSession().setAttribute("project",project);
+            return new AjaxResult(1,"成功",project);
         }
         return new AjaxResult(0,"失败");
+    }
+
+    /**
+     * 查询当前项目参与的人数
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "projecter",method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult people(HttpServletRequest request){
+        int pId = new ObtainSession(request).getProject().getpId();
+        List<User> userList = userandprojectService.QueryAl(pId);
+        if (userList!=null) {
+            for (User u : userList){
+                System.out.println(u.toString());
+            }
+            return new AjaxResult(1, "成功", userList);
+        }
+        return null;
     }
 }

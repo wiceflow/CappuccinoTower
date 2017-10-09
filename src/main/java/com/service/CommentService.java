@@ -17,7 +17,7 @@ public interface CommentService {
      * @param Type 判断条件
      * @return 返回0表示失败，返回1表示成功
      */
-    Comment addComment(Comment comment, int Type);
+    Comment addComment(Comment comment);
 
     /**
      * 删除一个评论表

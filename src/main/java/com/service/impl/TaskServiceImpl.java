@@ -2,8 +2,11 @@ package com.service.impl;
 
 import com.dao.TaskMapper;
 import com.dao.TeamMapper;
+import com.dao.UserMapper;
+import com.dto.Taskdto;
 import com.pojo.Task;
 import com.pojo.TaskExample;
+import com.pojo.User;
 import com.service.TaskService;
 import com.util.TimeGetTrans;
 import org.slf4j.Logger;
@@ -24,6 +27,9 @@ public class TaskServiceImpl implements TaskService {
     private static final Logger _LOG = LoggerFactory.getLogger(TaskServiceImpl.class);
     @Autowired
     TaskMapper taskMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     /**
      * 新增任务
@@ -47,6 +53,11 @@ public class TaskServiceImpl implements TaskService {
         return task.getTaskId();
     }
 
+    /**
+     * 删除任务
+     * @param taskId 根据ID来删除
+     * @return
+     */
     public int deleteTask(int taskId) {
         int i=taskMapper.deleteByPrimaryKey(taskId);
         if(i>0){
@@ -56,11 +67,26 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    /**
+     * 更新任务
+     * @param task 任务实体类
+     * @return
+     */
     public int updateTask(Task task) {
-        taskMapper.updateByPrimaryKey(task);
-        return 1;
+        try{
+            taskMapper.updateByPrimaryKey(task);
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
+    /**
+     * 查询任务
+     * @param task 任务实体类
+     * @param id
+     * @return
+     */
     public List<Task> selectTask(Task task, int id) {
         List<Task> taskList=new ArrayList<Task>();
         Task task1=null;
@@ -79,10 +105,37 @@ public class TaskServiceImpl implements TaskService {
         return taskList;
     }
 
+    /**
+     * 查询任务列表
+     * @return
+     */
     public List<Task> QueryList() {
         TaskExample taskExample = new TaskExample();
         taskExample.setDistinct(true);
         List<Task> list = taskMapper.selectByExample(taskExample);
         return list;
     }
+
+    /**
+     * 点击任务动态事件
+     * @param task
+     * @return
+     */
+    public List<Taskdto> DtoQueryList(Task task) {
+        TaskExample taskExample = new TaskExample();
+        taskExample.createCriteria().andTaskIdEqualTo(task.getTaskId());
+        List<Task> taskList = taskMapper.selectByExample(taskExample);
+        List<Taskdto> taskdtoList = new ArrayList<Taskdto>();
+        for(int i=0;i<taskList.size();i++){
+            Taskdto taskdto = new Taskdto();
+            User taskUser = userMapper.selectByPrimaryKey(taskList.get(i).getTaskUser());
+            User taskAssign = userMapper.selectByPrimaryKey(taskList.get(i).getTaskAssigner());
+            taskdto.setTask(taskList.get(i));
+            taskdto.setTaskUser(taskUser);
+            taskdto.setTaskAssigner(taskAssign);
+            taskdtoList.add(taskdto);
+        }
+        return taskdtoList;
+    }
+
 }

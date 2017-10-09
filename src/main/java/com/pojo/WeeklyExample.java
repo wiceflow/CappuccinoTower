@@ -584,6 +584,126 @@ public class WeeklyExample {
             addCriterion("w_method not between", value1, value2, "wMethod");
             return (Criteria) this;
         }
+
+        public Criteria andTIdIsNull() {
+            addCriterion("t_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdIsNotNull() {
+            addCriterion("t_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdEqualTo(Integer value) {
+            addCriterion("t_id =", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdNotEqualTo(Integer value) {
+            addCriterion("t_id <>", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdGreaterThan(Integer value) {
+            addCriterion("t_id >", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("t_id >=", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdLessThan(Integer value) {
+            addCriterion("t_id <", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdLessThanOrEqualTo(Integer value) {
+            addCriterion("t_id <=", value, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdIn(List<Integer> values) {
+            addCriterion("t_id in", values, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdNotIn(List<Integer> values) {
+            addCriterion("t_id not in", values, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdBetween(Integer value1, Integer value2) {
+            addCriterion("t_id between", value1, value2, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("t_id not between", value1, value2, "tId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdIsNull() {
+            addCriterion("p_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdIsNotNull() {
+            addCriterion("p_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdEqualTo(Integer value) {
+            addCriterion("p_id =", value, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdNotEqualTo(Integer value) {
+            addCriterion("p_id <>", value, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdGreaterThan(Integer value) {
+            addCriterion("p_id >", value, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("p_id >=", value, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdLessThan(Integer value) {
+            addCriterion("p_id <", value, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdLessThanOrEqualTo(Integer value) {
+            addCriterion("p_id <=", value, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdIn(List<Integer> values) {
+            addCriterion("p_id in", values, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdNotIn(List<Integer> values) {
+            addCriterion("p_id not in", values, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdBetween(Integer value1, Integer value2) {
+            addCriterion("p_id between", value1, value2, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("p_id not between", value1, value2, "pId");
+            return (Criteria) this;
+        }
     }
 
     /**

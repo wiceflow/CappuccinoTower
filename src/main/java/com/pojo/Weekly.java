@@ -42,6 +42,16 @@ public class Weekly implements Serializable {
      */
     private String wMethod;
 
+    /**
+     * 团队id
+     */
+    private Integer tId;
+
+    /**
+     * 项目id
+     */
+    private Integer pId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getWeeklyId() {
@@ -100,6 +110,22 @@ public class Weekly implements Serializable {
         this.wMethod = wMethod;
     }
 
+    public Integer gettId() {
+        return tId;
+    }
+
+    public void settId(Integer tId) {
+        this.tId = tId;
+    }
+
+    public Integer getpId() {
+        return pId;
+    }
+
+    public void setpId(Integer pId) {
+        this.pId = pId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -118,7 +144,9 @@ public class Weekly implements Serializable {
             && (this.getwSummary() == null ? other.getwSummary() == null : this.getwSummary().equals(other.getwSummary()))
             && (this.getwChallenge() == null ? other.getwChallenge() == null : this.getwChallenge().equals(other.getwChallenge()))
             && (this.getwTarget() == null ? other.getwTarget() == null : this.getwTarget().equals(other.getwTarget()))
-            && (this.getwMethod() == null ? other.getwMethod() == null : this.getwMethod().equals(other.getwMethod()));
+            && (this.getwMethod() == null ? other.getwMethod() == null : this.getwMethod().equals(other.getwMethod()))
+            && (this.gettId() == null ? other.gettId() == null : this.gettId().equals(other.gettId()))
+            && (this.getpId() == null ? other.getpId() == null : this.getpId().equals(other.getpId()));
     }
 
     @Override
@@ -132,6 +160,8 @@ public class Weekly implements Serializable {
         result = prime * result + ((getwChallenge() == null) ? 0 : getwChallenge().hashCode());
         result = prime * result + ((getwTarget() == null) ? 0 : getwTarget().hashCode());
         result = prime * result + ((getwMethod() == null) ? 0 : getwMethod().hashCode());
+        result = prime * result + ((gettId() == null) ? 0 : gettId().hashCode());
+        result = prime * result + ((getpId() == null) ? 0 : getpId().hashCode());
         return result;
     }
 
@@ -148,6 +178,8 @@ public class Weekly implements Serializable {
         sb.append(", wChallenge=").append(wChallenge);
         sb.append(", wTarget=").append(wTarget);
         sb.append(", wMethod=").append(wMethod);
+        sb.append(", tId=").append(tId);
+        sb.append(", pId=").append(pId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

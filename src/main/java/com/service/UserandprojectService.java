@@ -1,6 +1,9 @@
 package com.service;
 
+import com.pojo.User;
 import com.pojo.Userandproject;
+
+import java.util.List;
 
 /**
  * Created by BF on 2017/9/6.
@@ -20,4 +23,7 @@ public interface UserandprojectService {
      * @param upId 根据ID来删除
      */
     void deleteUserandproject(int upId);
+
+    List<User> QueryAl(int pId);
+
 }

@@ -1,9 +1,8 @@
 package com.dao;
 
-import java.util.List;
-
 import com.pojo.Comment;
 import com.pojo.CommentExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface CommentMapper {

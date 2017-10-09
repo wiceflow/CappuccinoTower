@@ -1,6 +1,8 @@
 package com.service;
 
+import com.pojo.Project;
 import com.pojo.Team;
+import com.service.impl.TeamServiceImpl;
 
 import java.util.List;
 
@@ -39,5 +41,29 @@ public interface TeamService {
      */
     List<Team> selectTeam(Team team,int i);
 
+
+    /**
+     * 用户登录 根据用户ID查找出他所属的所有团队
+     * @param uId
+     * @return
+     */
+    List<Team> selectTeam(int uId);
     List<Team> Query();
+
+    /**
+     * 获取全部存在的团队信息
+     * @return
+     */
+    List<Team> selectAll();
+
+    /**
+     * 根据团队ID查找所做的所有项目
+     */
+    public List<Project> ProjectByTid(int tId);
+
+    /**
+     * 设置TeamList
+     * @param a
+     */
+    void backAll(List<Team> a);
 }

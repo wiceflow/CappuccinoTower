@@ -29,25 +29,20 @@ public class CommentServiceImpl implements CommentService{
      * @param comment 一个评论表
      * @return
      */
-    public int addComment(Comment comment) {
+    public Comment addComment(Comment comment) {
         // 调用工具类获取系统当前时间并转换成Date格式
         TimeGetTrans time=new TimeGetTrans();
-        // 测试一下时间是否正确
-        System.out.println();
         //将获取的时间放到 comment
         comment.setcTime(time.getTime());
-
-        //判断是否是评论他人的 回复，若不是，则给设置一个默认值0
-        //即bUid 和 bCid 为0 方便后面的调用
-        if(comment.getBuId()==null||comment.getBuId().equals(""))
-        {
-            comment.setBuId(0);
-            comment.setBcId(0);
+        //判断一下是对任务的评论还是对讨论的评论
+        //如果讨论的id为空，则证明是对任务的评论
+        if (comment.getDiscusId()==null) {
+          //这里是对任务评论的一些操做
+          //有待改进
         }
-        //插入一个新的数据
-        commentMapper.insert(comment);
-
-        return 1;
+            //插入一个新的数据
+            commentMapper.insert(comment);
+        return comment;
     }
 
     public Comment addComment(Comment comment, int Type) {
@@ -109,6 +104,16 @@ public class CommentServiceImpl implements CommentService{
             return commentList;
         }
 
+    }
+
+    //根据讨论表的ID进行查找
+    if (cId==2){
+        CommentExample commentExample=new CommentExample();
+        commentExample.createCriteria().andDiscusIdEqualTo(comment.getDiscusId());
+        commentList= commentMapper.selectByExample(commentExample);
+        if (commentList!=null&&commentList.size()!=0){
+            return commentList;
+        }
     }
         return null;
     }

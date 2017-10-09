@@ -1,9 +1,11 @@
 package com.service.impl;
 
+import com.dao.GroupofteamMapper;
 import com.dao.TeamMapper;
 import com.dao.UserMapper;
+import com.dao.UserandteamMapper;
+import com.dto.TeamforJsp;
 import com.pojo.*;
-import com.service.ProjectService;
 import com.service.TeamService;
 import com.service.UserService;
 import com.service.UserandteamService;
@@ -33,6 +35,16 @@ public class UserServiceImpl implements UserService {
     //注入团队和用户依赖
     @Autowired
     UserandteamService userandteamService;
+
+    @Autowired
+    UserandteamMapper userandteamMapper;
+
+    @Autowired
+    TeamMapper teamMapper;
+
+    @Autowired
+    GroupofteamMapper groupofteamMapper;
+
 
     public int addUser(User user, Team team) {
         List<User> userList = null;
@@ -176,5 +188,43 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
+    }
+
+    /**
+     * 根据tId返回一个DTO类型
+     * @param tId
+     * @return
+     */
+    public List<TeamforJsp> QueryByTid(int tId){
+        UserandteamExample userandteamExample=new UserandteamExample();
+        userandteamExample.createCriteria().andTIdEqualTo(tId);
+        List<TeamforJsp> teamforJspList=new ArrayList<TeamforJsp>();
+        List<Userandteam> userandteamList = userandteamMapper.selectByExample(userandteamExample);
+        Team team = teamMapper.selectByPrimaryKey(tId);
+        for(int i=0;i<userandteamList.size();i++){
+            TeamforJsp teamforJsp=new TeamforJsp();
+            User user = userMapper.selectByPrimaryKey(userandteamList.get(i).getuId());
+
+            teamforJsp.settId(userandteamList.get(i).gettId());
+            teamforJsp.setType(userandteamList.get(i).getType());
+
+            teamforJsp.settName(team.gettName());
+            teamforJsp.setIsgroup(team.getIsgroup());
+
+            teamforJsp.setuId(user.getuId());
+            teamforJsp.setuName(user.getuName());
+            teamforJsp.setuEmail(user.getuEmail());
+            if(team.getIsgroup()!=0){
+                //带改善
+            }else{
+
+            }
+            teamforJspList.add(teamforJsp);
+        }
+        if(teamforJspList!=null&&teamforJspList.get(0).gettId()!=0){
+            System.out.println("--->queryByTid---->Service");
+            return teamforJspList;
+        }
+        return null;
     }
 }
