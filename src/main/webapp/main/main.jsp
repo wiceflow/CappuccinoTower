@@ -115,7 +115,7 @@
                 url: "/team/ProjectByTid",
                 dataType: "json",
                 success: function (result) {
-                    document.getElementById("program_index").src = "program_index.jsp";
+                    document.getElementById("program_index").src = "../main/program_index.jsp";
                 },
                 error: function () {
                     alert("跳转回项目失败了");
