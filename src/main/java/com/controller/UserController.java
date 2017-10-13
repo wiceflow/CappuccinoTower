@@ -192,4 +192,19 @@ public class UserController {
         return "main/main";
     }
 
+    @RequestMapping(value = "exit",method = RequestMethod.POST)
+    @ResponseBody
+    public int exit(HttpServletRequest request){
+        try{
+            System.out.println("退出登录1");
+            request.getSession().setAttribute("user",null);
+            System.out.println("退出登录2");
+            request.getSession().removeAttribute("team");
+            System.out.println("退出登录3");
+        }catch (Exception e){
+            System.out.println("退出失败");
+        }
+        return 1;
+    }
+
 }
