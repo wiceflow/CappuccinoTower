@@ -51,34 +51,6 @@
 
         })
 
-        /*$("#manmenu1").hover(function(){
-         $("#manmenu1").css("color","darkgray")
-         $("#manmenu2").css("color","white")
-         $("#manmenu3").css("color","white")
-         $("#manmenu4").css("color","white")
-         })
-
-         $("#manmenu2").hover(function(){
-         $("#manmenu1").css("color","white")
-         $("#manmenu2").css("color","darkgray")
-         $("#manmenu3").css("color","white")
-         $("#manmenu4").css("color","white")
-         })
-
-         $("#manmenu3").hover(function(){
-         $("#manmenu1").css("color","white")
-         $("#manmenu2").css("color","white")
-         $("#manmenu3").css("color","darkgray")
-         $("#manmenu4").css("color","white")
-         })
-
-         $("#manmenu4").hover(function(){
-         $("#manmenu1").css("color","white")
-         $("#manmenu2").css("color","white")
-         $("#manmenu3").css("color","white")
-         $("#manmenu4").css("color","darkgray")
-         })*/
-
     </script>
 
     <%--页面加载时遍历团队--%>
@@ -124,7 +96,7 @@
                     url: "/team/ProjectByTid",
                     dataType: "json",
                     success: function (result) {
-                        document.getElementById("program_index").src = "program_index.jsp";
+                        document.getElementById("program_index").src = "../main/program_index.jsp";
 //                        document.getElementById('program_index').contentWindow.location.reload(true);
                     },
                     error: function () {
@@ -143,7 +115,7 @@
                 url: "/team/ProjectByTid",
                 dataType: "json",
                 success: function (result) {
-                    document.getElementById("program_index").src = "program_index.jsp";
+                    document.getElementById("program_index").src = "../main/program_index.jsp";
                 },
                 error: function () {
                     alert("跳转回项目失败了");

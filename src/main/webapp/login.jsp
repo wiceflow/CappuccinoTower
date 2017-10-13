@@ -52,7 +52,7 @@
                         alert("密码错误");
                     else if (date.errcode==2) {
                         alert(date.data.uName+ " 欢迎您");
-                        location.href = "main/main.jsp";
+                        location.href = "user/view";
                     }
                 },"json"
             )
