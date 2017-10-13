@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.Taskdto;
 import com.pojo.Task;
 import com.service.DynamicService;
 import com.service.TaskService;
@@ -186,6 +187,24 @@ public class TaskController {
         }else{
             //返回0，表示删除任务失败
             return new AjaxResult(0,"删除任务失败");
+        }
+    }
+
+    /**
+     * 动态点击任务事件
+     * @param taskId
+     * @return
+     */
+    @RequestMapping(value = "selectTask")
+    @ResponseBody
+    public AjaxResult selectTask(@RequestParam("taskId") int taskId) {
+        Task task = new Task();
+        task.setTaskId(taskId);
+        List<Taskdto> taskdtoList = taskService.DtoQueryList(task);
+        if (taskdtoList != null || taskdtoList.size() != 0) {
+            return new AjaxResult(1, "查询任务详情成功", taskdtoList.get(0));
+        } else {
+            return new AjaxResult(0, "查询任务详情失败");
         }
     }
 }

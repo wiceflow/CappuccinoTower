@@ -54,7 +54,11 @@ public class FileController {
     public AjaxResult doUpload(@RequestParam(value = "file",required = false) MultipartFile file, HttpServletRequest request) throws IOException {
         System.out.println("进入上传文件的conlller");
         int pId=new ObtainSession(request).getProject().getpId();
-        System.out.println("得到项目id"+pId);
+        System.out.println("得到id"+pId);
+        //判断session是否有文件夹ID
+        if(request.getSession().getAttribute("folderId")!=null){
+            System.out.println("这是文件夹ID-------》"+request.getSession().getAttribute("folderId"));
+        }
         if (!file.isEmpty()) {
             System.out.println("进入了file");
             //获取文件名
@@ -62,6 +66,7 @@ public class FileController {
             // 获取存放路径
             String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/";
             com.pojo.File file1 = new com.pojo.File();
+            file1.setFolderId((Integer) request.getSession().getAttribute("folderId"));
             file1.setFileUrl(filePath);
             file1.setFileName(fileName);
             // 将文件数据存入数据库

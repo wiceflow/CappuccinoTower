@@ -34,7 +34,6 @@ public class FolderServiceImpl implements FolderService{
         //根据项目id查找项目中所有的数据，判断是否有文件总表
         List<Project> projectList = projectService.selectProject(project, 0);
         int totalid;
-        System.out.println("这是在service的project"+projectList);
         if(projectList.get(0).getfTotalid()==null||projectList.get(0).getfTotalid()==0) {
             Totalfile totalfile = new Totalfile();
             totalfileMapper.insert(totalfile);
@@ -106,7 +105,6 @@ public class FolderServiceImpl implements FolderService{
      * @return
      */
     public List<File> queryFileByFolderId(int folderId){
-        System.out.println("进入了queryFileByFolderId------->Service");
         FileExample fileExample=new FileExample();
         fileExample.createCriteria().andFolderIdEqualTo(folderId);
         //select * from file where folderID=?
