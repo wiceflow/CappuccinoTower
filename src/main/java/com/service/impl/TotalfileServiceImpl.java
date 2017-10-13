@@ -63,39 +63,35 @@ public class TotalfileServiceImpl implements TatalfileService {
         if (projectList.get(0).getfTotalid()!=null){
             List<File> fileList = fileService.QueryList(projectList.get(0).getfTotalid());
             List<Folder> folderList = folderService.QueryList(projectList.get(0).getfTotalid());
-            if(fileList!=null||folderList!=null){
-                if (fileList!=null) {
-                    for (int i = 0; i < fileList.size(); i++) {
-                        TotalfileforJsp totalfileforJsp = new TotalfileforJsp();
-                        //向DTO中添加数据
-                        totalfileforJsp.setTotalfileId(projectList.get(0).getfTotalid());
-                        totalfileforJsp.setFileId(fileList.get(i).getFileId());
-                        totalfileforJsp.setFileName(fileList.get(i).getFileName());
-                        totalfileforJsp.setFileUrl(fileList.get(i).getFileUrl());
-                        //判断文件是否有文件夹的父类
-                        if (fileList.get(i).getFolderId() != null) {
-                            //2为有文件夹父类的文件
-                            totalfileforJsp.setType(2);
-                        } else {
-                            //0为文件
-                            totalfileforJsp.setType(0);
-                        }
+            if(fileList!=null&&folderList!=null){
+                for(int i=0;i<fileList.size();i++){
+                    TotalfileforJsp totalfileforJsp=new TotalfileforJsp();
+                    //向DTO中添加数据
+                    totalfileforJsp.setTotalfileId(projectList.get(0).getfTotalid());
+                    totalfileforJsp.setFileId(fileList.get(i).getFileId());
+                    totalfileforJsp.setFileName(fileList.get(i).getFileName());
+                    totalfileforJsp.setFileUrl(fileList.get(i).getFileUrl());
+                    //判断文件是否有文件夹的父类
+                    if (fileList.get(i).getFolderId()!=null){
+                        //2为有文件夹父类的文件
+                        totalfileforJsp.setType(2);
+                    }else {
+                        //0为文件
+                        totalfileforJsp.setType(0);
+                    }
 
-                        totalfileforJspList.add(totalfileforJsp);
-                    }
+                    totalfileforJspList.add(totalfileforJsp);
                 }
-                if (folderList!=null) {
-                    for (int j = 0; j < folderList.size(); j++) {
-                        TotalfileforJsp totalfileforJsp = new TotalfileforJsp();
-                        //向DTO中添加数据
-                        totalfileforJsp.setTotalfileId(projectList.get(0).getfTotalid());
-                        totalfileforJsp.setFolderId(folderList.get(j).getFolderId());
-                        totalfileforJsp.setFolderName(folderList.get(j).getFolderName());
-                        System.out.println(totalfileforJsp.getFolderName() + "这是文件夹的名字----》");
-                        //1为文件夹
-                        totalfileforJsp.setType(1);
-                        totalfileforJspList.add(totalfileforJsp);
-                    }
+                for (int j=0;j<folderList.size();j++){
+                    TotalfileforJsp totalfileforJsp=new TotalfileforJsp();
+                    //向DTO中添加数据
+                    totalfileforJsp.setTotalfileId(projectList.get(0).getfTotalid());
+                    totalfileforJsp.setFolderId(folderList.get(j).getFolderId());
+                    totalfileforJsp.setFolderName(folderList.get(j).getFolderName());
+                    System.out.println(totalfileforJsp.getFolderName()+"这是文件夹的名字----》");
+                    //1为文件夹
+                    totalfileforJsp.setType(1);
+                    totalfileforJspList.add(totalfileforJsp);
                 }
                 return totalfileforJspList;
             }

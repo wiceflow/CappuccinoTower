@@ -76,26 +76,14 @@ public class UserController {
     }
 
     /**
-     *
-     * @param uName
-     * @param uEmail
-     * @param uPassword
-     * @param tName
+     * 新增用户
+     * @param user 封装前台关于User表内容
+     * @param team 封装前台关于Team表内容
      * @return
      */
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String register(@RequestParam("uName")String uName,
-                           @RequestParam("uEmail")String uEmail,
-                           @RequestParam("uPassword")String uPassword,
-                           @RequestParam("tName")String tName,
-                           HttpServletRequest request) {
+    public String register(User user, Team team) {
         // 新增用户
-        User user = new User();
-        Team team = new Team();
-        user.setuName(uName);
-        user.setuEmail(uEmail);
-        user.setuPassword(uPassword);
-        team.settName(tName);
         int i = userService.addUser(user, team);
         if (i == 1) {
             System.out.println("插入新用户成功");

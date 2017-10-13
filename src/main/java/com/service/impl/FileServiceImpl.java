@@ -38,6 +38,7 @@ public class FileServiceImpl implements FileService {
     //注入总表
     TotalfileMapper totalfileMapper;
     public File addFile(File file,int pId) {
+        System.out.println("这是在servicedepid"+pId);
         Project project=new Project();
         int totalid;
         project.setpId(pId);
@@ -56,6 +57,7 @@ public class FileServiceImpl implements FileService {
         }else{
             totalid=projectList.get(0).getfTotalid();
         }
+        System.out.println();
         String path = file.getFileUrl();
         if (path != null) {
             try {

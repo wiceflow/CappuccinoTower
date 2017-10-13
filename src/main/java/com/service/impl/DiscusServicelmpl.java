@@ -88,6 +88,7 @@ public class DiscusServicelmpl implements DiscusService {
      */
     public List<Discus> QueryDiscus(int pId){
         Project project = projectMapper.selectByPrimaryKey(pId);
+        System.out.println(project.getDiscusallid()+"这是总表的ID");
         DiscusExample discusExample=new DiscusExample();
         discusExample.createCriteria().andDiscusallIdEqualTo(project.getDiscusallid());
         List<Discus> discusList = discusMapper.selectByExampleWithBLOBs(discusExample);

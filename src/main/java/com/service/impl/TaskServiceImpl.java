@@ -53,11 +53,6 @@ public class TaskServiceImpl implements TaskService {
         return task.getTaskId();
     }
 
-    /**
-     * 删除任务
-     * @param taskId 根据ID来删除
-     * @return
-     */
     public int deleteTask(int taskId) {
         int i=taskMapper.deleteByPrimaryKey(taskId);
         if(i>0){
@@ -67,11 +62,6 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    /**
-     * 更新任务
-     * @param task 任务实体类
-     * @return
-     */
     public int updateTask(Task task) {
         try{
             taskMapper.updateByPrimaryKey(task);
@@ -81,12 +71,6 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    /**
-     * 查询任务
-     * @param task 任务实体类
-     * @param id
-     * @return
-     */
     public List<Task> selectTask(Task task, int id) {
         List<Task> taskList=new ArrayList<Task>();
         Task task1=null;
@@ -105,10 +89,6 @@ public class TaskServiceImpl implements TaskService {
         return taskList;
     }
 
-    /**
-     * 查询任务列表
-     * @return
-     */
     public List<Task> QueryList() {
         TaskExample taskExample = new TaskExample();
         taskExample.setDistinct(true);
@@ -116,11 +96,6 @@ public class TaskServiceImpl implements TaskService {
         return list;
     }
 
-    /**
-     * 点击任务动态事件
-     * @param task
-     * @return
-     */
     public List<Taskdto> DtoQueryList(Task task) {
         TaskExample taskExample = new TaskExample();
         taskExample.createCriteria().andTaskIdEqualTo(task.getTaskId());

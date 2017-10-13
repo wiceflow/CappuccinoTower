@@ -105,21 +105,13 @@ public class FolderController {
         }
     }
 
-    /**
-     * 根据文件夹的ID遍历其中所有的文件
-     * @param folderId
-     * @param request
-     * @return
-     */
+
     @RequestMapping("/queryFileByFolderId")
     @ResponseBody
-    public AjaxResult queryFileByFolderId(@RequestParam("folderId")int folderId,HttpServletRequest request){
+    public AjaxResult queryFileByFolderId(@RequestParam("folderId")int folderId){
         System.out.println("进入了queryFileByFolderId------>Controller");
         List<File> fileList = folderService.queryFileByFolderId(folderId);
         if(fileList!=null){
-            //将文件夹放入session中，判断是否是在文件夹中上传的
-            System.out.println("将文件夹ID放入session");
-            request.getSession().setAttribute("folderId",folderId);
             return new AjaxResult(1,"成功",fileList);
         }
         return new AjaxResult(0,"失败");
