@@ -96,7 +96,7 @@
                     url: "/team/ProjectByTid",
                     dataType: "json",
                     success: function (result) {
-                        document.getElementById("program_index").src = "program_index.jsp";
+                        document.getElementById("program_index").src = "../main/program_index.jsp";
 //                        document.getElementById('program_index').contentWindow.location.reload(true);
                     },
                     error: function () {
