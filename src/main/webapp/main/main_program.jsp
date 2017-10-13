@@ -472,7 +472,10 @@
                     taskId:$("#task_comsure").attr("name"),
                 },
                 success:function(result) {
-                    alert(result.errcode);
+                    alert(result.data.uName);
+                    if(result.errcode==1) {
+                        $("#divforcommentoftask").append("<span>" + result.data.uName +"</span>评论了：<span>"+result.data.cContent+"</span>")
+                    }
                 },
                 error:function () {
                     alert("任务评论失败");
@@ -909,6 +912,7 @@
             <br><br>
             <br>
             <%--用来存放任务的评论内容--%>
+            <h2>评论内容</h2>
             <div id="divforcommentoftask">
 
             </div>
