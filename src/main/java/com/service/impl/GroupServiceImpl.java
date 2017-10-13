@@ -38,7 +38,6 @@ public class GroupServiceImpl implements GroupService {
      * @return
      */
     public int addGroup(int[] uId,Groupofteam groupofteam) {
-        System.out.println("新建分组------>Service");
             groupofteamMapper.insert(groupofteam);
         for (int i=0;i<uId.length;i++){
             Userandgroup userandgroup=new Userandgroup();
@@ -65,7 +64,6 @@ public class GroupServiceImpl implements GroupService {
      * @return
      */
     public List<Groupofteam> selectGroup(Groupofteam group, int gId) {
-        System.out.println("进入分组Service---->");
        List<Groupofteam> groupList=new ArrayList<Groupofteam>();
 
        //gid为0时，则根据tid进行查找
@@ -76,7 +74,6 @@ public class GroupServiceImpl implements GroupService {
                groupofteamExample.createCriteria().andTIdEqualTo(group.gettId());
                groupList= groupofteamMapper.selectByExample(groupofteamExample);
                if (groupList!=null&&groupList.get(0).getgName()!=null){
-                   System.out.println("从qery的Service返回----->");
                    return groupList;
                }
            }
@@ -92,7 +89,6 @@ public class GroupServiceImpl implements GroupService {
      * @return
      */
     public List<TeamforJsp> SelectUserByGid(int gId){
-        System.out.println("进入了SelectUserByGid------->Service");
         UserandgroupExample userandgroupExample=new UserandgroupExample();
         userandgroupExample.createCriteria().andGIdEqualTo(gId);
         List<Userandgroup> userandgroupList = userandgroupMapper.selectByExample(userandgroupExample);

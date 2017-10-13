@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../resources/js/jquery-easyui-1.4.5/locale/easyui-lang-zh_CN.js"></script>
 
     <script type="text/javascript">
+        //页面加载完成时遍历当前用户的信息
         $(document).ready(function(){
             $.ajax({
                 type:"Post",

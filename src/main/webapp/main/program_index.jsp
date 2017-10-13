@@ -235,10 +235,7 @@
     <label style="color: white;font-size: 20px;">
         <input id="create_pSensitive" type="checkbox" name="pSensitive" value="1" class="checked-boom" />是否屏蔽敏感词汇</label>
     </br>
-    <%--标准项目（更好地组织、细分和管理任务，适用于一般项目管理）--%>
-    <%--<label style="color: white;font-size: 20px;">--%>
-        <%--<input type="radio" name="x" class="checked-boom" /> 看板项目（擅长处理流程化任务，适用于产品研发、用户支持等场景）</label>--%>
-    <%--</br></br>--%>
+
 
     <h2 style="color: white;">项目公开性</h2>
     <label style="color: white;font-size: 20px;">
@@ -255,12 +252,7 @@
              <input  type="checkbox" name="uId" value="${user.uId}" checked="checked">${user.uName}
         </span>
     </div>
-    <%--<input id="mycheckboxk1" type="checkbox" class="checkbix" data-shape="circled" data-text="">--%>
-    <%--<span style="color: pink;margin-right: 30px;">BF</span>--%>
-    <%--<input id="mycheckboxk2" type="checkbox" class="checkbix" data-shape="circled" data-text="">--%>
-    <%--<span style="color: pink;margin-right: 30px;">YG</span>--%>
-    <%--<input id="mycheckboxk3" type="checkbox" class="checkbix" data-shape="circled" data-text="">--%>
-    <%--<span style="color: pink;">JH</span>--%>
+
     <br><br>
     <div>
         <div style="color: white;font-size: 20px;">搜索组员</div>
@@ -287,9 +279,7 @@
     <div id="projectContext" style=" height: 300px;width: 1100px; margin-top: 20px;">
     </div>
 
-    <!--<div style="margin-top: 10px;">
-        <button href="#" style="margin-left: 10px;" class="programe_btn">管理项目模块</button>
-    </div>-->
+
 </div>
 </body>
 

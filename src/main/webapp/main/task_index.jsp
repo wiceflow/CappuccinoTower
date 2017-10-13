@@ -44,6 +44,7 @@
         }
 
 
+        //页面加载完成时，遍历该任务的详情
         $(document).ready(function () {
             $.ajax({
                 type:"Post",
@@ -92,7 +93,6 @@
     <span id="tfTime" style="color: pink; "></span>
     <br><br>
     <div class="menu-sep" style="margin-left: 0px;"> </div>
-    <p  style="color:white ;">PG ONE :我同意 (这是一条新的评论)</p>
     <br>
     <textarea placeholder="发表评论 " style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px; "></textarea>
     <br>

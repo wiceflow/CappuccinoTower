@@ -154,7 +154,6 @@ public class TeamServiceImpl implements TeamService {
      * @return
      */
     public List<Project> ProjectByTid(int tId){
-        System.out.println("进入了ProjectByTid------>Service");
         ProjectExample projectExample=new ProjectExample();
         projectExample.createCriteria().andTIdEqualTo(tId);
         //select * from project where tId=?
