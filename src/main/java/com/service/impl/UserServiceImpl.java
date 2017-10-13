@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
             // 添加用户
             userMapper.insert(user);
             // 创建新的团队--> 创建者默认为超级管理员
+            team.setIsgroup(0);
             teamService.addTeam(team,user.getuId());
             return 1;
         } else {

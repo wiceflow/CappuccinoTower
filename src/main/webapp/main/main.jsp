@@ -150,6 +150,20 @@
             })
         }
 
+        function exit() {
+            $.ajax({
+                type: "Post",
+                url: "/user/exit",
+                dataType: "json",
+                success: function () {
+                    alert("退出成功");
+                    window.location.href="/login.jsp";
+                },
+                error: function () {
+                    alert("退出失败");
+                }
+            })
+        }
         function godynamic() {
             $.ajax({
                 type: "Post",
@@ -335,7 +349,7 @@
         <%--<a href="#" id="manmenu3" style="color: white;margin: 10px;">我的关注</a><br>--%>
         <div class="menu-sep" style="width: 70px;margin-left: 00px;margin: 10px;"></div>
         <a href="#" id="manmenu4"
-           style="color: white;margin-left: 15px;margin: 10px;text-align: center;margin-bottom: 10px;">退出</a>
+           style="color: white;margin-left: 15px;margin: 10px;text-align: center;margin-bottom: 10px;" onclick="exit()">退出</a>
     </div>
     </p>
 </div>

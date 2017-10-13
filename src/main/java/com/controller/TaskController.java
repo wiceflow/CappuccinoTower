@@ -154,8 +154,6 @@ public class TaskController {
     @RequestMapping(value = "TaskListInfor",method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult TaskListInfor(Task task,int type,HttpServletRequest request){
-        System.out.println(task.getTaskId());
-        System.out.println("进入查询单个Task");
         List<Task> taskList = taskService.selectTask(task,type);
         if(taskList!=null&&taskList.get(0).getTaskName()!=null){
             Task task1 = taskList.get(0);

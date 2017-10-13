@@ -76,14 +76,26 @@ public class UserController {
     }
 
     /**
-     * 新增用户
-     * @param user 封装前台关于User表内容
-     * @param team 封装前台关于Team表内容
+     *
+     * @param uName
+     * @param uEmail
+     * @param uPassword
+     * @param tName
      * @return
      */
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String register(User user, Team team) {
+    public String register(@RequestParam("uName")String uName,
+                           @RequestParam("uEmail")String uEmail,
+                           @RequestParam("uPassword")String uPassword,
+                           @RequestParam("tName")String tName,
+                           HttpServletRequest request) {
         // 新增用户
+        User user = new User();
+        Team team = new Team();
+        user.setuName(uName);
+        user.setuEmail(uEmail);
+        user.setuPassword(uPassword);
+        team.settName(tName);
         int i = userService.addUser(user, team);
         if (i == 1) {
             System.out.println("插入新用户成功");
@@ -178,6 +190,21 @@ public class UserController {
     @RequestMapping(value = "view")
     public String view(){
         return "main/main";
+    }
+
+    @RequestMapping(value = "exit",method = RequestMethod.POST)
+    @ResponseBody
+    public int exit(HttpServletRequest request){
+        try{
+            System.out.println("退出登录1");
+            request.getSession().setAttribute("user",null);
+            System.out.println("退出登录2");
+            request.getSession().removeAttribute("team");
+            System.out.println("退出登录3");
+        }catch (Exception e){
+            System.out.println("退出失败");
+        }
+        return 1;
     }
 
 }

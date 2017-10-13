@@ -357,10 +357,12 @@
                     $("#creatName").text(result.data.taskUser);
                     $("#betaskdo").text(result.data.taskAssigner);
                     $("#creattask").text(dateFormat(result.data.taskCreatetime));
-                    // 目前下面这个有错
-                    if(result.data.taskFinishtime!=null){
-                        $("#downtask").append(dateFormat(result.data.taskFinishtime));
-                    }
+                    $("#downtask").text(dateFormat(result.data.taskFinishtime));
+//                    // 目前下面这个有错
+//                    if(result.data.taskFinishtime!=null){
+//
+//                        $("#downtask").append(dateFormat(result.data.taskFinishtime));
+//                    }
 //                    $("#downtask").append(dateFormat(result.data.taskFinishtime));
                     $("#task_del").attr("name", result.data.taskId);
                     $("#task_ined").attr("name", result.data.taskId);
@@ -920,7 +922,7 @@
             <input type="text" id="commentoftask" name="cContent" placeholder="发表评论"
                       style=" calc(5px);margin-left: 0px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"/>
             <br>
-            <button id="task_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;" onclick="commentoftask()">评论</button>div>
+            <button id="task_comsure" class="ps_btn" style="margin-top: 5px; font-size: 15px;" onclick="commentoftask()">评论</button>
         </div>
 
         <div id="task_ed" style="margin-left: 210px;margin-top:-20px;width: 960px;">
@@ -1130,29 +1132,6 @@
         <div id="discus_all" style="margin-left: 210px;margin-top:10px;">
             <a style="font-size: 25px;color: white;">当前讨论</a>
             <br>
-            <%--<button class="ps_btn" href="#" style="display: inline;font-size: 20px;">PG ONE万磁王</button>--%>
-            <%--</br>--%>
-            <%--</br>--%>
-            <%--<a class="discuss1 " href="#	" style="color: white;margin-left: 55px; font-weight: bold;">竞猜：谁是冠军!!</a></br>--%>
-            <%--<a class="discuss1 " href="#" style="color: grey;margin-left: 55px;font-size: 15px;">大家都来说说今晚我会不会拿冠军</a>--%>
-            <!--评论列表-->
-            <%--<div style="margin-left: 55px;margin-top:10px;">--%>
-                <%--<a id="discuss_newcom" style="color: white;font-size: 15px;"><span>勇郭：</span>这是一条新添加的评论</a>--%>
-            <%--</div>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<div id="discuss1div">--%>
-                <%--<textarea placeholder="标题" style=" calc(5px);margin-left: 55px; background-color: #212121;resize: none;border-radius: calc(5px);color: pink;height: 30px;font-size: 20px;"></textarea>--%>
-                <%--<br>--%>
-                <%--<button id="discuss1com_sure" class="ps_btn" style="margin-left: 55px;margin-top: 5px; font-size: 15px;">评论</button>--%>
-                <%--<button id="discuss1com_cancel" class="ps_btn" style="margin-left: 10px; font-size: 15px;">取消</button>--%>
-                <%--<!--CLICK显示隐藏功能-->--%>
-            <%--</div>--%>
-            <%--<div class="discuss1 discuss1hide" style="margin-left: 60px;margin-top:-30px;">--%>
-                <%--<button class="ps_btn" id="indiscuss1com">评论</button>--%>
-                <%--<button class="ps_btn" style="margin-left: 20px;">关注</button>--%>
-                <%--<button class="ps_btn" style="margin-left: 20px;">编辑</button>--%>
-                <%--<button class="ps_btn" style="margin-left: 20px;">删除</button>--%>
             </div>
             <%--讨论单个的表--%>
             <div id="discus_one" style="margin-left: 210px;margin-top:10px;">
@@ -1206,101 +1185,13 @@
             <a style="font-size: 25px;color: white;">文件夹列表</a>
             <br>
             <br>
-            <%--<span style="color: white;">--%>
-            <%--<i class="icono-folder" id="file_folder1" style="cursor: pointer;margin-left: 10px;"></i>--%>
-            <%--需求文档--%>
-            <%--</span>--%>
-            <%--<span style="color: white;margin-left: 20px;">--%>
-            <%--<i class="icono-folder" id="file_folder2" style="cursor: pointer;margin-left: 10px;"></i>--%>
-            <%--参考资料--%>
-            <%--</span>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<button class="ps_btn" id="inallfile" style="border: none;">查看所有文件</button>--%>
         </div>
 
         <!--需求文档点进去文件列表-->
         <div id="file_filediv1" style="margin-left: 210px;margin-top:10px;width: 960px;">
-            <%--<a href="#" class="infolderdiv" style="font-size: 25px;color: pink;">文件夹列表</a>--%>
-            <%--<a style="font-size: 25px;color: white;"> > </a>--%>
-            <%--<a style="font-size: 25px;color: white;">需求文档</a>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--需求文档终板--%>
-				<%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				<%--<button style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--笑话十则--%>
-					 <%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				    <%--<buton style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
+
         </div>
 
-        <%--<!--参考资料点进去文件列表-->--%>
-        <%--<div id="file_filediv2" style="margin-left: 210px;margin-top:10px;width: 960px;">--%>
-            <%--<a href="#" class="infolderdiv" style="font-size: 25px;color: pink;">文件夹列表</a><a style="font-size: 25px;color: white;"> > 参考资料</a>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--JAVA从入门到放弃--%>
-				<%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				<%--<button style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--终极算法全篇--%>
-					 <%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				<%--<buton style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
-        <%--</div>--%>
-
-        <%--<div id="file_allfile" style="margin-left: 210px;margin-top:10px;width: 960px;">--%>
-            <%--<a href="#" class="infolderdiv" style="font-size: 25px;color: pink;">文件夹列表</a><a style="font-size: 25px;color: white;"> > 所有文件</a>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--JAVA从入门到放弃--%>
-				<%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				<%--<button style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--终极算法全篇--%>
-					 <%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				<%--<buton style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--需求文档终板--%>
-				<%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				<%--<button style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
-            <%--<br>--%>
-            <%--<br>--%>
-            <%--<span style="color: white;">--%>
-					<%--<i class="icono-file"  style="cursor: pointer;margin-left: 10px;"></i>--%>
-					 <%--笑话十则--%>
-					 <%--<button class="ps_btn" href="#" style="border: none;" >下载</button>--%>
-				<%--<buton style="border: none;" class="ps_btn" href="#" >删除</button>--%>
-				<%--</span>--%>
-        <%--</div>--%>
-    <%--</div>--%>
 
     <!--日程-->
     <div id="schedulediv">

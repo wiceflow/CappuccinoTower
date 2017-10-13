@@ -211,7 +211,9 @@
                         wTime:a,
                     },
                     success:function (result) {
+                        alert(result.data.wTarget);
                         if(result.errcode==1){
+                            $("#weekly1_1_content").show()
                             //每次点击日期后清空
                             $("#aa1").empty();
                             $("#aa2").empty();
@@ -223,9 +225,9 @@
                                 //在指定问题后输出周报内容
                                     $("#aa1").append(result.data.wSummary),
                                     $("#aa2").append(result.data.wChallenge),
-                                    $("#aa3").append(result.data.wTarget),
+                                    $("#aa3").text(result.data.wTarget),
                                     $("#aa4").append(result.data.wMethod),
-                                $("#who1_1").append(result.page.uName),
+                                    $("#who1_1").append(result.page.uName),
                                     $("#when1_1").append(dateFormat(result.data.wTime));
                             }
                         }else{
@@ -346,7 +348,7 @@
     <p style="text-align: center">
         <span id="report_indate"><input  id="time1" name="createdatetimeStart" value="<%=today%>" style="width: 120px;border: none;background-color: #212121;color: #0abd6a;cursor: pointer;font-size: 20px"
                                          onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" onclick="aaa()"/></span>
-            <%--<a class="report_btn" href="#" style="font-weight: bold;font-size: 30px;"></a>--%>
+
     </p>
     <p style="text-align: center;font-size: 18px; color: gray;">
         <span id="bb1"></span>
@@ -357,18 +359,14 @@
 
 <div style="text-align: right;margin-top: -180px;">
 
-    <a onclick="goaddweekly()" class="report_btn" style="font-size: 20px;font-family: "Microsoft YaHei", sans-serif">写周报</a>
+    <a onclick="goaddweekly()" class="report_btn" style="font-size: 20px;font-family: Microsoft YaHei, sans-serif">写周报</a>
 
 </div>
 <div class="menu-sep" style="margin-top: 130px;"></div>
 
 <!--周报设置DIV-->
 <div id="report_setting" style="margin-left: 260px;">
-    <div >
-        <h3 style="color: white;font-size: 30px;">周报模版设置</h3></div>
-    <p style="font-size: 25px;color: grey;">可以根据团队 / 小组 / 成员 三个不同层级，分别设置周报模板</p>
-    <div >
-        <h3 style="font-size: 30px;color: white;">团队级模板</h3></div>
+
     <p style="font-size: 25px;color: grey;">团队所有成员，需要填写的内容</p>
 
     <p id="report_setting_p1" style="font-size: 20px;color:white;font-size: 17px;">&nbsp;&nbsp;本周工作成果总结，说说你对自己点赞或失望的地方。
@@ -389,12 +387,6 @@
 
     <button class="report_btn" style="border: solid 1px #0ABD6A;font-size: 30px" id="weeklyUpdate" onclick="ccc()">保存周报</button>
     <br>
-    <%--<span id="team_add_span">--%>
-				<%--<textarea placeholder="编辑周报新问题" style="color: #0ABD6A;background-color: #212121;resize: none;width: 300px;height: 20px;"></textarea><br>--%>
-				<%--<button id="team_add_sure" class="report_btn" >添加</button>--%>
-				<%--<button id="team_add_cancel" class="report_btn">取消</button>--%>
-			<%--</span>--%>
-    <%--</br>--%>
 
 </div>
 <!--主页面-->
