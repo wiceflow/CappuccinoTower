@@ -37,18 +37,23 @@ public class CommentController {
     //方法是有问题的，有待改进
     @RequestMapping(value = "insert",method = RequestMethod.POST)
     @ResponseBody
-    public String insertComment(HttpServletRequest request,Comment comment){
+    public AjaxResult insertComment(HttpServletRequest request,Comment comment){
         // 为Comment补全信息
         User user = new ObtainSession(request).getUser();
         comment.setuId(user.getuId());
         comment.setuName(user.getuName());
+        comment.setDiscusId(0);
+        //检验输入的数据是否正确
+        System.out.println(comment+"insertController--------->");
         // 将数据存入Comment数据库中
         comment = commentService.addComment(comment);
+        //检验返回的数据是否正确
+        System.out.println(comment+"返回的comment数据--------->");
         if(comment!=null){
             //添加成功就跳进遍历Controllor进行重新遍历
-            return "success";
+            return new AjaxResult(1,"评论任务成功",comment);
         }
-        return "comment/fail";
+        return new AjaxResult(0,"评论任务失败");
     }
 
     //向讨论中增加评论
