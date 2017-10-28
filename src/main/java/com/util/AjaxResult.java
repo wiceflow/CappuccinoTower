@@ -2,8 +2,8 @@ package com.util;
 
 /**
  * 封装返回数据
- * @author czh
- * @2015年5月20日
+ * @author BF
+ * @2017年9月20日
  */
 public class AjaxResult {
 
