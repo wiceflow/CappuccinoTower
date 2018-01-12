@@ -21,4 +21,5 @@ public interface AlldiscusMapper {
     int updateByExampleSelective(@Param("record") Alldiscus record, @Param("example") AlldiscusExample example);
 
     int updateByExample(@Param("record") Alldiscus record, @Param("example") AlldiscusExample example);
+
 }

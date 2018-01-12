@@ -86,11 +86,12 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
+    @Override
     public int deleteUser(int uId) {
         userMapper.deleteByPrimaryKey(uId);
         return 0;
     }
-
+    @Override
     public int updateUser(User user) {
         userMapper.updateByPrimaryKey(user);
         return 1;
